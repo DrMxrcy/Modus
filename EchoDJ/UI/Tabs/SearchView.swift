@@ -66,9 +66,9 @@ struct SearchView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             Task {
-                                try? await env.musicProvider.loadTrack(id: track.trackID)
+                                try? await env.queueManager.generateStation(seedTrackID: track.trackID)
                                 try? await env.musicProvider.play()
-                                print("Station generated using seed track vector coordinates: [\(track.energy), \(track.valence)]")
+                                print("Station seeded from: \(track.title) [\(track.energy), \(track.valence)]")
                             }
                         }
                         Divider()
