@@ -38,7 +38,7 @@ extension CachedTrack: Identifiable {
 import MusicKit
 
 extension CachedTrack {
-    convenience init?(from track: Track) {
+    convenience init?(from track: Song) {
         let id = track.id.rawValue
         guard !id.isEmpty else { return nil }
         self.init(
