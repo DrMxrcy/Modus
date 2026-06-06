@@ -1,6 +1,7 @@
 import Foundation
 
 protocol MusicProviderProtocol: Actor {
+    var isAvailable: Bool { get }
     var isPlaying: Bool { get }
     var currentTrackID: String? { get }
     var currentPlaybackProgress: Double { get }

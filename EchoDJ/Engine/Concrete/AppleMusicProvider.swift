@@ -1,6 +1,7 @@
 import Foundation
 
 actor AppleMusicProvider: MusicProviderProtocol {
+    var isAvailable: Bool { true }
     var isPlaying: Bool { false }
     var currentTrackID: String? { nil }
     var currentPlaybackProgress: Double { 0.0 }
