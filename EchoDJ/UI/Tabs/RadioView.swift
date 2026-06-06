@@ -1,9 +1,15 @@
 import SwiftUI
+import Combine
 
 struct RadioView: View {
-    @ObservedObject var environment = AppEnvironment.shared
+    @EnvironmentObject var env: AppEnvironment
     @State private var valenceLevel: Double = 0.5
     @State private var energyLevel: Double = 0.5
+    @State private var isPlaying: Bool = false
+    @State private var progress: Double = 0.0
+    @State private var trackTitle: String = "Station Seed Title"
+    @State private var trackArtist: String = "Echo DJ Station Active"
+    @State private var timerCancellable: AnyCancellable? = nil
 
     var body: some View {
         ZStack {
@@ -16,12 +22,15 @@ struct RadioView: View {
                     .overlay(Text("Album Artwork Proxy"))
 
                 VStack(spacing: 8) {
-                    Text("Station Seed Title")
+                    Text(trackTitle)
                         .font(.title2.bold())
-                    Text("Echo DJ Station Active")
+                    Text(trackArtist)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                 }
+
+                ProgressView(value: progress, total: 1.0)
+                    .padding(.horizontal)
 
                 VStack(alignment: .leading) {
                     Text("VIBE TUNER: \(Int(valenceLevel * 100))%")
@@ -35,24 +44,84 @@ struct RadioView: View {
                 .cornerRadius(16)
                 .padding(.horizontal)
 
-                HCenterControlsView()
+                HCenterControlsView(
+                    isPlaying: isPlaying,
+                    onPlayPause: togglePlayPause,
+                    onHardSkip: hardSkip,
+                    onSoftSkip: softSkip
+                )
             }
+        }
+        .onAppear {
+            startProgressTimer()
+        }
+        .onDisappear {
+            timerCancellable?.cancel()
+        }
+    }
+
+    private func startProgressTimer() {
+        timerCancellable = Timer.publish(every: 1.0, on: .main, in: .common)
+            .autoconnect()
+            .sink { _ in
+                Task { @MainActor in
+                    let provider = env.musicProvider
+                    let playing = await provider.isPlaying
+                    let prog = await provider.currentPlaybackProgress
+                    let title = await provider.currentTrackID ?? "Station Seed Title"
+
+                    isPlaying = playing
+                    progress = prog
+                    if title != trackTitle && title != "Station Seed Title" {
+                        trackTitle = title
+                        trackArtist = "Now Playing"
+                    }
+                }
+            }
+    }
+
+    private func togglePlayPause() {
+        Task {
+            if isPlaying {
+                await env.musicProvider.pause()
+            } else {
+                try? await env.musicProvider.play()
+            }
+        }
+    }
+
+    private func hardSkip() {
+        Task {
+            try? await env.musicProvider.skipNext()
+            print("Hard Skip Triggered")
+        }
+    }
+
+    private func softSkip() {
+        Task {
+            try? await env.musicProvider.skipNext()
+            print("Soft Skip Triggered")
         }
     }
 }
 
 struct HCenterControlsView: View {
+    let isPlaying: Bool
+    let onPlayPause: () -> Void
+    let onHardSkip: () -> Void
+    let onSoftSkip: () -> Void
+
     var body: some View {
         HStack(spacing: 50) {
-            Button(action: { print("Hard Skip Triggered") }) {
+            Button(action: onHardSkip) {
                 Image(systemName: "hand.thumbsdown.fill")
                     .font(.title)
             }
-            Button(action: { print("Play/Pause Toggle") }) {
-                Image(systemName: "play.circle.fill")
+            Button(action: onPlayPause) {
+                Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                     .font(.system(size: 64))
             }
-            Button(action: { print("Soft Skip Triggered") }) {
+            Button(action: onSoftSkip) {
                 Image(systemName: "goforward.10")
                     .font(.title)
             }
