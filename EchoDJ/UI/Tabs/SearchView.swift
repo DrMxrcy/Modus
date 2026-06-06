@@ -46,28 +46,32 @@ struct SearchView: View {
 
     var body: some View {
         NavigationStack {
-            List {
-                ForEach(0..<filteredTracks.count) { index in
-                    let track = filteredTracks[index]
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text(track.title)
-                                .font(.headline)
-                            Text(track.artistName)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
+            ScrollView {
+                VStack(spacing: 0) {
+                    ForEach(0..<filteredTracks.count, id: \.self) { (index: Int) in
+                        let track = filteredTracks[index]
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(track.title)
+                                    .font(.headline)
+                                Text(track.artistName)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                            Image(systemName: "play.radiowaves.left.and.right")
+                                .foregroundStyle(.tint)
                         }
-                        Spacer()
-                        Image(systemName: "play.radiowaves.left.and.right")
-                            .foregroundStyle(.accent)
-                    }
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        Task {
-                            try? await env.musicProvider.loadTrack(id: track.trackID)
-                            try? await env.musicProvider.play()
-                            print("Station generated using seed track vector coordinates: [\(track.energy), \(track.valence)]")
+                        .padding()
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            Task {
+                                try? await env.musicProvider.loadTrack(id: track.trackID)
+                                try? await env.musicProvider.play()
+                                print("Station generated using seed track vector coordinates: [\(track.energy), \(track.valence)]")
+                            }
                         }
+                        Divider()
                     }
                 }
             }
