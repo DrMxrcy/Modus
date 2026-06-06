@@ -21,6 +21,7 @@ SWIFT_FILES = [
     ('Engine/Protocols/DJBrainProtocol.swift', 'DJBrainProtocol.swift'),
     ('Engine/Concrete/VectorAffinityEngine.swift', 'VectorAffinityEngine.swift'),
     ('Engine/Concrete/AppleMusicProvider.swift', 'AppleMusicProvider.swift'),
+    ('Engine/Concrete/StationQueueManager.swift', 'StationQueueManager.swift'),
     ('Engine/Concrete/OnDeviceDJBrain.swift', 'OnDeviceDJBrain.swift'),
     ('Engine/Mocks/MockMusicProvider.swift', 'MockMusicProvider.swift'),
     ('Engine/Mocks/MockDJBrain.swift', 'MockDJBrain.swift'),

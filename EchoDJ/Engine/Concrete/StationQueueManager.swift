@@ -5,6 +5,7 @@ import MusicKit
 actor StationQueueManager {
     private let modelContainer: ModelContainer
     private let provider: any MusicProviderProtocol
+    private var queuedTrackIDs: [String] = []
 
     init(modelContainer: ModelContainer, provider: any MusicProviderProtocol) {
         self.modelContainer = modelContainer
@@ -20,7 +21,7 @@ actor StationQueueManager {
     }
 
     private func fetchCandidates(seedID: String, count: Int) async throws -> [CachedTrack] {
-        if await provider is AppleMusicProvider {
+        if provider is AppleMusicProvider {
             return try await fetchMusicKitCandidates(seedID: seedID, count: count)
         } else {
             return fetchLocalCandidates(count: count)
@@ -28,14 +29,14 @@ actor StationQueueManager {
     }
 
     private func fetchMusicKitCandidates(seedID: String, count: Int) async throws -> [CachedTrack] {
-        let searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
+        var searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
         searchRequest.limit = 10
         let searchResponse = try await searchRequest.response()
         guard let seedTrack = searchResponse.songs.first(where: { $0.id.rawValue == seedID }) ?? searchResponse.songs.first else {
             return []
         }
 
-        let artistSearch = MusicCatalogSearchRequest(term: seedTrack.artistName, types: [Song.self])
+        var artistSearch = MusicCatalogSearchRequest(term: seedTrack.artistName, types: [Song.self])
         artistSearch.limit = count
         let artistResponse = try await artistSearch.response()
 
@@ -43,14 +44,14 @@ actor StationQueueManager {
     }
 
     private func fetchLocalCandidates(count: Int) -> [CachedTrack] {
-        let context = modelContainer.mainContext
+        let context = ModelContext(modelContainer)
         let descriptor = FetchDescriptor<CachedTrack>()
         guard let all = try? context.fetch(descriptor) else { return [] }
         return Array(all.shuffled().prefix(count))
     }
 
     private func filterCooldowns(tracks: [CachedTrack]) async throws -> [CachedTrack] {
-        let context = modelContainer.mainContext
+        let context = ModelContext(modelContainer)
         let now = Date()
         let descriptor = FetchDescriptor<TrackCooldown>(
             predicate: #Predicate { $0.cooldownExpiration > now }
@@ -61,7 +62,7 @@ actor StationQueueManager {
     }
 
     private func rankTracks(tracks: [CachedTrack], count: Int) -> [CachedTrack] {
-        let context = modelContainer.mainContext
+        let context = ModelContext(modelContainer)
         let descriptor = FetchDescriptor<UserTasteProfile>()
         let profile = (try? context.fetch(descriptor))?.first ?? UserTasteProfile()
 
@@ -76,29 +77,33 @@ actor StationQueueManager {
     }
 
     private func loadQueue(tracks: [CachedTrack]) async throws {
-        guard await provider is AppleMusicProvider else {
+        queuedTrackIDs = tracks.map { $0.trackID }
+
+        guard let firstID = queuedTrackIDs.first else { return }
+
+        if provider is AppleMusicProvider {
+            try await provider.loadTrack(id: firstID)
+        } else {
             for track in tracks {
                 try? await provider.loadTrack(id: track.trackID)
             }
-            return
         }
-
-        var musicTracks: [Song] = []
-        for cached in tracks {
-            let request = MusicCatalogSearchRequest(term: cached.trackID, types: [Song.self])
-            request.limit = 10
-            if let song = try? await request.response().songs.first(where: { $0.id.rawValue == cached.trackID }) ?? request.response().songs.first {
-                musicTracks.append(song)
-            }
-        }
-
-        ApplicationMusicPlayer.shared.queue = musicTracks
     }
 
     func upcomingTracks(limit: Int = 3) async -> [CachedTrack] {
-        let context = modelContainer.mainContext
-        let descriptor = FetchDescriptor<CachedTrack>()
-        let all = (try? context.fetch(descriptor)) ?? []
-        return Array(all.prefix(limit))
+        let context = ModelContext(modelContainer)
+        let ids = queuedTrackIDs
+        guard !ids.isEmpty else {
+            let descriptor = FetchDescriptor<CachedTrack>()
+            let all = (try? context.fetch(descriptor)) ?? []
+            return Array(all.prefix(limit))
+        }
+
+        let descriptor = FetchDescriptor<CachedTrack>(
+            predicate: #Predicate { ids.contains($0.trackID) }
+        )
+        let matches = (try? context.fetch(descriptor)) ?? []
+        let ordered = ids.compactMap { id in matches.first(where: { $0.trackID == id }) }
+        return Array(ordered.prefix(limit))
     }
 }
