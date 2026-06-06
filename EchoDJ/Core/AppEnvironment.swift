@@ -1,0 +1,44 @@
+import Foundation
+import SwiftData
+
+@MainActor
+final class AppEnvironment: ObservableObject {
+    static let shared = AppEnvironment()
+
+    @Published var isMockMode: Bool = true
+
+    let musicProvider: any MusicProviderProtocol
+    let djBrain: any DJBrainProtocol
+    let modelContainer: ModelContainer
+
+    private init() {
+        let useMock = true
+        self.isMockMode = useMock
+
+        do {
+            let schema = Schema([
+                UserTasteProfile.self,
+                TrackCooldown.self,
+                CachedTrack.self
+            ])
+            let config = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false
+            )
+            self.modelContainer = try ModelContainer(
+                for: schema,
+                configurations: [config]
+            )
+        } catch {
+            fatalError("Failed to initialize SwiftData Container: \(error)")
+        }
+
+        if useMock {
+            self.musicProvider = MockMusicProvider()
+            self.djBrain = MockDJBrain()
+        } else {
+            self.musicProvider = AppleMusicProvider()
+            self.djBrain = OnDeviceDJBrain()
+        }
+    }
+}

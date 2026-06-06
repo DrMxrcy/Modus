@@ -1,0 +1,17 @@
+name: EchoDJ
+targets:
+  EchoDJ:
+    type: application
+    platform: iOS
+    deploymentTarget: "18.0"
+    sources:
+      - EchoDJ
+    settings:
+      PRODUCT_BUNDLE_IDENTIFIER: com.echodj.app
+      INFOPLIST_FILE: EchoDJ/Resources/Info.plist
+      SWIFT_VERSION: "6.0"
+      SWIFT_STRICT_CONCURRENCY: complete
+    info:
+      path: EchoDJ/Resources/Info.plist
+      properties:
+        UILaunchScreen: {}

@@ -1,0 +1,379 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D4D503E0A914472B81EBA9B /* EchoDJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9942947325414F6790C07321 /* EchoDJApp.swift */; };
+		9FC0E60F09FD4A469EAA7FE1 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03A58B08D1014498B6B3883E /* AppEnvironment.swift */; };
+		7AD9C45F36404769810F8135 /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D20F56356FE44C1B74862BE /* UserTasteProfile.swift */; };
+		136EDA6EB6D64C86AA13C56B /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF69D9E4A8014D5BA7E99C47 /* TrackCooldown.swift */; };
+		7E3B2338553E4B769F19D589 /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1B91D1938484442AFFD7B7C /* CachedTrack.swift */; };
+		A29E2549A0CA473AA62CF477 /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEEA040F29694750A78EC751 /* MusicProviderProtocol.swift */; };
+		078818F9788C4AE0907AEAC5 /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D1849C46F944F4AF112CB4 /* DJBrainProtocol.swift */; };
+		FB972C6FD6D0447D8CEC99B8 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EC1E4441BAB437D90FF385F /* VectorAffinityEngine.swift */; };
+		39B7183A86D04C5A8C91AFC7 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1CED52DE784C3AB5C71F95 /* AppleMusicProvider.swift */; };
+		9FE1FAE629FE49D0948092B8 /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A139E7F11143F38C7EB551 /* OnDeviceDJBrain.swift */; };
+		BEC68CF84C334663BBDF7677 /* MockMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C224C23D454FDD9377FA14 /* MockMusicProvider.swift */; };
+		50BF513B73E14AE1A44B9ECF /* MockDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E569A4F849043AC9963A670 /* MockDJBrain.swift */; };
+		CB754785FF1A4401B72DE32D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A8AA09493A74010B154FD24 /* MainTabView.swift */; };
+		DEEC223AFC754A4E9563C820 /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF4562CDC3024BAAA8C15443 /* RadioView.swift */; };
+		1DBA5EC1310443B2B1A6D055 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF958BC115C34C56AD204A94 /* SearchView.swift */; };
+		AB29C4AB0E544BF2919A78A1 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BAC75B283FF4554BC8E3F68 /* VibeVisualizer.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2AF2C9F58BD742558083AD26 /* EchoDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9942947325414F6790C07321 /* EchoDJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EchoDJApp.swift; sourceTree = "<group>"; };
+		03A58B08D1014498B6B3883E /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
+		4D20F56356FE44C1B74862BE /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
+		CF69D9E4A8014D5BA7E99C47 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
+		D1B91D1938484442AFFD7B7C /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
+		DEEA040F29694750A78EC751 /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
+		67D1849C46F944F4AF112CB4 /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
+		2EC1E4441BAB437D90FF385F /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
+		6E1CED52DE784C3AB5C71F95 /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
+		25A139E7F11143F38C7EB551 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
+		D0C224C23D454FDD9377FA14 /* MockMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockMusicProvider.swift; sourceTree = "<group>"; };
+		9E569A4F849043AC9963A670 /* MockDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockDJBrain.swift; sourceTree = "<group>"; };
+		5A8AA09493A74010B154FD24 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
+		DF4562CDC3024BAAA8C15443 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
+		CF958BC115C34C56AD204A94 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
+		1BAC75B283FF4554BC8E3F68 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
+		9032A2978CC34E24B06F3C9A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C1897982387447E0B815416D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A7EEE0980BFE4933AE87CF2E = {
+			isa = PBXGroup;
+			children = (
+				DBE8D501A8FE4DD6927895E4 /* EchoDJ */,
+				F789A0A9B4234D709BF89A8D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		F789A0A9B4234D709BF89A8D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2AF2C9F58BD742558083AD26 /* EchoDJ.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DBE8D501A8FE4DD6927895E4 /* EchoDJ */ = {
+			isa = PBXGroup;
+			children = (
+				9942947325414F6790C07321 /* EchoDJApp.swift */,
+				03A58B08D1014498B6B3883E /* AppEnvironment.swift */,
+				4D20F56356FE44C1B74862BE /* UserTasteProfile.swift */,
+				CF69D9E4A8014D5BA7E99C47 /* TrackCooldown.swift */,
+				D1B91D1938484442AFFD7B7C /* CachedTrack.swift */,
+				DEEA040F29694750A78EC751 /* MusicProviderProtocol.swift */,
+				67D1849C46F944F4AF112CB4 /* DJBrainProtocol.swift */,
+				2EC1E4441BAB437D90FF385F /* VectorAffinityEngine.swift */,
+				6E1CED52DE784C3AB5C71F95 /* AppleMusicProvider.swift */,
+				25A139E7F11143F38C7EB551 /* OnDeviceDJBrain.swift */,
+				D0C224C23D454FDD9377FA14 /* MockMusicProvider.swift */,
+				9E569A4F849043AC9963A670 /* MockDJBrain.swift */,
+				5A8AA09493A74010B154FD24 /* MainTabView.swift */,
+				DF4562CDC3024BAAA8C15443 /* RadioView.swift */,
+				CF958BC115C34C56AD204A94 /* SearchView.swift */,
+				1BAC75B283FF4554BC8E3F68 /* VibeVisualizer.swift */,
+				9032A2978CC34E24B06F3C9A /* Info.plist */,
+			);
+			path = EchoDJ;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9B0A295D411A4373AD8F6C73 /* EchoDJ */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9624346613814B1E871309E4 /* Build configuration list for PBXNativeTarget "EchoDJ" */;
+			buildPhases = (
+				826BB3EB10A14F51825F47C1 /* Sources */,
+				C1897982387447E0B815416D /* Frameworks */,
+				1B6E8C97A763436292F5377A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EchoDJ;
+			productName = EchoDJ;
+			productReference = 2AF2C9F58BD742558083AD26 /* EchoDJ.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		991E00D88C2F4CED9EEE45D9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					9B0A295D411A4373AD8F6C73 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 9BE8B3571CE94A1E9B257A6D /* Build configuration list for PBXProject "EchoDJ" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A7EEE0980BFE4933AE87CF2E;
+			productRefGroup = F789A0A9B4234D709BF89A8D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				9B0A295D411A4373AD8F6C73 /* EchoDJ */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1B6E8C97A763436292F5377A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		826BB3EB10A14F51825F47C1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D4D503E0A914472B81EBA9B /* EchoDJApp.swift in Sources */,
+				9FC0E60F09FD4A469EAA7FE1 /* AppEnvironment.swift in Sources */,
+				7AD9C45F36404769810F8135 /* UserTasteProfile.swift in Sources */,
+				136EDA6EB6D64C86AA13C56B /* TrackCooldown.swift in Sources */,
+				7E3B2338553E4B769F19D589 /* CachedTrack.swift in Sources */,
+				A29E2549A0CA473AA62CF477 /* MusicProviderProtocol.swift in Sources */,
+				078818F9788C4AE0907AEAC5 /* DJBrainProtocol.swift in Sources */,
+				FB972C6FD6D0447D8CEC99B8 /* VectorAffinityEngine.swift in Sources */,
+				39B7183A86D04C5A8C91AFC7 /* AppleMusicProvider.swift in Sources */,
+				9FE1FAE629FE49D0948092B8 /* OnDeviceDJBrain.swift in Sources */,
+				BEC68CF84C334663BBDF7677 /* MockMusicProvider.swift in Sources */,
+				50BF513B73E14AE1A44B9ECF /* MockDJBrain.swift in Sources */,
+				CB754785FF1A4401B72DE32D /* MainTabView.swift in Sources */,
+				DEEC223AFC754A4E9563C820 /* RadioView.swift in Sources */,
+				1DBA5EC1310443B2B1A6D055 /* SearchView.swift in Sources */,
+				AB29C4AB0E544BF2919A78A1 /* VibeVisualizer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		8C4E07C5285D4C85B2FF56D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		DE95FBFD755A4BF5BB70888F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		F8E165DC96B7404C982B6D51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "EchoDJ/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D3F36FA045B44C45A580439B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = "EchoDJ/Resources/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9BE8B3571CE94A1E9B257A6D /* Build configuration list for PBXProject "EchoDJ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C4E07C5285D4C85B2FF56D0 /* Debug */,
+				DE95FBFD755A4BF5BB70888F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9624346613814B1E871309E4 /* Build configuration list for PBXNativeTarget "EchoDJ" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F8E165DC96B7404C982B6D51 /* Debug */,
+				D3F36FA045B44C45A580439B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = 991E00D88C2F4CED9EEE45D9 /* Project object */;
+}
