@@ -2,6 +2,12 @@ import Foundation
 import SwiftData
 import MusicKit
 
+struct TrackDisplay: Sendable {
+    let trackID: String
+    let title: String
+    let artistName: String
+}
+
 actor StationQueueManager {
     private let modelContainer: ModelContainer
     private let provider: any MusicProviderProtocol
@@ -90,13 +96,13 @@ actor StationQueueManager {
         }
     }
 
-    func upcomingTracks(limit: Int = 3) async -> [CachedTrack] {
+    func upcomingTracks(limit: Int = 3) async -> [TrackDisplay] {
         let context = ModelContext(modelContainer)
         let ids = queuedTrackIDs
         guard !ids.isEmpty else {
             let descriptor = FetchDescriptor<CachedTrack>()
             let all = (try? context.fetch(descriptor)) ?? []
-            return Array(all.prefix(limit))
+            return Array(all.prefix(limit)).map { TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName) }
         }
 
         let descriptor = FetchDescriptor<CachedTrack>(
@@ -104,6 +110,6 @@ actor StationQueueManager {
         )
         let matches = (try? context.fetch(descriptor)) ?? []
         let ordered = ids.compactMap { id in matches.first(where: { $0.trackID == id }) }
-        return Array(ordered.prefix(limit))
+        return Array(ordered.prefix(limit)).map { TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName) }
     }
 }

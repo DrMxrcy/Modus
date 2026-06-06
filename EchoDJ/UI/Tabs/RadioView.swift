@@ -9,6 +9,7 @@ struct RadioView: View {
     @State private var progress: Double = 0.0
     @State private var trackTitle: String = "Station Seed Title"
     @State private var trackArtist: String = "Echo DJ Station Active"
+    @State private var upcoming: [TrackDisplay] = []
     @State private var timerCancellable: AnyCancellable? = nil
 
     var body: some View {
@@ -31,6 +32,34 @@ struct RadioView: View {
 
                 ProgressView(value: progress, total: 1.0)
                     .padding(.horizontal)
+
+                if !upcoming.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Next Up")
+                            .font(.caption.bold())
+                            .foregroundStyle(.secondary)
+                        ForEach(upcoming.indices, id: \.self) { index in
+                            let track = upcoming[index]
+                            HStack {
+                                Text("\(index + 1).")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                                VStack(alignment: .leading) {
+                                    Text(track.title)
+                                        .font(.caption.bold())
+                                    Text(track.artistName)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(12)
+                    .padding(.horizontal)
+                }
 
                 VStack(alignment: .leading) {
                     Text("VIBE TUNER: \(Int(valenceLevel * 100))%")
@@ -76,6 +105,9 @@ struct RadioView: View {
                         trackTitle = title
                         trackArtist = "Now Playing"
                     }
+
+                    let next = await env.queueManager.upcomingTracks(limit: 3)
+                    upcoming = next
                 }
             }
     }
