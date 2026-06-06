@@ -33,3 +33,23 @@ final class CachedTrack {
 extension CachedTrack: Identifiable {
     var id: String { trackID }
 }
+
+#if canImport(MusicKit)
+import MusicKit
+
+extension CachedTrack {
+    convenience init?(from track: Track) {
+        let id = track.id.rawValue
+        guard !id.isEmpty else { return nil }
+        self.init(
+            trackID: id,
+            title: track.title,
+            artistName: track.artistName,
+            energy: Double.random(in: 0.3...0.9), // Placeholder until real audio analysis
+            acousticness: Double.random(in: 0.1...0.6),
+            valence: Double.random(in: 0.2...0.8),
+            bpm: Double.random(in: 80...140)
+        )
+    }
+}
+#endif
