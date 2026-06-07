@@ -22,7 +22,8 @@ final class AppEnvironment: ObservableObject {
             let schema = Schema([
                 UserTasteProfile.self,
                 TrackCooldown.self,
-                CachedTrack.self
+                CachedTrack.self,
+                StationSession.self
             ])
             let cloudConfig = ModelConfiguration(
                 schema: schema,
