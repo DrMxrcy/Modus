@@ -23,6 +23,9 @@ SWIFT_FILES = [
     ('Engine/Concrete/AppleMusicProvider.swift', 'AppleMusicProvider.swift'),
     ('Engine/Concrete/StationQueueManager.swift', 'StationQueueManager.swift'),
     ('Engine/Concrete/TelemetryCollector.swift', 'TelemetryCollector.swift'),
+    ('Engine/Concrete/TTSClient.swift', 'TTSClient.swift'),
+    ('Engine/Concrete/AudioDucker.swift', 'AudioDucker.swift'),
+    ('Engine/Concrete/TransitionManager.swift', 'TransitionManager.swift'),
     ('Engine/Concrete/OnDeviceDJBrain.swift', 'OnDeviceDJBrain.swift'),
     ('Engine/Mocks/MockMusicProvider.swift', 'MockMusicProvider.swift'),
     ('Engine/Mocks/MockDJBrain.swift', 'MockDJBrain.swift'),
@@ -44,6 +47,8 @@ musickit_ref_uuid = gen_uuid()
 musickit_build_uuid = gen_uuid()
 mediaplayer_ref_uuid = gen_uuid()
 mediaplayer_build_uuid = gen_uuid()
+avfoundation_ref_uuid = gen_uuid()
+avfoundation_build_uuid = gen_uuid()
 resources_phase_uuid = gen_uuid()
 project_config_list_uuid = gen_uuid()
 target_config_list_uuid = gen_uuid()
@@ -95,6 +100,7 @@ for name, bf in build_files.items():
     lines.append(f"\t\t{bf['uuid']} /* {name} in Sources */ = {{isa = PBXBuildFile; fileRef = {bf['file_uuid']} /* {name} */; }};")
 lines.append(f"\t\t{musickit_build_uuid} /* MusicKit.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {musickit_ref_uuid} /* MusicKit.framework */; }};")
 lines.append(f"\t\t{mediaplayer_build_uuid} /* MediaPlayer.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {mediaplayer_ref_uuid} /* MediaPlayer.framework */; }};")
+lines.append(f"\t\t{avfoundation_build_uuid} /* AVFoundation.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {avfoundation_ref_uuid} /* AVFoundation.framework */; }};")
 lines.append('/* End PBXBuildFile section */')
 lines.append('')
 
@@ -106,6 +112,7 @@ for name, fr in file_refs.items():
 lines.append(f"\t\t{info_plist_uuid} /* Info.plist */ = {{isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; }};")
 lines.append(f"\t\t{musickit_ref_uuid} /* MusicKit.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; }};")
 lines.append(f"\t\t{mediaplayer_ref_uuid} /* MediaPlayer.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; }};")
+lines.append(f"\t\t{avfoundation_ref_uuid} /* AVFoundation.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; }};")
 lines.append('/* End PBXFileReference section */')
 lines.append('')
 
@@ -117,6 +124,7 @@ lines.append('\t\t\tbuildActionMask = 2147483647;')
 lines.append('\t\t\tfiles = (')
 lines.append(f"\t\t\t\t{musickit_build_uuid} /* MusicKit.framework in Frameworks */,")
 lines.append(f"\t\t\t\t{mediaplayer_build_uuid} /* MediaPlayer.framework in Frameworks */,")
+lines.append(f"\t\t\t\t{avfoundation_build_uuid} /* AVFoundation.framework in Frameworks */,")
 lines.append('\t\t\t);')
 lines.append('\t\t\trunOnlyForDeploymentPostprocessing = 0;')
 lines.append('\t\t};')
