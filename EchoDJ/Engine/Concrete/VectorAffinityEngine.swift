@@ -1,9 +1,13 @@
 import Foundation
 
-final class VectorAffinityEngine {
+enum VectorAffinityEngine: Sendable {
 
     private static func clamp(_ value: Double) -> Double {
         max(0.0, min(1.0, value))
+    }
+
+    private static func clampBPM(_ value: Double) -> Double {
+        max(60.0, min(200.0, value))
     }
 
     static func calculateDistance(profile: UserTasteProfile, track: CachedTrack) -> Double {
@@ -22,18 +26,19 @@ final class VectorAffinityEngine {
     }
 
     static func applyFeedback(profile: inout UserTasteProfile, track: CachedTrack, playbackRatio: Double) {
+        guard (0...1).contains(playbackRatio) else { return }
         let alpha = 0.15
 
         if playbackRatio >= 0.90 {
             profile.energyPreference = clamp(profile.energyPreference + alpha * (track.energy - profile.energyPreference))
             profile.acousticnessPreference = clamp(profile.acousticnessPreference + alpha * (track.acousticness - profile.acousticnessPreference))
             profile.valencePreference = clamp(profile.valencePreference + alpha * (track.valence - profile.valencePreference))
-            profile.targetBPM = clamp(profile.targetBPM + alpha * (track.bpm - profile.targetBPM))
+            profile.targetBPM = clampBPM(profile.targetBPM + alpha * (track.bpm - profile.targetBPM))
         } else if playbackRatio <= 0.10 {
             profile.energyPreference = clamp(profile.energyPreference - alpha * (track.energy - profile.energyPreference))
             profile.acousticnessPreference = clamp(profile.acousticnessPreference - alpha * (track.acousticness - profile.acousticnessPreference))
             profile.valencePreference = clamp(profile.valencePreference - alpha * (track.valence - profile.valencePreference))
-            profile.targetBPM = clamp(profile.targetBPM - alpha * (track.bpm - profile.targetBPM))
+            profile.targetBPM = clampBPM(profile.targetBPM - alpha * (track.bpm - profile.targetBPM))
         }
         profile.lastUpdated = Date()
     }
@@ -47,11 +52,11 @@ final class VectorAffinityEngine {
     ) -> [CachedTrack] {
         guard !tracks.isEmpty, count > 0 else { return [] }
 
-        let sorted = tracks.sorted {
-            calculateDistance(profile: profile, track: $0) < calculateDistance(profile: profile, track: $1)
-        }
+        let scored = tracks.map { (track: $0, score: calculateDistance(profile: profile, track: $0)) }
+        let sorted = scored.sorted { $0.score < $1.score }.map(\.track)
 
-        let clampedEpsilon = max(0.0, min(1.0, epsilon))
+        let clampedEpsilon = clamp(epsilon)
+        guard clampedEpsilon.isFinite else { return Array(tracks.prefix(count)) }
         let explorationSlots = min(count, Int(Double(count) * clampedEpsilon))
         let exploitationCount = max(0, count - explorationSlots)
 

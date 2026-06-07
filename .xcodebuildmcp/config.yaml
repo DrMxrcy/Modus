@@ -15,12 +15,12 @@ enabledWorkflows:
   - xcode-ide
 debug: true
 sentryDisabled: true
-setupPreferences:
-  platforms:
-    - iOS
 sessionDefaults:
   projectPath: EchoDJ.xcodeproj
   scheme: EchoDJ
-  deviceId: 9334BD3F-60AE-43A2-95A0-9AB488AD1129
-  simulatorId: 9334BD3F-60AE-43A2-95A0-9AB488AD1129
   simulatorName: iPhone 17 Pro Max
+  simulatorId: 9334BD3F-60AE-43A2-95A0-9AB488AD1129
+  deviceId: 00008150-001445042188401C
+setupPreferences:
+  platforms:
+    - iOS
