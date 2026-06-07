@@ -27,13 +27,13 @@ final class SubscriptionManager: ObservableObject {
     func updateSubscriptionStatus() async {
         do {
             let statuses = try await Product.SubscriptionInfo.status(for: "premium_monthly_group")
-            guard let firstStatus = statuses?.first else {
+            guard let firstStatus = statuses.first else {
                 self.activeTier = .freeTier
                 return
             }
 
             switch firstStatus.state {
-            case .subscribed, .verified:
+            case .subscribed, .inGracePeriod:
                 self.activeTier = .proTier
                 print("SubscriptionManager: Active tier = Pro")
             default:

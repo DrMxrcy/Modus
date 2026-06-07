@@ -13,6 +13,7 @@ final class AppEnvironment: ObservableObject {
     var queueManager: StationQueueManager
     var telemetryCollector: TelemetryCollector
     var transitionManager: TransitionManager
+    let subscriptionManager: SubscriptionManager
 
     private init() {
         let useMock = true
@@ -66,6 +67,7 @@ final class AppEnvironment: ObservableObject {
             modelContainer: self.modelContainer
         )
         self.transitionManager = makeTransitionManager(brain: brain)
+        self.subscriptionManager = SubscriptionManager()
 
         if !useMock {
             Task {
