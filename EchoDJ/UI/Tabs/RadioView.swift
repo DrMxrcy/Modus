@@ -59,6 +59,11 @@ struct RadioView: View {
                                         .font(.caption2)
                                         .foregroundStyle(.secondary)
                                 }
+                                if isExplorationPick(track: track) {
+                                    Image(systemName: "sparkles")
+                                        .foregroundStyle(Color.accentColor)
+                                        .help("Exploration pick — discovering new vibes")
+                                }
                                 Spacer()
                             }
                         }
@@ -158,6 +163,11 @@ struct RadioView: View {
             await env.transitionManager.executeTransition(isEnabled: isPro)
             print("Soft Skip Triggered for \(trackID)")
         }
+    }
+
+    private func isExplorationPick(track: TrackDisplay) -> Bool {
+        // Placeholder: queue manager will tag exploration picks in a future update
+        false
     }
 }
 
