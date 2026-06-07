@@ -12,7 +12,7 @@ final class AppEnvironment: ObservableObject {
     let modelContainer: ModelContainer
     var queueManager: StationQueueManager
     var telemetryCollector: TelemetryCollector
-    let transitionManager: TransitionManager
+    var transitionManager: TransitionManager
 
     private init() {
         let useMock = true
@@ -37,9 +37,11 @@ final class AppEnvironment: ObservableObject {
         }
 
         let mockProvider = MockMusicProvider()
-        let mockBrain = MockDJBrain()
         self.musicProvider = mockProvider
-        self.djBrain = mockBrain
+
+        let brain = defaultDJBrain()
+        self.djBrain = brain
+
         self.queueManager = StationQueueManager(
             modelContainer: self.modelContainer,
             provider: mockProvider
@@ -48,11 +50,7 @@ final class AppEnvironment: ObservableObject {
             provider: mockProvider,
             modelContainer: self.modelContainer
         )
-        self.transitionManager = TransitionManager(
-            djBrain: mockBrain,
-            ttsClient: TTSClient(),
-            audioDucker: AudioDucker()
-        )
+        self.transitionManager = makeTransitionManager(brain: brain)
 
         if !useMock {
             Task {
@@ -86,5 +84,34 @@ final class AppEnvironment: ObservableObject {
             )
             print("AppEnvironment: MusicKit unavailable, falling back to MockMusicProvider")
         }
+
+        let candidate = defaultDJBrain()
+        if await candidate.isAvailable {
+            self.djBrain = candidate
+            self.transitionManager = makeTransitionManager(brain: candidate)
+            print("AppEnvironment: Using OnDeviceDJBrain")
+        } else {
+            let fallback = MockDJBrain()
+            self.djBrain = fallback
+            self.transitionManager = makeTransitionManager(brain: fallback)
+            print("AppEnvironment: Foundation Models unavailable, falling back to MockDJBrain")
+        }
     }
+}
+
+private func defaultDJBrain() -> any DJBrainProtocol {
+    #if canImport(FoundationModels)
+    if #available(iOS 26.0, *) {
+        return OnDeviceDJBrain()
+    }
+    #endif
+    return MockDJBrain()
+}
+
+private func makeTransitionManager(brain: any DJBrainProtocol) -> TransitionManager {
+    TransitionManager(
+        djBrain: brain,
+        ttsClient: TTSClient(),
+        audioDucker: AudioDucker()
+    )
 }

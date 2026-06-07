@@ -10,5 +10,6 @@ struct TransitionMetadata: Sendable {
 }
 
 protocol DJBrainProtocol: Actor {
+    var isAvailable: Bool { get }
     func generateTransition(meta: TransitionMetadata) async -> String
 }
