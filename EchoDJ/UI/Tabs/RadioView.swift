@@ -62,6 +62,7 @@ struct RadioView: View {
                                 if isExplorationPick(track: track) {
                                     Image(systemName: "sparkles")
                                         .foregroundStyle(Color.accentColor)
+                                        .accessibilityLabel("Exploration pick")
                                         .help("Exploration pick — discovering new vibes")
                                 }
                                 Spacer()

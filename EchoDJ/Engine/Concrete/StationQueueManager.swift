@@ -114,19 +114,11 @@ actor StationQueueManager {
             epsilon = VectorAffinityEngine.computeEpsilon(profile: profile)
         }
 
-        let now = Date()
-        let cooldownDescriptor = FetchDescriptor<TrackCooldown>(
-            predicate: #Predicate { $0.cooldownExpiration > now }
-        )
-        let activeCooldowns = (try? context.fetch(cooldownDescriptor)) ?? []
-        let blockedIDs = activeCooldowns.map { $0.trackID }
-
         let ranked = VectorAffinityEngine.rankTracks(
             tracks: filtered,
             profile: profile,
             count: count,
-            epsilon: epsilon,
-            excludedTrackIDs: blockedIDs
+            epsilon: epsilon
         )
 
         if useArcShaping, await djBrain.isAvailable {
@@ -313,12 +305,15 @@ actor StationQueueManager {
 
     private func persistTracks(_ tracks: [CachedTrack]) {
         let context = ModelContext(modelContainer)
+        let trackIDs = tracks.map { $0.trackID }
+        let descriptor = FetchDescriptor<CachedTrack>(
+            predicate: #Predicate { trackIDs.contains($0.trackID) }
+        )
+        let existing = (try? context.fetch(descriptor)) ?? []
+        let existingIDs = Set(existing.map { $0.trackID })
+
         for track in tracks {
-            let trackID = track.trackID
-            let descriptor = FetchDescriptor<CachedTrack>(
-                predicate: #Predicate { $0.trackID == trackID }
-            )
-            if (try? context.fetch(descriptor))?.isEmpty == true {
+            if !existingIDs.contains(track.trackID) {
                 context.insert(track)
             }
         }

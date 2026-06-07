@@ -5,10 +5,10 @@ struct SearchView: View {
     @EnvironmentObject var env: AppEnvironment
     @State private var searchText = ""
     @State private var selectedSeedTrack: CachedTrack? = nil
-    @State private var showStationOptions = false
     @State private var surpriseMode = false
     @State private var useArcShaping = false
 
+    // TODO: Replace with real data source
     @State private var mockTracks = [
         CachedTrack(
             trackID: "1",
@@ -44,7 +44,7 @@ struct SearchView: View {
             return mockTracks
         }
         return mockTracks.filter {
-            $0.title.localizedCaseInsensitiveContains(searchText)
+            $0.title.localizedCaseInsensitiveContains(searchText) || $0.artistName.localizedCaseInsensitiveContains(searchText)
         }
     }
 
@@ -52,8 +52,7 @@ struct SearchView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
-                    ForEach(0..<filteredTracks.count, id: \.self) { (index: Int) in
-                        let track = filteredTracks[index]
+                    ForEach(filteredTracks) { track in
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(track.title)
@@ -70,40 +69,46 @@ struct SearchView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedSeedTrack = track
-                            showStationOptions = true
                         }
-                        Divider()
+                        if track != filteredTracks.last {
+                            Divider()
+                        }
                     }
                 }
             }
             .navigationTitle("Search & Seed")
             .searchable(text: $searchText, prompt: "Search songs, albums, or vibes")
-            .sheet(isPresented: $showStationOptions) {
-                if let track = selectedSeedTrack {
-                    StationOptionsSheet(
-                        track: track,
-                        surpriseMode: $surpriseMode,
-                        useArcShaping: $useArcShaping,
-                        onStart: {
-                            Task {
-                                try? await env.queueManager.generateStation(
+            .sheet(item: $selectedSeedTrack) { track in
+                StationOptionsSheet(
+                    track: track,
+                    surpriseMode: $surpriseMode,
+                    useArcShaping: $useArcShaping,
+                    activeTier: env.subscriptionManager.activeTier,
+                    onStart: {
+                        Task { @MainActor in
+                            do {
+                                try await env.queueManager.generateStation(
                                     seedTrackID: track.trackID,
                                     useArcShaping: useArcShaping,
                                     surpriseMode: surpriseMode
                                 )
-                                try? await env.musicProvider.play()
-                                showStationOptions = false
+                                try await env.musicProvider.play()
+                                selectedSeedTrack = nil
                                 surpriseMode = false
                                 useArcShaping = false
+                            } catch {
+                                print("Error starting station: \(error)")
                             }
-                        },
-                        onCancel: {
-                            showStationOptions = false
+                        }
+                    },
+                    onCancel: {
+                        Task { @MainActor in
+                            selectedSeedTrack = nil
                             surpriseMode = false
                             useArcShaping = false
                         }
-                    )
-                }
+                    }
+                )
             }
         }
     }
@@ -113,6 +118,7 @@ private struct StationOptionsSheet: View {
     let track: CachedTrack
     @Binding var surpriseMode: Bool
     @Binding var useArcShaping: Bool
+    let activeTier: SubscriptionTier
     let onStart: () -> Void
     let onCancel: () -> Void
 
@@ -125,7 +131,9 @@ private struct StationOptionsSheet: View {
                 .foregroundStyle(.secondary)
 
             Toggle("Surprise Me", isOn: $surpriseMode)
-            Toggle("DJ Arc (Pro)", isOn: $useArcShaping)
+            if activeTier != .freeTier {
+                Toggle("DJ Arc (Pro)", isOn: $useArcShaping)
+            }
 
             Button(action: onStart) {
                 Text("Start Station")

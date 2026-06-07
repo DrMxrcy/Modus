@@ -84,6 +84,11 @@ final class AppEnvironment: ObservableObject {
         if await candidate.isAvailable {
             self.djBrain = candidate
             self.transitionManager = makeTransitionManager(brain: candidate)
+            self.queueManager = StationQueueManager(
+                modelContainer: self.modelContainer,
+                provider: self.musicProvider,
+                djBrain: candidate
+            )
             print("AppEnvironment: OnDeviceDJBrain active")
         } else {
             print("AppEnvironment: OnDeviceDJBrain unavailable — using current brain")
