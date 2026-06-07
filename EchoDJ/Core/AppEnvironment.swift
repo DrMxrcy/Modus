@@ -12,6 +12,7 @@ final class AppEnvironment: ObservableObject {
     let modelContainer: ModelContainer
     var queueManager: StationQueueManager
     var telemetryCollector: TelemetryCollector
+    let transitionManager: TransitionManager
 
     private init() {
         let useMock = true
@@ -35,15 +36,22 @@ final class AppEnvironment: ObservableObject {
             fatalError("Failed to initialize SwiftData Container: \(error)")
         }
 
-        self.musicProvider = MockMusicProvider()
-        self.djBrain = MockDJBrain()
+        let mockProvider = MockMusicProvider()
+        let mockBrain = MockDJBrain()
+        self.musicProvider = mockProvider
+        self.djBrain = mockBrain
         self.queueManager = StationQueueManager(
             modelContainer: self.modelContainer,
-            provider: MockMusicProvider()
+            provider: mockProvider
         )
         self.telemetryCollector = TelemetryCollector(
-            provider: MockMusicProvider(),
+            provider: mockProvider,
             modelContainer: self.modelContainer
+        )
+        self.transitionManager = TransitionManager(
+            djBrain: mockBrain,
+            ttsClient: TTSClient(),
+            audioDucker: AudioDucker()
         )
 
         if !useMock {
