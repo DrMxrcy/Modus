@@ -24,14 +24,29 @@ final class AppEnvironment: ObservableObject {
                 TrackCooldown.self,
                 CachedTrack.self
             ])
-            let config = ModelConfiguration(
-                schema: schema,
-                isStoredInMemoryOnly: false
-            )
-            self.modelContainer = try ModelContainer(
-                for: schema,
-                configurations: [config]
-            )
+
+            if !useMock {
+                let cloudConfig = ModelConfiguration(
+                    schema: schema,
+                    isStoredInMemoryOnly: false,
+                    cloudKitDatabase: .automatic
+                )
+                self.modelContainer = try ModelContainer(
+                    for: schema,
+                    configurations: [cloudConfig]
+                )
+                print("AppEnvironment: SwiftData initialized with CloudKit sync")
+            } else {
+                let localConfig = ModelConfiguration(
+                    schema: schema,
+                    isStoredInMemoryOnly: false
+                )
+                self.modelContainer = try ModelContainer(
+                    for: schema,
+                    configurations: [localConfig]
+                )
+                print("AppEnvironment: SwiftData initialized in local-only mode")
+            }
         } catch {
             fatalError("Failed to initialize SwiftData Container: \(error)")
         }
