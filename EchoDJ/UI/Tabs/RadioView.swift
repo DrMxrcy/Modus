@@ -4,8 +4,6 @@ import Combine
 
 struct RadioView: View {
     @EnvironmentObject var env: AppEnvironment
-    @State private var valenceLevel: Double = 0.5
-    @State private var energyLevel: Double = 0.5
     @State private var isPlaying: Bool = false
     @State private var progress: Double = 0.0
     @State private var trackTitle: String = "Station Seed Title"
@@ -15,7 +13,13 @@ struct RadioView: View {
 
     var body: some View {
         ZStack {
-            VibeVisualizer(energy: energyLevel, valence: valenceLevel)
+            // Subtle gradient background
+            LinearGradient(
+                colors: [Color.purple.opacity(0.15), Color.black, Color.indigo.opacity(0.15)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
 
             VStack(spacing: 30) {
                 RoundedRectangle(cornerRadius: 24)
@@ -74,26 +78,6 @@ struct RadioView: View {
                     .cornerRadius(12)
                     .padding(.horizontal)
                 }
-
-                VStack(alignment: .leading) {
-                    Text("VIBE TUNER: \(Int(valenceLevel * 100))%")
-                        .font(.caption.bold())
-                    Slider(value: $valenceLevel, in: 0...1) { _ in
-                        Task {
-                            let context = env.modelContainer.mainContext
-                            let descriptor = FetchDescriptor<UserTasteProfile>()
-                            if let profile = (try? context.fetch(descriptor))?.first {
-                                profile.valencePreference = valenceLevel
-                                try? context.save()
-                                print("Vibe Tuner updated valence to \(valenceLevel)")
-                            }
-                        }
-                    }
-                }
-                .padding()
-                .background(.ultraThinMaterial)
-                .cornerRadius(16)
-                .padding(.horizontal)
 
                 HCenterControlsView(
                     isPlaying: isPlaying,
