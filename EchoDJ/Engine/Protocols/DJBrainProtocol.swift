@@ -9,7 +9,20 @@ struct TransitionMetadata: Sendable {
     let currentBPM: Double
 }
 
+struct StationArcTarget: Sendable {
+    let position: Int
+    let targetEnergy: Double
+    let targetValence: Double
+    let targetBPM: Double
+    let weight: Double
+}
+
 protocol DJBrainProtocol: Actor {
     var isAvailable: Bool { get }
     func generateTransition(meta: TransitionMetadata) async -> String
+    func generateStationArc(
+        seedTrack: CachedTrack,
+        userMoodContext: String,
+        queueLength: Int
+    ) async -> [StationArcTarget]?
 }
