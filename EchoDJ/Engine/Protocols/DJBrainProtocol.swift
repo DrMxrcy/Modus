@@ -9,7 +9,7 @@ struct TransitionMetadata: Sendable {
     let currentBPM: Double
 }
 
-struct StationArcTarget: Sendable {
+struct StationArcTarget: Sendable, Codable {
     let position: Int
     let targetEnergy: Double
     let targetValence: Double
