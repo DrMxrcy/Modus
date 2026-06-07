@@ -4,6 +4,10 @@ import SwiftData
 struct SearchView: View {
     @EnvironmentObject var env: AppEnvironment
     @State private var searchText = ""
+    @State private var selectedSeedTrack: CachedTrack? = nil
+    @State private var showStationOptions = false
+    @State private var surpriseMode = false
+    @State private var useArcShaping = false
 
     @State private var mockTracks = [
         CachedTrack(
@@ -65,11 +69,8 @@ struct SearchView: View {
                         .padding()
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            Task {
-                                try? await env.queueManager.generateStation(seedTrackID: track.trackID)
-                                try? await env.musicProvider.play()
-                                print("Station seeded from: \(track.title) [\(track.energy), \(track.valence)]")
-                            }
+                            selectedSeedTrack = track
+                            showStationOptions = true
                         }
                         Divider()
                     }
@@ -77,6 +78,65 @@ struct SearchView: View {
             }
             .navigationTitle("Search & Seed")
             .searchable(text: $searchText, prompt: "Search songs, albums, or vibes")
+            .sheet(isPresented: $showStationOptions) {
+                if let track = selectedSeedTrack {
+                    StationOptionsSheet(
+                        track: track,
+                        surpriseMode: $surpriseMode,
+                        useArcShaping: $useArcShaping,
+                        onStart: {
+                            Task {
+                                try? await env.queueManager.generateStation(
+                                    seedTrackID: track.trackID,
+                                    useArcShaping: useArcShaping,
+                                    surpriseMode: surpriseMode
+                                )
+                                try? await env.musicProvider.play()
+                                showStationOptions = false
+                                surpriseMode = false
+                                useArcShaping = false
+                            }
+                        },
+                        onCancel: {
+                            showStationOptions = false
+                            surpriseMode = false
+                            useArcShaping = false
+                        }
+                    )
+                }
+            }
         }
+    }
+}
+
+private struct StationOptionsSheet: View {
+    let track: CachedTrack
+    @Binding var surpriseMode: Bool
+    @Binding var useArcShaping: Bool
+    let onStart: () -> Void
+    let onCancel: () -> Void
+
+    var body: some View {
+        VStack(spacing: 20) {
+            Text(track.title)
+                .font(.headline)
+            Text(track.artistName)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+
+            Toggle("Surprise Me", isOn: $surpriseMode)
+            Toggle("DJ Arc (Pro)", isOn: $useArcShaping)
+
+            Button(action: onStart) {
+                Text("Start Station")
+                    .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+
+            Button("Cancel", role: .cancel, action: onCancel)
+                .frame(maxWidth: .infinity)
+        }
+        .padding()
+        .presentationDetents([.medium])
     }
 }
