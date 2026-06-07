@@ -124,15 +124,19 @@ struct RadioView: View {
 
     private func hardSkip() {
         Task {
+            let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
+            await env.telemetryCollector.recordHardSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            print("Hard Skip Triggered")
+            print("Hard Skip Triggered for \(trackID)")
         }
     }
 
     private func softSkip() {
         Task {
+            let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
+            await env.telemetryCollector.recordSoftSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            print("Soft Skip Triggered")
+            print("Soft Skip Triggered for \(trackID)")
         }
     }
 }
