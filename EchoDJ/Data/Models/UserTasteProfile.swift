@@ -10,12 +10,14 @@ final class UserTasteProfile {
     var acousticnessPreference: Double
     var valencePreference: Double
     var targetBPM: Double
+    var explorationPreference: Double // 0.0 = auto, >0 = manual override
 
     init(
         energy: Double = 0.5,
         acoustic: Double = 0.5,
         valence: Double = 0.5,
-        bpm: Double = 110.0
+        bpm: Double = 110.0,
+        exploration: Double = 0.0
     ) {
         self.id = UUID()
         self.lastUpdated = Date()
@@ -23,5 +25,6 @@ final class UserTasteProfile {
         self.acousticnessPreference = acoustic
         self.valencePreference = valence
         self.targetBPM = bpm
+        self.explorationPreference = exploration
     }
 }
