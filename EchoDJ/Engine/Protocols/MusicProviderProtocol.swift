@@ -5,6 +5,7 @@ protocol MusicProviderProtocol: Actor {
     var isPlaying: Bool { get }
     var currentTrackID: String? { get }
     var currentPlaybackProgress: Double { get }
+    var playbackDuration: Double { get }
 
     func loadTrack(id: String) async throws
     func play() async throws

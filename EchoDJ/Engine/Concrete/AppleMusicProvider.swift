@@ -21,6 +21,10 @@ actor AppleMusicProvider: MusicProviderProtocol {
         return ApplicationMusicPlayer.shared.playbackTime / loadedDuration
     }
 
+    var playbackDuration: Double {
+        loadedDuration
+    }
+
     private var loadedTrackID: String?
     private var loadedDuration: TimeInterval = 0.0
     private var loadedTitle: String = ""

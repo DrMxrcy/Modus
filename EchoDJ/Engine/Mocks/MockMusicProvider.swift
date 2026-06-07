@@ -5,6 +5,7 @@ actor MockMusicProvider: MusicProviderProtocol {
     var isPlaying: Bool = false
     var currentTrackID: String? = nil
     var currentPlaybackProgress: Double = 0.0
+    var playbackDuration: Double = 240.0 // Mock 4-minute track
 
     func loadTrack(id: String) async throws {
         currentTrackID = id
