@@ -7,98 +7,122 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CD0B8E7116F44F14ACEF9F7D /* EchoDJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 491A4585345B4AF58EF34E35 /* EchoDJApp.swift */; };
-		8EB30486940D449D9B45CB5F /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8302502E1E2F4CDC827B0533 /* AppEnvironment.swift */; };
-		92B704F9CF0249A685408A4D /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF5159E076FB496EA3336DE1 /* UserTasteProfile.swift */; };
-		B10F8505587D43239D82CC68 /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4ACF72FBE2E4AE1A0A9910D /* TrackCooldown.swift */; };
-		14CF39C8C3EE447BA2D16454 /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB52D9F9407C4F08B2D57417 /* CachedTrack.swift */; };
-		01294E38F0A345FFB9614602 /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EFA520B83564755814B0356 /* MusicProviderProtocol.swift */; };
-		469ED39558B0423B9FD0036F /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1AC760122C41BB842A15CA /* DJBrainProtocol.swift */; };
-		54748806927A4C5797CC8736 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 019AAB2F6D3E4DC3A4B67CC8 /* VectorAffinityEngine.swift */; };
-		132832DF9E664B95B64E952B /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3810906B32E4A8094243BA4 /* AppleMusicProvider.swift */; };
-		305A80B3953C4C4E99E1A36D /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 789040BD8EFA433A8C6F7F8F /* OnDeviceDJBrain.swift */; };
-		3EA1797B2B964A5EA9AC411B /* MockMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4B86AE73E548A095B399F8 /* MockMusicProvider.swift */; };
-		26D9F4C34AD2487B915F962B /* MockDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB57455ED034D4ABD0B39AB /* MockDJBrain.swift */; };
-		DCB3A2A7A1B44681B191C56A /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8950CAFA9FA24D109BDF0300 /* MainTabView.swift */; };
-		7C2D4CFAD72C4AECA7299F37 /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B28E802620B4A3FBAFDBE18 /* RadioView.swift */; };
-		3ED1469F953049F0BF223EE5 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D37E516EF9D441A8E956C9F /* SearchView.swift */; };
-		813B765174B94AAF8FF89529 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B7ECA7F6C24436190C35D08 /* VibeVisualizer.swift */; };
-		AEB9DA18433946F8A701C009 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA018E271BE6440FA05EF8BA /* MusicKit.framework */; };
-		F2665178FF5D498DBB399125 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 79CDD0BC622F4C49A58A90C1 /* MediaPlayer.framework */; };
+		764A111720DE45E3A629DD8A /* EchoDJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBF2DD4A2DBE4AFCB2C628A6 /* EchoDJApp.swift */; };
+		13D16F6B6DB0487DA4D5F4F1 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC1103700A09419199986650 /* AppEnvironment.swift */; };
+		3FD8559FA1F7439389AC250E /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F5C6E2096941159D5E23DE /* UserTasteProfile.swift */; };
+		2FE1FCF899314E6596307CBF /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84997AB7DD7F452DA86749D8 /* TrackCooldown.swift */; };
+		E8CD0AA5EFFD486982B5590E /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262357DC15804B78935F97AE /* CachedTrack.swift */; };
+		5A570FAE201B45E7BD7AC179 /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB3FF35C8B344A294C3D635 /* MusicProviderProtocol.swift */; };
+		E4E7456025B44FE786ADD1F3 /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC19BF0B24EA4E029C502CC7 /* DJBrainProtocol.swift */; };
+		28FEF44D90104F5C89BE4621 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6054C4F742A47338762FD44 /* VectorAffinityEngine.swift */; };
+		FADC6B470F4B466B988B6E24 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C14FE8A9224400B84634CDD /* AppleMusicProvider.swift */; };
+		EBC87FAE9620412584C85C3B /* StationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBE55039FE20421C9FAF769C /* StationQueueManager.swift */; };
+		22A9BFFC76C64611BD38E012 /* TelemetryCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64921A37CC7A400998D28EB0 /* TelemetryCollector.swift */; };
+		2F115EA44D5446EE9929F0CA /* TTSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7653895048A84E7B805E52AE /* TTSClient.swift */; };
+		1DCE3DEAF52A46EC9A511674 /* AudioDucker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76DEAED905D345B1BC1401FA /* AudioDucker.swift */; };
+		4D28C0E6CE594B66B7BEF8F5 /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7688FDC4C04E519E5EAB22 /* TransitionManager.swift */; };
+		A70ADB137A9C4984989E1FA0 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E1231C2FA8343E98D7A2473 /* SubscriptionManager.swift */; };
+		559C334420B040438A506A70 /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2128B13821B94EE9946FABE6 /* OnDeviceDJBrain.swift */; };
+		84D2B607690E49EF8A6D3C66 /* MockMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DE25EED8C494A1189877F4B /* MockMusicProvider.swift */; };
+		7E7004E2B1DD45F896F6A656 /* MockDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE26705F08EA496189EE3DCD /* MockDJBrain.swift */; };
+		91181F7E8A3D44C18E3E944D /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB0FC4F4FD4443B29E1ADFC2 /* MainTabView.swift */; };
+		0CC794610A9B425FB25E4A00 /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56DE583617964E5899B2DF66 /* RadioView.swift */; };
+		AEE970FD70E7493895B017D9 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB83FEB9EDE044AC9AF72521 /* SearchView.swift */; };
+		A91C597673CC4423AAD79EE3 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E25546F6AD34FABB610BD48 /* VibeVisualizer.swift */; };
+		49292FC6C2AE4B93B4B3A0A4 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F1B8AB61BC44FDB81DF7E05 /* MusicKit.framework */; };
+		89C2C3A23B01403AA780F9A2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D32284A473A34678A580DEE3 /* MediaPlayer.framework */; };
+		ECB89E1D42E8472385B14A84 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8EBCBED79C424A5A8E3C9BD8 /* AVFoundation.framework */; };
+		319DFF0A7DD8452A9054C10C /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76B2134EDDAB4F639623B7D8 /* StoreKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		80C073950B5D4C48B9F6593A /* EchoDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		491A4585345B4AF58EF34E35 /* EchoDJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EchoDJApp.swift; sourceTree = "<group>"; };
-		8302502E1E2F4CDC827B0533 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
-		CF5159E076FB496EA3336DE1 /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
-		A4ACF72FBE2E4AE1A0A9910D /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
-		FB52D9F9407C4F08B2D57417 /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
-		5EFA520B83564755814B0356 /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
-		BE1AC760122C41BB842A15CA /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
-		019AAB2F6D3E4DC3A4B67CC8 /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
-		D3810906B32E4A8094243BA4 /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
-		789040BD8EFA433A8C6F7F8F /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
-		FD4B86AE73E548A095B399F8 /* MockMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockMusicProvider.swift; sourceTree = "<group>"; };
-		4EB57455ED034D4ABD0B39AB /* MockDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockDJBrain.swift; sourceTree = "<group>"; };
-		8950CAFA9FA24D109BDF0300 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
-		3B28E802620B4A3FBAFDBE18 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
-		2D37E516EF9D441A8E956C9F /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
-		1B7ECA7F6C24436190C35D08 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
-		F0288F72096642668F8B0887 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
-		EA018E271BE6440FA05EF8BA /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
-		79CDD0BC622F4C49A58A90C1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		A0E4366465964AFA9BD7C3EE /* EchoDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBF2DD4A2DBE4AFCB2C628A6 /* EchoDJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EchoDJApp.swift; sourceTree = "<group>"; };
+		AC1103700A09419199986650 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
+		D1F5C6E2096941159D5E23DE /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
+		84997AB7DD7F452DA86749D8 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
+		262357DC15804B78935F97AE /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
+		DAB3FF35C8B344A294C3D635 /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
+		BC19BF0B24EA4E029C502CC7 /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
+		D6054C4F742A47338762FD44 /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
+		5C14FE8A9224400B84634CDD /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
+		FBE55039FE20421C9FAF769C /* StationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/StationQueueManager.swift; sourceTree = "<group>"; };
+		64921A37CC7A400998D28EB0 /* TelemetryCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TelemetryCollector.swift; sourceTree = "<group>"; };
+		7653895048A84E7B805E52AE /* TTSClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TTSClient.swift; sourceTree = "<group>"; };
+		76DEAED905D345B1BC1401FA /* AudioDucker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AudioDucker.swift; sourceTree = "<group>"; };
+		4E7688FDC4C04E519E5EAB22 /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TransitionManager.swift; sourceTree = "<group>"; };
+		6E1231C2FA8343E98D7A2473 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/SubscriptionManager.swift; sourceTree = "<group>"; };
+		2128B13821B94EE9946FABE6 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
+		3DE25EED8C494A1189877F4B /* MockMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockMusicProvider.swift; sourceTree = "<group>"; };
+		BE26705F08EA496189EE3DCD /* MockDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/MockDJBrain.swift; sourceTree = "<group>"; };
+		BB0FC4F4FD4443B29E1ADFC2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
+		56DE583617964E5899B2DF66 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
+		FB83FEB9EDE044AC9AF72521 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
+		0E25546F6AD34FABB610BD48 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
+		2546C30B485843D59F12037C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		4F1B8AB61BC44FDB81DF7E05 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
+		D32284A473A34678A580DEE3 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		8EBCBED79C424A5A8E3C9BD8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		76B2134EDDAB4F639623B7D8 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		AC1F0526B793458AAE56F1C6 /* Frameworks */ = {
+		1644E9E55F164710B230F204 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AEB9DA18433946F8A701C009 /* MusicKit.framework in Frameworks */,
-				F2665178FF5D498DBB399125 /* MediaPlayer.framework in Frameworks */,
+				49292FC6C2AE4B93B4B3A0A4 /* MusicKit.framework in Frameworks */,
+				89C2C3A23B01403AA780F9A2 /* MediaPlayer.framework in Frameworks */,
+				ECB89E1D42E8472385B14A84 /* AVFoundation.framework in Frameworks */,
+				319DFF0A7DD8452A9054C10C /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B11E69C06B234367A98F9FC9 = {
+		3CB73264D0B841AD9DFC0F82 = {
 			isa = PBXGroup;
 			children = (
-				6E3F813DB40E4C1EA398B07B /* EchoDJ */,
-				1CCE741230F24E5881006580 /* Products */,
+				09C4B80864034CCBAA43C55A /* EchoDJ */,
+				18EBD74EB2BC4D0BA95BEF0C /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		1CCE741230F24E5881006580 /* Products */ = {
+		18EBD74EB2BC4D0BA95BEF0C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				80C073950B5D4C48B9F6593A /* EchoDJ.app */,
+				A0E4366465964AFA9BD7C3EE /* EchoDJ.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		6E3F813DB40E4C1EA398B07B /* EchoDJ */ = {
+		09C4B80864034CCBAA43C55A /* EchoDJ */ = {
 			isa = PBXGroup;
 			children = (
-				491A4585345B4AF58EF34E35 /* EchoDJApp.swift */,
-				8302502E1E2F4CDC827B0533 /* AppEnvironment.swift */,
-				CF5159E076FB496EA3336DE1 /* UserTasteProfile.swift */,
-				A4ACF72FBE2E4AE1A0A9910D /* TrackCooldown.swift */,
-				FB52D9F9407C4F08B2D57417 /* CachedTrack.swift */,
-				5EFA520B83564755814B0356 /* MusicProviderProtocol.swift */,
-				BE1AC760122C41BB842A15CA /* DJBrainProtocol.swift */,
-				019AAB2F6D3E4DC3A4B67CC8 /* VectorAffinityEngine.swift */,
-				D3810906B32E4A8094243BA4 /* AppleMusicProvider.swift */,
-				789040BD8EFA433A8C6F7F8F /* OnDeviceDJBrain.swift */,
-				FD4B86AE73E548A095B399F8 /* MockMusicProvider.swift */,
-				4EB57455ED034D4ABD0B39AB /* MockDJBrain.swift */,
-				8950CAFA9FA24D109BDF0300 /* MainTabView.swift */,
-				3B28E802620B4A3FBAFDBE18 /* RadioView.swift */,
-				2D37E516EF9D441A8E956C9F /* SearchView.swift */,
-				1B7ECA7F6C24436190C35D08 /* VibeVisualizer.swift */,
-				F0288F72096642668F8B0887 /* Info.plist */,
+				EBF2DD4A2DBE4AFCB2C628A6 /* EchoDJApp.swift */,
+				AC1103700A09419199986650 /* AppEnvironment.swift */,
+				D1F5C6E2096941159D5E23DE /* UserTasteProfile.swift */,
+				84997AB7DD7F452DA86749D8 /* TrackCooldown.swift */,
+				262357DC15804B78935F97AE /* CachedTrack.swift */,
+				DAB3FF35C8B344A294C3D635 /* MusicProviderProtocol.swift */,
+				BC19BF0B24EA4E029C502CC7 /* DJBrainProtocol.swift */,
+				D6054C4F742A47338762FD44 /* VectorAffinityEngine.swift */,
+				5C14FE8A9224400B84634CDD /* AppleMusicProvider.swift */,
+				FBE55039FE20421C9FAF769C /* StationQueueManager.swift */,
+				64921A37CC7A400998D28EB0 /* TelemetryCollector.swift */,
+				7653895048A84E7B805E52AE /* TTSClient.swift */,
+				76DEAED905D345B1BC1401FA /* AudioDucker.swift */,
+				4E7688FDC4C04E519E5EAB22 /* TransitionManager.swift */,
+				6E1231C2FA8343E98D7A2473 /* SubscriptionManager.swift */,
+				2128B13821B94EE9946FABE6 /* OnDeviceDJBrain.swift */,
+				3DE25EED8C494A1189877F4B /* MockMusicProvider.swift */,
+				BE26705F08EA496189EE3DCD /* MockDJBrain.swift */,
+				BB0FC4F4FD4443B29E1ADFC2 /* MainTabView.swift */,
+				56DE583617964E5899B2DF66 /* RadioView.swift */,
+				FB83FEB9EDE044AC9AF72521 /* SearchView.swift */,
+				0E25546F6AD34FABB610BD48 /* VibeVisualizer.swift */,
+				2546C30B485843D59F12037C /* Info.plist */,
 			);
 			path = EchoDJ;
 			sourceTree = "<group>";
@@ -106,13 +130,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		62824AB80B954383A21A5A03 /* EchoDJ */ = {
+		58EF1638B1604C7AA1684E1A /* EchoDJ */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6F54044FF0524DB0AF2B99C1 /* Build configuration list for PBXNativeTarget "EchoDJ" */;
+			buildConfigurationList = 6B68B5D46B2A4B7B9DC019AD /* Build configuration list for PBXNativeTarget "EchoDJ" */;
 			buildPhases = (
-				AE4AFB516AA4443F89720E64 /* Sources */,
-				AC1F0526B793458AAE56F1C6 /* Frameworks */,
-				249C6120C50941A99A158E7E /* Resources */,
+				1471679F83DA4480AFD013F8 /* Sources */,
+				1644E9E55F164710B230F204 /* Frameworks */,
+				6D0CB7DB9C3E45E59C04B3B5 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -120,25 +144,25 @@
 			);
 			name = EchoDJ;
 			productName = EchoDJ;
-			productReference = 80C073950B5D4C48B9F6593A /* EchoDJ.app */;
+			productReference = A0E4366465964AFA9BD7C3EE /* EchoDJ.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		4BD05D740F404F16AF192BD3 /* Project object */ = {
+		D92A4CFA9EC94BEA8B79CD28 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					62824AB80B954383A21A5A03 = {
+					58EF1638B1604C7AA1684E1A = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = BFA6046577F143FB8ACC2296 /* Build configuration list for PBXProject "EchoDJ" */;
+			buildConfigurationList = CF7D0C27EC5A4AB38C5D5756 /* Build configuration list for PBXProject "EchoDJ" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -146,18 +170,18 @@
 				en,
 				Base,
 			);
-			mainGroup = B11E69C06B234367A98F9FC9;
-			productRefGroup = 1CCE741230F24E5881006580 /* Products */;
+			mainGroup = 3CB73264D0B841AD9DFC0F82;
+			productRefGroup = 18EBD74EB2BC4D0BA95BEF0C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				62824AB80B954383A21A5A03 /* EchoDJ */,
+				58EF1638B1604C7AA1684E1A /* EchoDJ */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		249C6120C50941A99A158E7E /* Resources */ = {
+		6D0CB7DB9C3E45E59C04B3B5 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -167,33 +191,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		AE4AFB516AA4443F89720E64 /* Sources */ = {
+		1471679F83DA4480AFD013F8 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CD0B8E7116F44F14ACEF9F7D /* EchoDJApp.swift in Sources */,
-				8EB30486940D449D9B45CB5F /* AppEnvironment.swift in Sources */,
-				92B704F9CF0249A685408A4D /* UserTasteProfile.swift in Sources */,
-				B10F8505587D43239D82CC68 /* TrackCooldown.swift in Sources */,
-				14CF39C8C3EE447BA2D16454 /* CachedTrack.swift in Sources */,
-				01294E38F0A345FFB9614602 /* MusicProviderProtocol.swift in Sources */,
-				469ED39558B0423B9FD0036F /* DJBrainProtocol.swift in Sources */,
-				54748806927A4C5797CC8736 /* VectorAffinityEngine.swift in Sources */,
-				132832DF9E664B95B64E952B /* AppleMusicProvider.swift in Sources */,
-				305A80B3953C4C4E99E1A36D /* OnDeviceDJBrain.swift in Sources */,
-				3EA1797B2B964A5EA9AC411B /* MockMusicProvider.swift in Sources */,
-				26D9F4C34AD2487B915F962B /* MockDJBrain.swift in Sources */,
-				DCB3A2A7A1B44681B191C56A /* MainTabView.swift in Sources */,
-				7C2D4CFAD72C4AECA7299F37 /* RadioView.swift in Sources */,
-				3ED1469F953049F0BF223EE5 /* SearchView.swift in Sources */,
-				813B765174B94AAF8FF89529 /* VibeVisualizer.swift in Sources */,
+				764A111720DE45E3A629DD8A /* EchoDJApp.swift in Sources */,
+				13D16F6B6DB0487DA4D5F4F1 /* AppEnvironment.swift in Sources */,
+				3FD8559FA1F7439389AC250E /* UserTasteProfile.swift in Sources */,
+				2FE1FCF899314E6596307CBF /* TrackCooldown.swift in Sources */,
+				E8CD0AA5EFFD486982B5590E /* CachedTrack.swift in Sources */,
+				5A570FAE201B45E7BD7AC179 /* MusicProviderProtocol.swift in Sources */,
+				E4E7456025B44FE786ADD1F3 /* DJBrainProtocol.swift in Sources */,
+				28FEF44D90104F5C89BE4621 /* VectorAffinityEngine.swift in Sources */,
+				FADC6B470F4B466B988B6E24 /* AppleMusicProvider.swift in Sources */,
+				EBC87FAE9620412584C85C3B /* StationQueueManager.swift in Sources */,
+				22A9BFFC76C64611BD38E012 /* TelemetryCollector.swift in Sources */,
+				2F115EA44D5446EE9929F0CA /* TTSClient.swift in Sources */,
+				1DCE3DEAF52A46EC9A511674 /* AudioDucker.swift in Sources */,
+				4D28C0E6CE594B66B7BEF8F5 /* TransitionManager.swift in Sources */,
+				A70ADB137A9C4984989E1FA0 /* SubscriptionManager.swift in Sources */,
+				559C334420B040438A506A70 /* OnDeviceDJBrain.swift in Sources */,
+				84D2B607690E49EF8A6D3C66 /* MockMusicProvider.swift in Sources */,
+				7E7004E2B1DD45F896F6A656 /* MockDJBrain.swift in Sources */,
+				91181F7E8A3D44C18E3E944D /* MainTabView.swift in Sources */,
+				0CC794610A9B425FB25E4A00 /* RadioView.swift in Sources */,
+				AEE970FD70E7493895B017D9 /* SearchView.swift in Sources */,
+				A91C597673CC4423AAD79EE3 /* VibeVisualizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		42B546B72741439A8FAD1726 /* Debug */ = {
+		CFBE63DF8BE1449289DE062A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -253,7 +283,7 @@
 			};
 			name = Debug;
 		};
-		12EF8DF0CD164B599BA773B0 /* Release */ = {
+		89355066CCAA4292BDEAEE85 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -307,7 +337,7 @@
 			};
 			name = Release;
 		};
-		6477646EF4F744518BDE87B4 /* Debug */ = {
+		015875EA131F47ACAA753FA9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -332,7 +362,7 @@
 			};
 			name = Debug;
 		};
-		F0E045294DA448F495BC8A74 /* Release */ = {
+		A679BCF5B0754C1EB31A9D76 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -360,20 +390,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BFA6046577F143FB8ACC2296 /* Build configuration list for PBXProject "EchoDJ" */ = {
+		CF7D0C27EC5A4AB38C5D5756 /* Build configuration list for PBXProject "EchoDJ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				42B546B72741439A8FAD1726 /* Debug */,
-				12EF8DF0CD164B599BA773B0 /* Release */,
+				CFBE63DF8BE1449289DE062A /* Debug */,
+				89355066CCAA4292BDEAEE85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6F54044FF0524DB0AF2B99C1 /* Build configuration list for PBXNativeTarget "EchoDJ" */ = {
+		6B68B5D46B2A4B7B9DC019AD /* Build configuration list for PBXNativeTarget "EchoDJ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				6477646EF4F744518BDE87B4 /* Debug */,
-				F0E045294DA448F495BC8A74 /* Release */,
+				015875EA131F47ACAA753FA9 /* Debug */,
+				A679BCF5B0754C1EB31A9D76 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -381,5 +411,5 @@
 /* End XCConfigurationList section */
 
 	};
-	rootObject = 4BD05D740F404F16AF192BD3 /* Project object */;
+	rootObject = D92A4CFA9EC94BEA8B79CD28 /* Project object */;
 }

@@ -5,7 +5,21 @@
       "mcp__plugin_context7_context7__query-docs",
       "mcp__web-search-prime__web_search_prime",
       "Skill(superpowers:brainstorming)",
-      "Skill(superpowers:writing-plans)"
+      "Skill(superpowers:writing-plans)",
+      "Bash(*)",
+      "Edit",
+      "Read",
+      "Write",
+      "WebFetch",
+      "WebSearch",
+      "mcp__*",
+      "mcp__dokploy-mcp__*",
+      "mcp__dokploy__*",
+      "mcp__puppeteer__*",
+      "mcp__expo-mcp__*",
+      "mcp__expo__*",
+      "mcp__plugin_*",
+      "mcp__*"
     ]
   }
 }
