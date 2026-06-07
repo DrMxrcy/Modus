@@ -37,4 +37,62 @@ final class VectorAffinityEngine {
         }
         profile.lastUpdated = Date()
     }
+
+    static func rankTracks(
+        tracks: [CachedTrack],
+        profile: UserTasteProfile,
+        count: Int,
+        epsilon: Double,
+        excludedTrackIDs: [String] = []
+    ) -> [CachedTrack] {
+        guard !tracks.isEmpty, count > 0 else { return [] }
+
+        let sorted = tracks.sorted {
+            calculateDistance(profile: profile, track: $0) < calculateDistance(profile: profile, track: $1)
+        }
+
+        let clampedEpsilon = max(0.0, min(1.0, epsilon))
+        let explorationSlots = min(count, Int(Double(count) * clampedEpsilon))
+        let exploitationCount = max(0, count - explorationSlots)
+
+        let exploitationTracks = Array(sorted.prefix(exploitationCount))
+        var excludedSet = Set(excludedTrackIDs)
+        excludedSet.formUnion(exploitationTracks.map(\.trackID))
+
+        var explorationTracks: [CachedTrack] = []
+        for track in sorted.reversed() {
+            if explorationTracks.count >= explorationSlots { break }
+            if !excludedSet.contains(track.trackID) {
+                explorationTracks.append(track)
+                excludedSet.insert(track.trackID)
+            }
+        }
+
+        var result = exploitationTracks
+        for track in explorationTracks {
+            let insertIndex = Int.random(in: 0...result.count)
+            result.insert(track, at: insertIndex)
+        }
+
+        return Array(result.prefix(count))
+    }
+
+    static func computeEpsilon(profile: UserTasteProfile) -> Double {
+        if profile.explorationPreference > 0 {
+            return min(1.0, profile.explorationPreference)
+        }
+
+        let daysSinceUpdate = Date().timeIntervalSince(profile.lastUpdated) / 86400.0
+        var epsilon = 0.35
+
+        if daysSinceUpdate > 30 {
+            epsilon -= 0.06
+        } else if daysSinceUpdate > 14 {
+            epsilon -= 0.04
+        } else if daysSinceUpdate > 7 {
+            epsilon -= 0.02
+        }
+
+        return max(0.05, epsilon)
+    }
 }
