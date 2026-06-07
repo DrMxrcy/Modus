@@ -1,4 +1,5 @@
 import SwiftUI
+import SwiftData
 import Combine
 
 struct RadioView: View {
@@ -65,7 +66,15 @@ struct RadioView: View {
                     Text("VIBE TUNER: \(Int(valenceLevel * 100))%")
                         .font(.caption.bold())
                     Slider(value: $valenceLevel, in: 0...1) { _ in
-                        // Slider interaction
+                        Task {
+                            let context = env.modelContainer.mainContext
+                            let descriptor = FetchDescriptor<UserTasteProfile>()
+                            if let profile = (try? context.fetch(descriptor))?.first {
+                                profile.valencePreference = valenceLevel
+                                try? context.save()
+                                print("Vibe Tuner updated valence to \(valenceLevel)")
+                            }
+                        }
                     }
                 }
                 .padding()
