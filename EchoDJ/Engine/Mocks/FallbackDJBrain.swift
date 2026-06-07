@@ -15,6 +15,7 @@ actor FallbackDJBrain: DJBrainProtocol {
         userMoodContext: String,
         queueLength: Int
     ) async -> [StationArcTarget] {
+        guard queueLength > 0 else { return [] }
         return []
     }
 }

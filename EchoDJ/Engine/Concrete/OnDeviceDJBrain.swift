@@ -68,24 +68,55 @@ actor OnDeviceDJBrain: DJBrainProtocol {
         userMoodContext: String,
         queueLength: Int
     ) async -> [StationArcTarget] {
+        guard queueLength > 0 else { return [] }
         guard let session = modelSession else {
             return []
         }
 
+        let sanitizedTitle = seedTitle.replacingOccurrences(of: "\\n", with: " ")
+            .replacingOccurrences(of: "\\r", with: " ")
+            .replacingOccurrences(of: "\\\\", with: "")
+        let sanitizedArtist = seedArtist.replacingOccurrences(of: "\\n", with: " ")
+            .replacingOccurrences(of: "\\r", with: " ")
+            .replacingOccurrences(of: "\\\\", with: "")
+        let sanitizedMood = userMoodContext.replacingOccurrences(of: "\\n", with: " ")
+            .replacingOccurrences(of: "\\r", with: " ")
+            .replacingOccurrences(of: "\\\\", with: "")
+
         let prompt = """
-        Seed track: \(seedTitle) by \(seedArtist).
-        User mood: \(userMoodContext).
+        Seed track: \(sanitizedTitle) by \(sanitizedArtist).
+        User mood: \(sanitizedMood).
         Build a \(queueLength)-track station arc. Return ONLY a JSON array of objects with keys: position (0-based Int), targetEnergy (0.0-1.0), targetValence (0.0-1.0), targetBPM (60-200), weight (0.0-1.0). Do not include markdown or explanation.
         """
 
         do {
             let response = try await session.respond(to: prompt)
-            let content = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+            var content = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
+            // Strip markdown code fences if present
+            if content.hasPrefix("```") {
+                if let firstNewline = content.firstIndex(of: "\n") {
+                    content = String(content[firstNewline...]).trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+            }
+            if content.hasSuffix("```") {
+                if let lastNewline = content.lastIndex(of: "\n") {
+                    content = String(content[..<lastNewline]).trimmingCharacters(in: .whitespacesAndNewlines)
+                }
+            }
             guard let data = content.data(using: .utf8) else {
                 return []
             }
             let decoded = try JSONDecoder().decode([StationArcTarget].self, from: data)
-            return Array(decoded.prefix(queueLength))
+            let clamped = decoded.prefix(queueLength).map { target in
+                StationArcTarget(
+                    position: max(0, min(target.position, queueLength - 1)),
+                    targetEnergy: max(0.0, min(target.targetEnergy, 1.0)),
+                    targetValence: max(0.0, min(target.targetValence, 1.0)),
+                    targetBPM: max(60.0, min(target.targetBPM, 200.0)),
+                    weight: max(0.0, min(target.weight, 1.0))
+                )
+            }
+            return clamped
         } catch {
             print("OnDeviceDJBrain: Arc generation error \(error)")
             return []
@@ -108,6 +139,7 @@ actor OnDeviceDJBrain: DJBrainProtocol {
         userMoodContext: String,
         queueLength: Int
     ) async -> [StationArcTarget] {
+        guard queueLength > 0 else { return [] }
         return []
     }
 }
