@@ -41,7 +41,11 @@ actor TransitionManager {
         }
     }
 
-    func executeTransition() async {
+    func executeTransition(isEnabled: Bool = true) async {
+        guard isEnabled else {
+            print("TransitionManager: DJ transitions disabled (Free tier)")
+            return
+        }
         guard let url = nextTransitionURL else {
             print("TransitionManager: No transition to play")
             return

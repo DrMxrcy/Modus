@@ -29,6 +29,13 @@ struct RadioView: View {
                     Text(trackArtist)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+                    Text(env.subscriptionManager.activeTier == .freeTier ? "Free" : "Pro")
+                        .font(.caption.bold())
+                        .foregroundStyle(env.subscriptionManager.activeTier == .freeTier ? Color.secondary : Color.green)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(env.subscriptionManager.activeTier == .freeTier ? Color.secondary.opacity(0.2) : Color.green.opacity(0.2))
+                        .cornerRadius(8)
                 }
 
                 ProgressView(value: progress, total: 1.0)
@@ -133,20 +140,22 @@ struct RadioView: View {
 
     private func hardSkip() {
         Task {
+            let isPro = env.subscriptionManager.isPro
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordHardSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            try? await env.transitionManager.executeTransition()
+            try? await env.transitionManager.executeTransition(isEnabled: isPro)
             print("Hard Skip Triggered for \(trackID)")
         }
     }
 
     private func softSkip() {
         Task {
+            let isPro = env.subscriptionManager.isPro
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordSoftSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            try? await env.transitionManager.executeTransition()
+            try? await env.transitionManager.executeTransition(isEnabled: isPro)
             print("Soft Skip Triggered for \(trackID)")
         }
     }
