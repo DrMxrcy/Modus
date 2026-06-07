@@ -144,7 +144,7 @@ struct RadioView: View {
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordHardSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            try? await env.transitionManager.executeTransition(isEnabled: isPro)
+            await env.transitionManager.executeTransition(isEnabled: isPro)
             print("Hard Skip Triggered for \(trackID)")
         }
     }
@@ -155,7 +155,7 @@ struct RadioView: View {
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordSoftSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            try? await env.transitionManager.executeTransition(isEnabled: isPro)
+            await env.transitionManager.executeTransition(isEnabled: isPro)
             print("Soft Skip Triggered for \(trackID)")
         }
     }

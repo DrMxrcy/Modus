@@ -60,7 +60,6 @@ actor AppleMusicProvider: MusicProviderProtocol {
     }
 
     func loadTrack(id: String) async throws {
-        let musicItemID = MusicItemID(rawValue: id)
         var request = MusicCatalogSearchRequest(term: id, types: [Song.self])
         request.limit = 10
         let response = try await request.response()

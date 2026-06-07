@@ -1,30 +1,34 @@
 import Foundation
 
-actor MockMusicProvider: MusicProviderProtocol {
+#if targetEnvironment(simulator)
+
+actor SimulatorMusicProvider: MusicProviderProtocol {
     var isAvailable: Bool = true
     var isPlaying: Bool = false
     var currentTrackID: String? = nil
     var currentPlaybackProgress: Double = 0.0
-    var playbackDuration: Double = 240.0 // Mock 4-minute track
+    var playbackDuration: Double = 240.0
 
     func loadTrack(id: String) async throws {
         currentTrackID = id
         currentPlaybackProgress = 0.0
-        print("Mock: Loaded track \(id)")
+        print("SimulatorMusicProvider: Loaded track \(id)")
     }
 
     func play() async throws {
         isPlaying = true
-        print("Mock: Playback initiated")
+        print("SimulatorMusicProvider: Playback initiated")
     }
 
     func pause() async {
         isPlaying = false
-        print("Mock: Playback paused")
+        print("SimulatorMusicProvider: Playback paused")
     }
 
     func skipNext() async throws {
-        print("Mock: Skipping track. Reporting telemetry completion: \(currentPlaybackProgress)")
+        print("SimulatorMusicProvider: Skipping track at progress \(currentPlaybackProgress)")
         isPlaying = false
     }
 }
+
+#endif

@@ -6,7 +6,7 @@ import MusicKit
 final class AppEnvironment: ObservableObject {
     static let shared = AppEnvironment()
 
-    @Published var isMockMode: Bool = true
+    @Published var isSimulatorMode: Bool = false
     @Published var musicProvider: any MusicProviderProtocol
     @Published var djBrain: any DJBrainProtocol
     let modelContainer: ModelContainer
@@ -16,8 +16,7 @@ final class AppEnvironment: ObservableObject {
     let subscriptionManager: SubscriptionManager
 
     private init() {
-        let useMock = true
-        self.isMockMode = useMock
+        self.isSimulatorMode = isSimulatorBuild()
 
         do {
             let schema = Schema([
@@ -25,58 +24,43 @@ final class AppEnvironment: ObservableObject {
                 TrackCooldown.self,
                 CachedTrack.self
             ])
-
-            if !useMock {
-                let cloudConfig = ModelConfiguration(
-                    schema: schema,
-                    isStoredInMemoryOnly: false,
-                    cloudKitDatabase: .automatic
-                )
-                self.modelContainer = try ModelContainer(
-                    for: schema,
-                    configurations: [cloudConfig]
-                )
-                print("AppEnvironment: SwiftData initialized with CloudKit sync")
-            } else {
-                let localConfig = ModelConfiguration(
-                    schema: schema,
-                    isStoredInMemoryOnly: false
-                )
-                self.modelContainer = try ModelContainer(
-                    for: schema,
-                    configurations: [localConfig]
-                )
-                print("AppEnvironment: SwiftData initialized in local-only mode")
-            }
+            let cloudConfig = ModelConfiguration(
+                schema: schema,
+                isStoredInMemoryOnly: false,
+                cloudKitDatabase: .automatic
+            )
+            self.modelContainer = try ModelContainer(
+                for: schema,
+                configurations: [cloudConfig]
+            )
+            print("AppEnvironment: SwiftData initialized with CloudKit sync")
         } catch {
             fatalError("Failed to initialize SwiftData Container: \(error)")
         }
 
-        let mockProvider = MockMusicProvider()
-        self.musicProvider = mockProvider
+        let provider = makeMusicProvider()
+        self.musicProvider = provider
 
-        let brain = defaultDJBrain()
+        let brain = makeDJBrain()
         self.djBrain = brain
 
         self.queueManager = StationQueueManager(
             modelContainer: self.modelContainer,
-            provider: mockProvider
+            provider: provider
         )
         self.telemetryCollector = TelemetryCollector(
-            provider: mockProvider,
+            provider: provider,
             modelContainer: self.modelContainer
         )
         self.transitionManager = makeTransitionManager(brain: brain)
         self.subscriptionManager = SubscriptionManager()
 
-        if !useMock {
-            Task {
-                await resolveProviders()
-            }
+        Task {
+            await resolveCapabilities()
         }
     }
 
-    func resolveProviders() async {
+    func resolveCapabilities() async {
         let realProvider = AppleMusicProvider()
         if await realProvider.isAvailable {
             self.musicProvider = realProvider
@@ -88,41 +72,49 @@ final class AppEnvironment: ObservableObject {
                 provider: realProvider,
                 modelContainer: self.modelContainer
             )
-            print("AppEnvironment: Using AppleMusicProvider")
+            print("AppEnvironment: AppleMusicProvider active")
         } else {
-            self.musicProvider = MockMusicProvider()
-            self.queueManager = StationQueueManager(
-                modelContainer: self.modelContainer,
-                provider: MockMusicProvider()
-            )
-            self.telemetryCollector = TelemetryCollector(
-                provider: MockMusicProvider(),
-                modelContainer: self.modelContainer
-            )
-            print("AppEnvironment: MusicKit unavailable, falling back to MockMusicProvider")
+            print("AppEnvironment: AppleMusicProvider not authorized — using current provider")
         }
 
-        let candidate = defaultDJBrain()
+        let candidate = OnDeviceDJBrain()
         if await candidate.isAvailable {
             self.djBrain = candidate
             self.transitionManager = makeTransitionManager(brain: candidate)
-            print("AppEnvironment: Using OnDeviceDJBrain")
+            print("AppEnvironment: OnDeviceDJBrain active")
         } else {
-            let fallback = MockDJBrain()
-            self.djBrain = fallback
-            self.transitionManager = makeTransitionManager(brain: fallback)
-            print("AppEnvironment: Foundation Models unavailable, falling back to MockDJBrain")
+            print("AppEnvironment: OnDeviceDJBrain unavailable — using current brain")
         }
     }
 }
 
-private func defaultDJBrain() -> any DJBrainProtocol {
+private func isSimulatorBuild() -> Bool {
+    #if targetEnvironment(simulator)
+    return true
+    #else
+    return false
+    #endif
+}
+
+private func makeMusicProvider() -> any MusicProviderProtocol {
+    #if targetEnvironment(simulator)
+    return SimulatorMusicProvider()
+    #else
+    return AppleMusicProvider()
+    #endif
+}
+
+private func makeDJBrain() -> any DJBrainProtocol {
     #if canImport(FoundationModels)
     if #available(iOS 26.0, *) {
         return OnDeviceDJBrain()
     }
     #endif
-    return MockDJBrain()
+    #if targetEnvironment(simulator)
+    return FallbackDJBrain()
+    #else
+    return OnDeviceDJBrain()
+    #endif
 }
 
 private func makeTransitionManager(brain: any DJBrainProtocol) -> TransitionManager {

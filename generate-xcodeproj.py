@@ -28,8 +28,8 @@ SWIFT_FILES = [
     ('Engine/Concrete/TransitionManager.swift', 'TransitionManager.swift'),
     ('Engine/Concrete/SubscriptionManager.swift', 'SubscriptionManager.swift'),
     ('Engine/Concrete/OnDeviceDJBrain.swift', 'OnDeviceDJBrain.swift'),
-    ('Engine/Mocks/MockMusicProvider.swift', 'MockMusicProvider.swift'),
-    ('Engine/Mocks/MockDJBrain.swift', 'MockDJBrain.swift'),
+    ('Engine/Mocks/SimulatorMusicProvider.swift', 'SimulatorMusicProvider.swift'),
+    ('Engine/Mocks/FallbackDJBrain.swift', 'FallbackDJBrain.swift'),
     ('UI/Tabs/MainTabView.swift', 'MainTabView.swift'),
     ('UI/Tabs/RadioView.swift', 'RadioView.swift'),
     ('UI/Tabs/SearchView.swift', 'SearchView.swift'),
@@ -306,7 +306,7 @@ lines.append('\t\t\t\tGCC_WARN_UNDECLARED_SELECTOR = YES;')
 lines.append('\t\t\t\tGCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;')
 lines.append('\t\t\t\tGCC_WARN_UNUSED_FUNCTION = YES;')
 lines.append('\t\t\t\tGCC_WARN_UNUSED_VARIABLE = YES;')
-lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 18.0;')
+lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tMTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;')
 lines.append('\t\t\t\tMTL_FAST_MATH = YES;')
 lines.append('\t\t\t\tONLY_ACTIVE_ARCH = YES;')
@@ -361,7 +361,7 @@ lines.append('\t\t\t\tGCC_WARN_UNDECLARED_SELECTOR = YES;')
 lines.append('\t\t\t\tGCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;')
 lines.append('\t\t\t\tGCC_WARN_UNUSED_FUNCTION = YES;')
 lines.append('\t\t\t\tGCC_WARN_UNUSED_VARIABLE = YES;')
-lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 18.0;')
+lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tMTL_ENABLE_DEBUG_INFO = NO;')
 lines.append('\t\t\t\tMTL_FAST_MATH = YES;')
 lines.append('\t\t\t\tSDKROOT = iphoneos;')
@@ -382,7 +382,7 @@ lines.append('\t\t\t\tCURRENT_PROJECT_VERSION = 1;')
 lines.append('\t\t\t\tENABLE_PREVIEWS = YES;')
 lines.append('\t\t\t\tGENERATE_INFOPLIST_FILE = NO;')
 lines.append('\t\t\t\tINFOPLIST_FILE = "EchoDJ/Resources/Info.plist";')
-lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 18.0;')
+lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tLD_RUNPATH_SEARCH_PATHS = (')
 lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
@@ -408,7 +408,7 @@ lines.append('\t\t\t\tCURRENT_PROJECT_VERSION = 1;')
 lines.append('\t\t\t\tENABLE_PREVIEWS = YES;')
 lines.append('\t\t\t\tGENERATE_INFOPLIST_FILE = NO;')
 lines.append('\t\t\t\tINFOPLIST_FILE = "EchoDJ/Resources/Info.plist";')
-lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 18.0;')
+lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tLD_RUNPATH_SEARCH_PATHS = (')
 lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
