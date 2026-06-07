@@ -58,10 +58,11 @@ protocol DJBrainProtocol: Actor {
     var isAvailable: Bool { get }
     func generateTransition(meta: TransitionMetadata) async -> String
     func generateStationArc(
-        seedTrack: CachedTrack,
+        seedTitle: String,
+        seedArtist: String,
         userMoodContext: String,
         queueLength: Int
-    ) async -> [StationArcTarget]?
+    ) async -> [StationArcTarget]
 }
 ```
 
@@ -92,7 +93,7 @@ func generateStationArc(
     guard let session = modelSession else { return nil }
 
     let prompt = """
-    Seed track: \(seedTrack.title) by \(seedTrack.artistName).
+    Seed track: \(seedTitle) by \(seedArtist).
     User mood: \(userMoodContext).
     Build a \(queueLength)-track station arc. Return ONLY a JSON array of objects with keys: position (0-based Int), targetEnergy (0.0-1.0), targetValence (0.0-1.0), targetBPM (60-200), weight (0.0-1.0). Do not include markdown or explanation.
     """
@@ -149,10 +150,11 @@ actor FallbackDJBrain: DJBrainProtocol {
     }
 
     func generateStationArc(
-        seedTrack: CachedTrack,
+        seedTitle: String,
+        seedArtist: String,
         userMoodContext: String,
         queueLength: Int
-    ) async -> [StationArcTarget]? {
+    ) async -> [StationArcTarget] {
         return nil
     }
 }
@@ -382,7 +384,7 @@ func generateStation(
     var arc: [StationArcTarget]? = nil
     if useArcShaping, await djBrain.isAvailable {
         let mood = await currentMoodContext()
-        arc = await djBrain.generateStationArc(seedTrack: seed, userMoodContext: mood, queueLength: count)
+        arc = await djBrain.generateStationArc(seedTitle: seed.title, seedArtist: seed.artistName, userMoodContext: mood, queueLength: count)
     }
 
     let ranked = VectorAffinityEngine.rankTracks(

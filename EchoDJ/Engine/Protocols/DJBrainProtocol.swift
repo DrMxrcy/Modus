@@ -21,8 +21,9 @@ protocol DJBrainProtocol: Actor {
     var isAvailable: Bool { get }
     func generateTransition(meta: TransitionMetadata) async -> String
     func generateStationArc(
-        seedTrack: CachedTrack,
+        seedTitle: String,
+        seedArtist: String,
         userMoodContext: String,
         queueLength: Int
-    ) async -> [StationArcTarget]?
+    ) async -> [StationArcTarget]
 }
