@@ -6,8 +6,8 @@
 - [x] 🟨 Phase 2: Real Playback Integration (Progress: 100%) -> *See [.claude/plans/002-real-playback.md](.claude/plans/002-real-playback.md)*
 - [x] 🟧 Phase 3: Station Queue Engine (Progress: 100%) -> *See [.claude/plans/003-station-queue.md](.claude/plans/003-station-queue.md)*
 - [x] 🟥 Phase 4: Taste Profile Evolution & Telemetry (Progress: 100%) -> *See [.claude/plans/004-taste-telemetry.md](.claude/plans/004-taste-telemetry.md)*
-- [ ] 🟪 Phase 5: DJ Transition Pipeline (Progress: 0%) -> *See [.claude/plans/005-dj-transitions.md](.claude/plans/005-dj-transitions.md)*
-- [ ] 🟦 Phase 6: On-Device LLM DJ (Progress: 0%) -> *See [.claude/plans/006-ondevice-llm.md](.claude/plans/006-ondevice-llm.md)*
+- [x] 🟪 Phase 5: DJ Transition Pipeline (Progress: 100%) -> *See [.claude/plans/005-dj-transitions.md](.claude/plans/005-dj-transitions.md)*
+- [x] 🟦 Phase 6: On-Device LLM DJ (Progress: 100%) -> *See [.claude/plans/006-ondevice-llm.md](.claude/plans/006-ondevice-llm.md)*
 - [ ] ⬜ Phase 7: CloudKit Sync & Monetization (Progress: 0%) -> *See [.claude/plans/007-cloudkit-monetization.md](.claude/plans/007-cloudkit-monetization.md)*
 
 ## 🗺️ Master Design
