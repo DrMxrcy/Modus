@@ -9,6 +9,8 @@
 - [x] 🟪 Phase 5: DJ Transition Pipeline (Progress: 100%) -> *See [.claude/plans/005-dj-transitions.md](.claude/plans/005-dj-transitions.md)*
 - [x] 🟦 Phase 6: On-Device LLM DJ (Progress: 100%) -> *See [.claude/plans/006-ondevice-llm.md](.claude/plans/006-ondevice-llm.md)*
 - [x] ⬜ Phase 7: CloudKit Sync & Monetization (Progress: 100%) -> *See [.claude/plans/007-cloudkit-monetization.md](.claude/plans/007-cloudkit-monetization.md)*
+- [ ] 🟩 Phase 8: Hybrid Station Discovery & AI Arc Shaping (Progress: 0%) -> *See [.claude/plans/008-hybrid-station-discovery.md](.claude/plans/008-hybrid-station-discovery.md)*
+- [ ] 🟨 Phase 9: Cloud Taste Aggregation (Progress: 0%) -> *Future / Phase 9*
 
 ## 🗺️ Master Design
 > Full architectural blueprint, fallback strategy, and verification criteria: [.claude/plans/000-master-roadmap-design.md](.claude/plans/000-master-roadmap-design.md)
