@@ -47,7 +47,8 @@ final class AppEnvironment: ObservableObject {
 
         self.queueManager = StationQueueManager(
             modelContainer: self.modelContainer,
-            provider: provider
+            provider: provider,
+            djBrain: brain
         )
         self.telemetryCollector = TelemetryCollector(
             provider: provider,
@@ -67,7 +68,8 @@ final class AppEnvironment: ObservableObject {
             self.musicProvider = realProvider
             self.queueManager = StationQueueManager(
                 modelContainer: self.modelContainer,
-                provider: realProvider
+                provider: realProvider,
+                djBrain: self.djBrain
             )
             self.telemetryCollector = TelemetryCollector(
                 provider: realProvider,

@@ -8,52 +8,296 @@ struct TrackDisplay: Sendable {
     let artistName: String
 }
 
+enum StationError: Error {
+    case seedNotFound
+}
+
+struct SeedInfo: Sendable {
+    let trackID: String
+    let title: String
+    let artistName: String
+}
+
+struct TrackSnapshot: Sendable {
+    let trackID: String
+    let title: String
+    let artistName: String
+    let energy: Double
+    let acousticness: Double
+    let valence: Double
+    let bpm: Double
+
+    init?(
+        trackID: String,
+        title: String,
+        artistName: String,
+        energy: Double,
+        acousticness: Double,
+        valence: Double,
+        bpm: Double
+    ) {
+        guard !trackID.isEmpty else { return nil }
+        self.trackID = trackID
+        self.title = title
+        self.artistName = artistName
+        self.energy = energy
+        self.acousticness = acousticness
+        self.valence = valence
+        self.bpm = bpm
+    }
+}
+
+#if canImport(MusicKit)
+extension TrackSnapshot {
+    init?(from song: Song) {
+        let id = song.id.rawValue
+        guard !id.isEmpty else { return nil }
+        self.init(
+            trackID: id,
+            title: song.title,
+            artistName: song.artistName,
+            energy: Double.random(in: 0.3...0.9),
+            acousticness: Double.random(in: 0.1...0.6),
+            valence: Double.random(in: 0.2...0.8),
+            bpm: Double.random(in: 80...140)
+        )
+    }
+
+    func toCachedTrack() -> CachedTrack {
+        CachedTrack(
+            trackID: trackID,
+            title: title,
+            artistName: artistName,
+            energy: energy,
+            acousticness: acousticness,
+            valence: valence,
+            bpm: bpm
+        )
+    }
+}
+#endif
+
 actor StationQueueManager {
     private let modelContainer: ModelContainer
     private let provider: any MusicProviderProtocol
+    private let djBrain: any DJBrainProtocol
     private var queuedTrackIDs: [String] = []
 
-    init(modelContainer: ModelContainer, provider: any MusicProviderProtocol) {
+    init(
+        modelContainer: ModelContainer,
+        provider: any MusicProviderProtocol,
+        djBrain: any DJBrainProtocol
+    ) {
         self.modelContainer = modelContainer
         self.provider = provider
+        self.djBrain = djBrain
     }
 
-    func generateStation(seedTrackID: String, count: Int = 20) async throws {
-        let candidates = try await fetchCandidates(seedID: seedTrackID, count: count * 3)
+    func generateStation(
+        seedTrackID: String,
+        count: Int = 20,
+        useArcShaping: Bool = false,
+        surpriseMode: Bool = false
+    ) async throws {
+        let seed = try await resolveSeedTrack(seedID: seedTrackID)
+        let candidates = try await fetchDiscoveryPool(seed: seed, minimumCount: count * 3)
         let filtered = try await filterCooldowns(tracks: candidates)
-        let ranked = rankTracks(tracks: filtered, count: count)
 
+        let context = ModelContext(modelContainer)
+        let descriptor = FetchDescriptor<UserTasteProfile>()
+        let profile = (try? context.fetch(descriptor))?.first ?? UserTasteProfile()
+
+        let epsilon: Double
+        if surpriseMode {
+            epsilon = 0.5
+        } else {
+            epsilon = VectorAffinityEngine.computeEpsilon(profile: profile)
+        }
+
+        let now = Date()
+        let cooldownDescriptor = FetchDescriptor<TrackCooldown>(
+            predicate: #Predicate { $0.cooldownExpiration > now }
+        )
+        let activeCooldowns = (try? context.fetch(cooldownDescriptor)) ?? []
+        let blockedIDs = activeCooldowns.map { $0.trackID }
+
+        let ranked = VectorAffinityEngine.rankTracks(
+            tracks: filtered,
+            profile: profile,
+            count: count,
+            epsilon: epsilon,
+            excludedTrackIDs: blockedIDs
+        )
+
+        if useArcShaping, await djBrain.isAvailable {
+            _ = await djBrain.generateStationArc(
+                seedTitle: seed.title,
+                seedArtist: seed.artistName,
+                userMoodContext: "",
+                queueLength: count
+            )
+        }
+
+        persistTracks(ranked)
+        try await logStationSession(seed: seed, tracks: ranked, epsilon: epsilon, arc: useArcShaping)
         try await loadQueue(tracks: ranked)
     }
 
-    private func fetchCandidates(seedID: String, count: Int) async throws -> [CachedTrack] {
+    private func resolveSeedTrack(seedID: String) async throws -> CachedTrack {
+        let context = ModelContext(modelContainer)
+        let descriptor = FetchDescriptor<CachedTrack>(
+            predicate: #Predicate { $0.trackID == seedID }
+        )
+        if let local = try? context.fetch(descriptor).first {
+            return local
+        }
+
         if provider is AppleMusicProvider {
-            return try await fetchMusicKitCandidates(seedID: seedID, count: count)
-        } else {
-            return fetchLocalCandidates(count: count)
+            var searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
+            searchRequest.limit = 10
+            let searchResponse = try await searchRequest.response()
+            guard let song = searchResponse.songs.first(where: { $0.id.rawValue == seedID })
+                    ?? searchResponse.songs.first else {
+                throw StationError.seedNotFound
+            }
+            guard let cached = CachedTrack(from: song) else {
+                throw StationError.seedNotFound
+            }
+            context.insert(cached)
+            try? context.save()
+            return cached
         }
+
+        throw StationError.seedNotFound
     }
 
-    private func fetchMusicKitCandidates(seedID: String, count: Int) async throws -> [CachedTrack] {
-        var searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
-        searchRequest.limit = 10
-        let searchResponse = try await searchRequest.response()
-        guard let seedTrack = searchResponse.songs.first(where: { $0.id.rawValue == seedID }) ?? searchResponse.songs.first else {
-            return []
+    private func fetchDiscoveryPool(
+        seed: CachedTrack,
+        minimumCount: Int
+    ) async throws -> [CachedTrack] {
+        let seedInfo = SeedInfo(
+            trackID: seed.trackID,
+            title: seed.title,
+            artistName: seed.artistName
+        )
+
+        var snapshots: [TrackSnapshot] = []
+
+        await withTaskGroup(of: [TrackSnapshot].self) { group in
+            group.addTask {
+                await self.fetchSimilarArtistTracks(seed: seedInfo)
+            }
+            group.addTask {
+                await self.fetchGenreSearchTracks(seed: seedInfo)
+            }
+            group.addTask {
+                await self.fetchPlaylistFallbackTracks(seed: seedInfo)
+            }
+
+            for await tracks in group {
+                snapshots.append(contentsOf: tracks)
+            }
         }
 
-        var artistSearch = MusicCatalogSearchRequest(term: seedTrack.artistName, types: [Song.self])
-        artistSearch.limit = count
-        let artistResponse = try await artistSearch.response()
+        var seen = Set<String>()
+        var deduplicated: [TrackSnapshot] = []
+        for snapshot in snapshots {
+            if !seen.contains(snapshot.trackID) {
+                seen.insert(snapshot.trackID)
+                deduplicated.append(snapshot)
+            }
+        }
 
-        return artistResponse.songs.compactMap { CachedTrack(from: $0) }
+        if deduplicated.count < minimumCount {
+            let broader = await fetchBroaderSearchTracks(seed: seedInfo)
+            for snapshot in broader {
+                if !seen.contains(snapshot.trackID) {
+                    seen.insert(snapshot.trackID)
+                    deduplicated.append(snapshot)
+                }
+            }
+        }
+
+        return snapshotsToCachedTracks(deduplicated)
     }
 
-    private func fetchLocalCandidates(count: Int) -> [CachedTrack] {
+    private func fetchSimilarArtistTracks(seed: SeedInfo) async -> [TrackSnapshot] {
+        var snapshots: [TrackSnapshot] = []
+
+        var artistSearch = MusicCatalogSearchRequest(term: seed.artistName, types: [Song.self])
+        artistSearch.limit = 25
+        if let response = try? await artistSearch.response() {
+            snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+        }
+
+        let relatedTerms = [
+            seed.artistName + " similar",
+            seed.artistName + " related"
+        ]
+
+        for term in relatedTerms {
+            var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
+            request.limit = 15
+            if let response = try? await request.response() {
+                snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            }
+        }
+
+        return snapshots
+    }
+
+    private func fetchGenreSearchTracks(seed: SeedInfo) async -> [TrackSnapshot] {
+        let terms = [
+            seed.artistName,
+            seed.artistName + " radio",
+            seed.title,
+            seed.title + " mix"
+        ]
+
+        var snapshots: [TrackSnapshot] = []
+        for term in terms {
+            var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
+            request.limit = 15
+            if let response = try? await request.response() {
+                snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            }
+        }
+
+        return snapshots
+    }
+
+    private func fetchPlaylistFallbackTracks(seed: SeedInfo) async -> [TrackSnapshot] {
+        return []
+    }
+
+    private func fetchBroaderSearchTracks(seed: SeedInfo) async -> [TrackSnapshot] {
+        let terms = [
+            seed.artistName + " playlist",
+            seed.artistName + " essentials",
+            seed.artistName + " hits"
+        ]
+
+        var snapshots: [TrackSnapshot] = []
+        for term in terms {
+            var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
+            request.limit = 20
+            if let response = try? await request.response() {
+                snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            }
+        }
+
+        return snapshots
+    }
+
+    private func snapshotsToCachedTracks(_ snapshots: [TrackSnapshot]) -> [CachedTrack] {
         let context = ModelContext(modelContainer)
         let descriptor = FetchDescriptor<CachedTrack>()
-        guard let all = try? context.fetch(descriptor) else { return [] }
-        return Array(all.shuffled().prefix(count))
+        let allExisting = (try? context.fetch(descriptor)) ?? []
+        let existingByID = Dictionary(uniqueKeysWithValues: allExisting.map { ($0.trackID, $0) })
+
+        return snapshots.map { snapshot in
+            existingByID[snapshot.trackID] ?? snapshot.toCachedTrack()
+        }
     }
 
     private func filterCooldowns(tracks: [CachedTrack]) async throws -> [CachedTrack] {
@@ -67,19 +311,35 @@ actor StationQueueManager {
         return tracks.filter { !blockedIDs.contains($0.trackID) }
     }
 
-    private func rankTracks(tracks: [CachedTrack], count: Int) -> [CachedTrack] {
+    private func persistTracks(_ tracks: [CachedTrack]) {
         let context = ModelContext(modelContainer)
-        let descriptor = FetchDescriptor<UserTasteProfile>()
-        let profile = (try? context.fetch(descriptor))?.first ?? UserTasteProfile()
-
-        let scored = tracks.map { track in
-            (track, VectorAffinityEngine.calculateDistance(profile: profile, track: track))
+        for track in tracks {
+            let trackID = track.trackID
+            let descriptor = FetchDescriptor<CachedTrack>(
+                predicate: #Predicate { $0.trackID == trackID }
+            )
+            if (try? context.fetch(descriptor))?.isEmpty == true {
+                context.insert(track)
+            }
         }
+        try? context.save()
+    }
 
-        return scored
-            .sorted { $0.1 < $1.1 }
-            .prefix(count)
-            .map { $0.0 }
+    private func logStationSession(
+        seed: CachedTrack,
+        tracks: [CachedTrack],
+        epsilon: Double,
+        arc: Bool
+    ) async throws {
+        let context = ModelContext(modelContainer)
+        let session = StationSession(
+            seedTrackID: seed.trackID,
+            epsilonUsed: epsilon,
+            arcShaped: arc
+        )
+        session.tracksPlayed = tracks.map { $0.trackID }
+        context.insert(session)
+        try context.save()
     }
 
     private func loadQueue(tracks: [CachedTrack]) async throws {
@@ -102,7 +362,9 @@ actor StationQueueManager {
         guard !ids.isEmpty else {
             let descriptor = FetchDescriptor<CachedTrack>()
             let all = (try? context.fetch(descriptor)) ?? []
-            return Array(all.prefix(limit)).map { TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName) }
+            return Array(all.prefix(limit)).map {
+                TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName)
+            }
         }
 
         let descriptor = FetchDescriptor<CachedTrack>(
@@ -110,6 +372,8 @@ actor StationQueueManager {
         )
         let matches = (try? context.fetch(descriptor)) ?? []
         let ordered = ids.compactMap { id in matches.first(where: { $0.trackID == id }) }
-        return Array(ordered.prefix(limit)).map { TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName) }
+        return Array(ordered.prefix(limit)).map {
+            TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName)
+        }
     }
 }
