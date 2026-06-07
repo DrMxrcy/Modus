@@ -11,6 +11,7 @@ final class AppEnvironment: ObservableObject {
     @Published var djBrain: any DJBrainProtocol
     let modelContainer: ModelContainer
     var queueManager: StationQueueManager
+    var telemetryCollector: TelemetryCollector
 
     private init() {
         let useMock = true
@@ -40,6 +41,10 @@ final class AppEnvironment: ObservableObject {
             modelContainer: self.modelContainer,
             provider: MockMusicProvider()
         )
+        self.telemetryCollector = TelemetryCollector(
+            provider: MockMusicProvider(),
+            modelContainer: self.modelContainer
+        )
 
         if !useMock {
             Task {
@@ -56,12 +61,20 @@ final class AppEnvironment: ObservableObject {
                 modelContainer: self.modelContainer,
                 provider: realProvider
             )
+            self.telemetryCollector = TelemetryCollector(
+                provider: realProvider,
+                modelContainer: self.modelContainer
+            )
             print("AppEnvironment: Using AppleMusicProvider")
         } else {
             self.musicProvider = MockMusicProvider()
             self.queueManager = StationQueueManager(
                 modelContainer: self.modelContainer,
                 provider: MockMusicProvider()
+            )
+            self.telemetryCollector = TelemetryCollector(
+                provider: MockMusicProvider(),
+                modelContainer: self.modelContainer
             )
             print("AppEnvironment: MusicKit unavailable, falling back to MockMusicProvider")
         }
