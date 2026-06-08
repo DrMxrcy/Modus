@@ -10,7 +10,8 @@
 - [x] 🟦 Phase 6: On-Device LLM DJ (Progress: 100%) -> *See [.claude/plans/006-ondevice-llm.md](.claude/plans/006-ondevice-llm.md)*
 - [x] ⬜ Phase 7: CloudKit Sync & Monetization (Progress: 100%) -> *See [.claude/plans/007-cloudkit-monetization.md](.claude/plans/007-cloudkit-monetization.md)*
 - [x] 🟩 Phase 8: Hybrid Station Discovery & AI Arc Shaping (Progress: 100%) -> *See [.claude/plans/008-hybrid-station-discovery.md](.claude/plans/008-hybrid-station-discovery.md)*
-- [ ] 🟨 Phase 9: Cloud Taste Aggregation (Progress: 0%) -> *Future / Phase 9*
+- [ ] 🟨 App Store v1: Submission Cut (Progress: 0%) -> *See [.claude/plans/009-app-store-review.md](.claude/plans/009-app-store-review.md)*
+- [ ] ⬜ Phase 9: Cloud Taste Aggregation (Progress: 0%) -> *Future / Phase 9*
 
 ## 🗺️ Master Design
 > Full architectural blueprint, fallback strategy, and verification criteria: [.claude/plans/000-master-roadmap-design.md](.claude/plans/000-master-roadmap-design.md)
@@ -18,5 +19,6 @@
 ## 📋 Idea Incubator & Scope Backlog
 <!-- Drop loose ideas, features, or future pivots here so they don't break active context -->
 - [x] Initial Task: Parse raw project notes into detailed Phase 1 plan specs.
+- [ ] Future: Offline Playback (Plan B) — Cache track metadata online; fallback to cached tracks + metadata when offline (see Phase 8 spec)
 - [ ] Future: Navidrome self-hosted integration (Pro+ tier)
 - [ ] Future: Social sharing / station links

@@ -48,6 +48,9 @@ struct SearchView: View {
         }
     }
 
+    @State private var showError: Bool = false
+    @State private var errorMessage: String = ""
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -93,11 +96,13 @@ struct SearchView: View {
                                     surpriseMode: surpriseMode
                                 )
                                 try await env.musicProvider.play()
+                                env.selectedTab = 0
                                 selectedSeedTrack = nil
                                 surpriseMode = false
                                 useArcShaping = false
                             } catch {
-                                print("Error starting station: \(error)")
+                                errorMessage = error.localizedDescription
+                                showError = true
                             }
                         }
                     },
@@ -109,6 +114,24 @@ struct SearchView: View {
                         }
                     }
                 )
+            }
+            .alert("Station Error", isPresented: $showError) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(errorMessage)
+            }
+            .onAppear {
+                Task {
+                    let context = ModelContext(env.modelContainer)
+                    let existing = (try? context.fetch(FetchDescriptor<CachedTrack>())) ?? []
+                    let existingIDs = Set(existing.map { $0.trackID })
+                    for track in mockTracks {
+                        if !existingIDs.contains(track.trackID) {
+                            context.insert(track)
+                        }
+                    }
+                    try? context.save()
+                }
             }
         }
     }

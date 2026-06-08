@@ -101,9 +101,17 @@ actor StationQueueManager {
     ) async throws {
         let seed = try await resolveSeedTrack(seedID: seedTrackID)
         let candidates = try await fetchDiscoveryPool(seed: seed, minimumCount: count * 3)
-        let filtered = try await filterCooldowns(tracks: candidates)
+        var filtered = try await filterCooldowns(tracks: candidates)
 
         let context = ModelContext(modelContainer)
+
+        if filtered.isEmpty {
+            let fallbackDescriptor = FetchDescriptor<CachedTrack>()
+            let all = (try? context.fetch(fallbackDescriptor)) ?? []
+            let blocked = Set(all.compactMap { $0.trackID == seed.trackID ? $0.trackID : nil })
+            filtered = all.filter { $0.trackID != seed.trackID && !blocked.contains($0.trackID) }
+        }
+
         let descriptor = FetchDescriptor<UserTasteProfile>()
         let profile = (try? context.fetch(descriptor))?.first ?? UserTasteProfile()
 

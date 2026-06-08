@@ -9,6 +9,7 @@ final class AppEnvironment: ObservableObject {
     @Published var isSimulatorMode: Bool = false
     @Published var musicProvider: any MusicProviderProtocol
     @Published var djBrain: any DJBrainProtocol
+    @Published var selectedTab: Int = 0
     let modelContainer: ModelContainer
     var queueManager: StationQueueManager
     var telemetryCollector: TelemetryCollector
