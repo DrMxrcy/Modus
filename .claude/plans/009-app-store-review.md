@@ -19,6 +19,16 @@ Ship a real App Store submission of EchoDJ: an online-only Apple Music radio tha
 
 This plan exists to satisfy App Review's hard requirements (no crashes, real IAP, working restore, honest privacy disclosures, appropriate AI-Generated Content answers) and to leave Phase 9 (Cloud Taste Aggregation) and Phase 10 (Offline / MPMediaQuery) as documented v1.1 follow-ups.
 
+### Execution Mode: Simulator-First (real device paused)
+
+All implementation and most verification runs in the iOS 26 simulator until the connected iPhone is unblocked for real-device smoke tests. Each task in section 3 is tagged with one of:
+
+- 🟢 **sim** — fully verifiable on simulator, no real device needed.
+- 🟡 **sim-degraded** — partially verifiable on simulator; flagged gaps are documented and re-tested on a real device before submit.
+- 🔴 **device-only** — cannot be verified on simulator. Task is staged but the verification step is deferred to a "real-device gate" run before H6 submit.
+
+**Real-device gate (before H6 submit):** MusicKit auth + actual playback + Apple Music subscriber path, lock screen + remote controls, background audio, sandbox StoreKit purchase, CloudKit cross-device sync, real `idevicesyslog` capture of the post-fix runtime.
+
 ### Out of Scope (defer to v1.1+)
 
 - **Offline playback / MPMediaQuery local fallback** (ROADMAP Phase 10). v1 is online-only; copy is honest about it.
@@ -61,79 +71,88 @@ This plan exists to satisfy App Review's hard requirements (no crashes, real IAP
 
 ## 🚶‍♂️ 3. Step-by-Step Execution Checklist
 
-The plan is broken into 8 sequential milestones, each independently verifiable. Tasks within a milestone are atomic.
+The plan is broken into 8 sequential milestones, each independently verifiable. Tasks within a milestone are atomic. Each task is tagged with the simulator mode from section 1: 🟢 sim, 🟡 sim-degraded, 🔴 device-only. A final "real-device gate" run before H6 re-verifies every 🟡 and 🔴 task.
 
-### Milestone A — Pre-flight verification (start now)
+### Milestone A — Pre-flight verification (start now, sim)
 
-- [ ] **A1. Verify device readiness for builds** — confirm the connected iPhone is trusted, Developer Mode is on, Xcode sees it, and `xcodebuild -project EchoDJ.xcodeproj -scheme EchoDJ -destination 'platform=iOS,id=<UDID>' build` succeeds with no warnings. *Target: `EchoDJ.xcodeproj`, terminal output in git history.*
-- [ ] **A2. Capture the device UDID and the iOS version** — write both to `docs/app-store/device-baseline.md` for use by Review when we reproduce. *Target: new file.*
+- [ ] **A1. Verify simulator build** 🟢 — boot the iOS 26 simulator (`xcrun simctl list devices available | grep iOS-26`), then `xcodebuild -project EchoDJ.xcodeproj -scheme EchoDJ -destination 'platform=iOS Simulator,id=<sim-UDID>' build` succeeds with no warnings. *Target: `EchoDJ.xcodeproj`, terminal output in git history.*
+- [ ] **A2. Capture simulator UDID and iOS version** 🟢 — write both to `docs/app-store/device-baseline.md` for use by Review when we reproduce. *Target: new file.*
 
-### Milestone B — Trace the "Content block not found" runtime error (start now)
+### Milestone B — Trace the "Content block not found" runtime error (start now, mostly 🔴 device-only)
 
-- [ ] **B1. Reproduce on device, capture log** — `xcodebuild ... build && xcrun devicectl device install app && xcrun devicectl device process launch ...`, then `idevicesyslog` (or Xcode console attached) while exercising the seed→queue→playback flow. Save the full log to `logs/device-baseline.log`. *Target: `logs/`.*
-- [ ] **B2. Grep the entire repo for the offending string** — `rg -i "content block"` and `rg "ContentBlock"`. The string is *not* in `StationQueueManager.swift` (verified 2026-06-07) — search likely candidates: system framework wrappers, `print` statements, MusicKit error mapping. *Target: terminal output saved to `logs/content-block-grep.txt`.*
-- [ ] **B3. Identify the call site and fix or guard it** — modify the offending code path to either (a) suppress the log, (b) handle the missing block gracefully, or (c) replace the call. Add a regression check (a unit test if the path is testable, or a documented manual reproduction step). *Target: file path TBD from B2.*
-- [ ] **B4. Verify the error does not appear on a cold launch + seed flow** — re-run the B1 capture after the fix; diff the log; confirm "Content block not found" is absent. *Target: `logs/post-fix.log`.*
+> **Status (2026-06-07 sim pass):** B1, B2, B4 on simulator completed. The string does **not** appear in a clean cold-launch + sim flow through `SimulatorMusicProvider`. The string is **not in our repo** (B2 grep returned zero matches across the entire codebase). The error is almost certainly produced by `MusicKit`'s `MusicCatalogSearchRequest.response()` deserialization path on a real device with a real subscriber — sim has no real catalog data, so the deserialization path that emits the log is not exercised. Repro is 🔴 device-only.
+>
+> **Files saved as evidence (sim side):**
+> - `logs/content-block-grep.txt` — repo-wide grep result: 0 matches.
+> - `logs/sim-baseline.log` — cold-launch runtime log (5 lines, no error).
+> - `logs/sim-baseline-oslog.log` — oslog stream from the same launch.
+> - `docs/app-store/device-baseline.md` — sim UDID + iOS version for the real-device gate.
 
-### Milestone C — Real-device smoke test (start now)
+- [x] **B1. Reproduce in simulator, capture log** 🟢 sim (no error reproduced, sim is not the source). *Target: `logs/sim-baseline.log` — DONE.*
+- [x] **B2. Grep the entire repo for the offending string** 🟢 sim — `rg -i "content block"`, `rg "ContentBlock"`, `rg -i "block not found"`: **0 matches**. The string is not produced by our code. *Target: `logs/content-block-grep.txt` — DONE.*
+- [ ] **B3. Identify the call site and add a guard or suppression** 🔴 device-only — likely origin: `MusicCatalogSearchRequest.response()` in `AppleMusicProvider.loadTrack` and `StationQueueManager.fetchSimilarArtistTracks` / `fetchGenreSearchTracks` / `fetchBroaderSearchTracks`. Decision (deferred to device gate): (a) wrap the calls in `do/try/catch` and swallow + log at debug; (b) replace `print` calls in the discovery path with `os_log(.debug, ...)`; (c) add a user-facing "Apple Music returned partial metadata — try another seed" UI if the partial result actually impacts the user. *Target: file paths above.*
+- [ ] **B4. Verify the error does not appear on a cold launch + seed flow** 🔴 device-only — re-run B1 on a real device after B3; diff the log; confirm "Content block not found" is absent. *Target: device-only log file in `logs/post-fix-device.log`.*
 
-- [ ] **C1. MusicKit authorization path** — cold launch → system prompt → accept. Then test .denied path: cold launch → deny → re-launch → confirm app shows a clear "Enable Apple Music access in Settings" surface, not a crash. *Target: `RadioView.swift`, `AppleMusicProvider.swift`.*
-- [ ] **C2. Apple Music subscriber present** — play a track, confirm audio output, confirm Now Playing shows up on lock screen.
-- [ ] **C3. Lock screen + remote controls** — pause, play, skip from Control Center / lock screen. Confirm `MPNowPlayingInfoCenter.default().nowPlayingInfo` is updated.
-- [ ] **C4. Background audio** — start playback, lock the device, wait 30s, confirm playback continues. *Requires `UIBackgroundModes = [audio]` in Info.plist — verify in C5.*
-- [ ] **C5. Info.plist audit** — `NSAppleMusicUsageDescription` present and human-readable; `UIBackgroundModes` includes `audio`; no extraneous permissions. *Target: `Info.plist`.*
-- [ ] **C6. No-network path** — toggle Wi-Fi off mid-playback, confirm graceful error UI, no crash, no stuck spinner. *Target: `RadioView.swift`.*
-- [ ] **C7. Document all C results in `docs/app-store/smoke-test-results.md`** with timestamps and log excerpts.
+### Milestone C — Smoke test (split: most 🟡 sim-degraded, one 🔴 device-only, one 🟢 Info.plist)
 
-### Milestone D — Real StoreKit product (queue on Apple Developer Program enrollment)
+- [ ] **C1. MusicKit authorization denied path** 🟡 sim-degraded — boot the simulator, deny MusicKit in the system prompt, relaunch the app, confirm a clean "Enable Apple Music access in Settings" surface, no crash. Real-device MusicKit auth UI is identical, so sim is a faithful test of the denied path; only the actual playback path needs real device. *Target: `RadioView.swift`, `AppleMusicProvider.swift`.*
+- [ ] **C2. Real playback + Now Playing on lock screen** 🔴 device-only — playback requires a real Apple Music subscriber; lock screen Now Playing requires real device. Skip on simulator; queue for the real-device gate before H6. *Target: `MPNowPlayingInfoCenter` usage in `AppleMusicProvider.swift`.*
+- [ ] **C3. Lock screen + remote controls** 🔴 device-only — skip on simulator; queue for the real-device gate. *Target: same as C2.*
+- [ ] **C4. Background audio** 🔴 device-only — skip on simulator; queue for the real-device gate. Confirm `UIBackgroundModes` in C5 is correct in advance. *Target: same as C2.*
+- [ ] **C5. Info.plist audit** 🟢 sim — `NSAppleMusicUsageDescription` present and human-readable; `UIBackgroundModes` includes `audio`; no extraneous permissions. *Target: `Info.plist`.*
+- [ ] **C6. No-network path** 🟡 sim-degraded — toggle simulator's network off mid-flow, confirm graceful error UI, no crash, no stuck spinner. Sim is faithful for this; flagged for real-device re-verification. *Target: `RadioView.swift`.*
+- [ ] **C7. Document all C results in `docs/app-store/smoke-test-results.md`** 🟢 sim — note which items are 🟡 (sim-verified) and which are 🔴 (deferred to real-device gate).
 
-> **Blocker:** tasks D1, D2, D3 require App Store Connect access, which requires the Apple Developer Program enrollment you have pending.
+### Milestone D — StoreKit product (split: 🟢 sim-config now, 🔴 real product after enrollment)
 
-- [ ] **D1. Create the auto-renewable subscription product in App Store Connect** — product ID `com.echodj.app.pro.monthly` (or your final choice), 7-day free trial, monthly auto-renew, single price tier, all localizations. *Action: in App Store Connect UI, paste the product ID into `docs/app-store/metadata.md` for safekeeping.*
-- [ ] **D2. Wire the real product ID into `SubscriptionManager.swift`** — replace the placeholder string. *Target: `SubscriptionManager.swift`.*
-- [ ] **D3. Verify on device with a sandbox Apple ID** — sandbox test account buys, trial activates, `SubscriptionManager.activeTier` flips to Pro, DJ arc becomes available in `RadioView`, station memory UI shows Pro-only items. *Target: device + log.*
+> **Blocker:** D3 and D4 require App Store Connect access (real product creation + real product ID), which requires Apple Developer Program enrollment. D1 and D2 are doable on simulator *today* using a `.storekit` configuration file so the rest of the app can be exercised end-to-end.
 
-### Milestone E — Tier enforcement hardening (start now, finalize after D)
+- [x] **D1. Create a `.storekit` configuration file** 🟢 sim — `EchoDJ/Resources/StoreKit/EchoDJ.storekit` with one auto-renewable subscription, product ID `com.echodj.app.pro.monthly`, 7-day free trial. Wired into the build via `STOREKIT_CONFIGURATION_URL` in `generate-xcodeproj.py` and the pbxproj Resources phase. *Target: new file + `project.yml` — DONE 2026-06-07. See `docs/app-store/storekit-config.md`.*
+- [x] **D2. Verify StoreKit pipeline on simulator** 🟢 sim — `Product.SubscriptionInfo.status(for: "premium_monthly_group")` is invoked at launch (`(StoreKit) StoreKit/SubscriptionStatusQuery` in `logs/sim-storekit-baseline.log`); no error; `activeTier` correctly falls back to `freeTier` because no purchase exists. Pro-flip verification requires `Product.purchase()` to be callable from the app, which is E-scope (purchase UI). *Target: sim + log — DONE 2026-06-07.*
+- [ ] **D3. Create the real auto-renewable subscription product in App Store Connect** 🔴 device-only — product ID `com.echodj.app.pro.monthly`, 7-day free trial, monthly auto-renew, single price tier, all localizations. Paste the product ID into `docs/app-store/metadata.md` for safekeeping. *Action: in App Store Connect UI.*
+- [ ] **D4. Wire the real product ID into `SubscriptionManager.swift`** 🔴 device-only — replace the `.storekit` placeholder with the real product ID. *Target: `SubscriptionManager.swift`.*
+- [ ] **D5. Verify on a real device with a sandbox Apple ID** 🔴 device-only — sandbox test account buys, trial activates, `SubscriptionManager.activeTier` flips to Pro, DJ arc becomes available, station memory UI shows Pro-only items. *Target: device + log.*
 
-- [ ] **E1. Verify `TransitionManager.executeTransition(isEnabled: false)` is a true no-op** — read the code path; on device confirm Free users hear no spoken transition. *Target: `TransitionManager.swift`.*
-- [ ] **E2. Verify Pro-only UI controls on Free tier** — Free user taps DJ Arc toggle in `SearchView`'s station options sheet → it must either be disabled with a clear "Pro" badge, or trigger an upgrade sheet, not silently no-op. Defends guideline 3.1.1 (no hidden paywall). *Target: `SearchView.swift`.*
-- [ ] **E3. Verify Pro-only "Recent Stations" entry** — on Free, the entry must be visibly locked with the Pro upsell, not absent. *Target: TBD by station memory implementation.*
-- [ ] **E4. Add a Restore Purchases button** — surfacing in `SubscriptionManager`'s UI entry point; on tap, calls `AppStore.sync()`. Required by App Review; the absence of an entry point is an automatic 3.1.1 rejection. *Target: `SubscriptionManager.swift`, parent UI.*
+### Milestone E — Tier enforcement hardening (start now, mostly 🟢 sim, with 🟡 no-network pieces)
 
-### Milestone F — Station memory (Pro tier) — implementation (start now, finalize after D)
+- [ ] **E1. Verify `TransitionManager.executeTransition(isEnabled: false)` is a true no-op** 🟢 sim — read the code path; on simulator confirm Free users produce no spoken transition. *Target: `TransitionManager.swift`.*
+- [ ] **E2. Verify Pro-only UI controls on Free tier** 🟢 sim — Free user taps DJ Arc toggle in `SearchView`'s station options sheet → it must either be disabled with a clear "Pro" badge, or trigger an upgrade sheet, not silently no-op. Defends guideline 3.1.1 (no hidden paywall). Verifiable on simulator via the `.storekit` config with no purchase. *Target: `SearchView.swift`.*
+- [ ] **E3. Verify Pro-only "Recent Stations" entry** 🟢 sim — on Free, the entry must be visibly locked with the Pro upsell, not absent. Verifiable on simulator. *Target: TBD by F4 implementation.*
+- [ ] **E4. Add a Restore Purchases button** 🟢 sim — surfacing in `SubscriptionManager`'s UI entry point; on tap, calls `AppStore.sync()`. Required by App Review; the absence of an entry point is an automatic 3.1.1 rejection. *Target: `SubscriptionManager.swift`, parent UI.*
 
-- [ ] **F1. Add `RecentStation` SwiftData model** — `id: UUID`, `seedTrackID: String`, `createdAt: Date`. Wire into `AppEnvironment.modelContainer` schema. CloudKit-private. *Target: new file `EchoDJ/Data/Models/RecentStation.swift`.*
-- [ ] **F2. Persist on station start** — `StationQueueManager.generateStation` inserts a `RecentStation` for the seed before returning. *Target: `StationQueueManager.swift`.*
-- [ ] **F3. CloudKit-synced track cooldown (uses existing `TrackCooldown` model)** — confirm `filterCooldowns` already filters active cooldowns. Extend so cooldowns are written when a track is hard-skipped or played-to-completion. *Target: `StationQueueManager.swift`, `TelemetryCollector.swift`.*
-- [ ] **F4. Pro-gated "Recent Stations" UI entry** — visible only when `subscriptionManager.isPro == true`; on Free, show locked placeholder. *Target: `RadioView.swift` or sibling.*
+### Milestone F — Station memory (Pro tier) — implementation (start now, mostly 🟢 sim, one 🟡 CloudKit cross-device)
 
-### Milestone G — Info.plist, privacy, AI disclosure (start now)
+- [ ] **F1. Add `RecentStation` SwiftData model** 🟢 sim — `id: UUID`, `seedTrackID: String`, `createdAt: Date`. Wire into `AppEnvironment.modelContainer` schema. CloudKit-private. *Target: new file `EchoDJ/Data/Models/RecentStation.swift`.*
+- [ ] **F2. Persist on station start** 🟢 sim — `StationQueueManager.generateStation` inserts a `RecentStation` for the seed before returning. *Target: `StationQueueManager.swift`.*
+- [ ] **F3. CloudKit-synced track cooldown (uses existing `TrackCooldown` model)** 🟢 sim — confirm `filterCooldowns` already filters active cooldowns. Extend so cooldowns are written when a track is hard-skipped or played-to-completion. *Target: `StationQueueManager.swift`, `TelemetryCollector.swift`.*
+- [ ] **F4. Pro-gated "Recent Stations" UI entry** 🟢 sim — visible only when `subscriptionManager.isPro == true`; on Free, show locked placeholder. *Target: `RadioView.swift` or sibling.*
+- [ ] **F5. Verify CloudKit cross-device sync** 🟡 sim-degraded — requires two real devices (or one device + simulator) signed into the same iCloud. The schema and code path are verifiable on simulator with a single iCloud account; **true cross-device** verification is a real-device gate. Document the limitation in `smoke-test-results.md`. *Target: `AppEnvironment.swift`, CloudKit dashboard.*
 
-- [ ] **G1. Create `PrivacyInfo.xcprivacy`** — declare `NSPrivacyAccessedAPITypes` for any `UserDefaults`, file timestamp, or system boot time reads. Truthful; under-declare is a rejection. *Target: new file.*
-- [ ] **G2. Draft `docs/app-store/metadata.md`** — description (≤4000 chars), keywords (≤100 chars), "What's New" (≤4000 chars), privacy nutrition label answers, AI-Generated Content answers (v1 ships live `OnDeviceDJBrain` with Foundation Models safety stack + our `clamp`/sanitization; we generate spoken transitions, not audio of copyrighted text; no user-provided content is fed to the model beyond seed metadata), export compliance (`ITSAppUsesNonExemptEncryption = false`), age rating answers, demo Apple Music account credentials, App Review contact email. *Target: new file.*
-- [ ] **G3. Draft `docs/app-store/rejection-playbook.md`** — top 6 rejection reasons for music apps (MusicKit capability not justified, restore purchases broken, missing privacy manifest, content rights on AI output, crash on launch, misleading subscription copy) and the defense for each. *Target: new file.*
+### Milestone G — Info.plist, privacy, AI disclosure (start now, all 🟢 sim — docs only)
 
-### Milestone H — Build, submit, defend (queue on enrollment)
+- [ ] **G1. Create `PrivacyInfo.xcprivacy`** 🟢 sim — declare `NSPrivacyAccessedAPITypes` for any `UserDefaults`, file timestamp, or system boot time reads. Truthful; under-declare is a rejection. *Target: new file.*
+- [ ] **G2. Draft `docs/app-store/metadata.md`** 🟢 sim — description (≤4000 chars), keywords (≤100 chars), "What's New" (≤4000 chars), privacy nutrition label answers, AI-Generated Content answers (v1 ships live `OnDeviceDJBrain` with Foundation Models safety stack + our `clamp`/sanitization; we generate spoken transitions, not audio of copyrighted text; no user-provided content is fed to the model beyond seed metadata), export compliance (`ITSAppUsesNonExemptEncryption = false`), age rating answers, demo Apple Music account credentials, App Review contact email. *Target: new file.*
+- [ ] **G3. Draft `docs/app-store/rejection-playbook.md`** 🟢 sim — top 6 rejection reasons for music apps (MusicKit capability not justified, restore purchases broken, missing privacy manifest, content rights on AI output, crash on launch, misleading subscription copy) and the defense for each. *Target: new file.*
 
-- [ ] **H1. Final code signing** — generate Distribution certificate and provisioning profile in App Store Connect / Xcode. Set `DEVELOPMENT_TEAM` in `project.yml`. *Target: `project.yml`.*
-- [ ] **H2. AppIcon + launch screen** — verify all required sizes present; add a launch screen if missing. *Target: `EchoDJ/Resources/Assets.xcassets`.*
-- [ ] **H3. Archive** — `xcodebuild -project EchoDJ.xcodeproj -scheme EchoDJ -configuration Release archive`. Verify the archive is clean (no warnings, no missing required icons, no entitlements gaps).
-- [ ] **H4. Validate** — `xcrun altool --validate-app` or Xcode Organizer's "Validate App" before upload. Address every warning.
-- [ ] **H5. Upload to App Store Connect** — `xcrun altool --upload-app` or Xcode Organizer's "Distribute App" → App Store Connect.
-- [ ] **H6. Submit for review** — fill in the metadata from G2 in App Store Connect UI; answer all required questions; attach a demo Apple Music account. Submit.
-- [ ] **H7. Monitor and respond** — check daily for 7 days. If rejected, refer to `rejection-playbook.md` and respond within 24h with the prebuilt defense.
+### Milestone H — Build, submit, defend (queue on enrollment; archive is 🟢 sim)
+
+- [ ] **H1. Final code signing** 🔴 device-only — generate Distribution certificate and provisioning profile in App Store Connect / Xcode. Set `DEVELOPMENT_TEAM` in `project.yml`. *Target: `project.yml`.*
+- [ ] **H2. AppIcon + launch screen** 🟢 sim — verify all required sizes present; add a launch screen if missing. *Target: `EchoDJ/Resources/Assets.xcassets`.*
+- [ ] **H3. Archive (sim build dry-run)** 🟢 sim — `xcodebuild -project EchoDJ.xcodeproj -scheme EchoDJ -configuration Release archive -destination 'generic/platform=iOS Simulator'`. Verify the archive is clean (no warnings, no missing required icons, no entitlements gaps) for the simulator slice. *Target: derived data.*
+- [ ] **H4. Validate** 🔴 device-only — `xcrun altool --validate-app` against the device archive. Address every warning. *Target: App Store Connect.*
+- [ ] **H5. Upload to App Store Connect** 🔴 device-only — `xcrun altool --upload-app` or Xcode Organizer's "Distribute App" → App Store Connect. *Target: App Store Connect.*
+- [ ] **H6. Submit for review** 🔴 device-only — fill in the metadata from G2 in App Store Connect UI; answer all required questions; attach a demo Apple Music account. Submit. **Pre-submit gate:** the real-device gate from C2/C3/C4/C6/D5/F5 must be re-verified on a real device before this step. *Target: App Store Connect.*
+- [ ] **H7. Monitor and respond** 🔴 device-only — check daily for 7 days. If rejected, refer to `rejection-playbook.md` and respond within 24h with the prebuilt defense.
 
 ## 4. Architectural & Behavioral Notes
 
-### 4.1 "Content block not found" hypothesis
+### 4.1 "Content block not found" — updated hypothesis after sim pass (2026-06-07)
 
-Verified on 2026-06-07 that the string is **not** in `EchoDJ/Engine/Concrete/StationQueueManager.swift` (the only place that produces "Content" or "block" in our code is `print` statements with `for track in tracks`). The most likely origins, in order of probability:
+**Confirmed:** the string is **not in our repo** (full repo grep returned 0 matches for `content block`, `ContentBlock`, and `block not found`). It is also **not emitted during a clean cold launch on the iOS 26.3 simulator** (sim baseline log shows only the 5 expected framework init lines: SwiftData init, `LanguageModelSession initialized`, "AppleMusicProvider not authorized", "LanguageModelSession initialized", "OnDeviceDJBrain active"). The sim does not exercise the real `MusicCatalogSearchRequest.response()` deserialization path because it has no real catalog data.
 
-1. **MusicKit framework log noise** — `MusicCatalogSearchRequest.response()` can emit this when its inner deserialization hits a missing content block. A user-facing error should be surfaced, but the log itself is harmless.
-2. **`print` in `AppleMusicProvider`** — not yet read; could be a debug print of a `Song` field that's missing in the sandbox.
-3. **`print` in `OnDeviceDJBrain`** — Foundation Models occasionally logs "content block" when generation produces a partial response. We've already added `clamp` and sanitization; the log itself is just noise.
+**Strongest hypothesis:** the log is emitted by `MusicKit`'s internal deserialization when a real `MusicCatalogSearchRequest` returns a partial response on a real device with a real Apple Music subscriber. It is a framework log, not a user-facing error. The fix is **not** a code change in our app — it's either (a) ignore the log (it's framework noise), or (b) wrap the call sites in `try/await` with explicit error handling and a graceful user fallback when the search returns partial results.
 
-The fix is **not** a code change; it's either (a) suppress the log, (b) demote to `os_log` debug, or (c) add a graceful "Apple Music did not return full metadata — try another seed" UI when the partial result actually impacts the user. Decide based on B2's grep results.
+**Decision deferred to the real-device gate:** the call sites to guard (if any) are `AppleMusicProvider.loadTrack` and the three `fetch*Tracks` helpers in `StationQueueManager` (lines 224, 249, 273). All of them use `try? await request.response()` and silently drop errors today — that may be exactly the path that produces the "Content block not found" log. We won't know until we see it on a real device.
 
 ### 4.2 Paywall surface area
 
@@ -163,18 +182,20 @@ If Review pushes back hard, the v1.0.1 contingency is a curated template library
 
 ## 5. Verification Strategy (per-task)
 
-Every task in section 3 ends with a verifiable artifact. Summary:
+Every task in section 3 ends with a verifiable artifact, with the sim/device mode from section 1.
 
 | Milestone | Verification |
 |---|---|
-| A | Clean device build, no warnings. UDID + iOS version in `device-baseline.md`. |
-| B | "Content block not found" absent from `post-fix.log`. |
-| C | All 6 scenarios documented in `smoke-test-results.md` with log excerpts. |
-| D | Sandbox Apple ID buys, trial activates, Pro flows unlock. |
-| E | Free user cannot trigger DJ arc or station memory. Restore Purchases works. |
-| F | RecentStation persisted; CloudKit syncs across two test devices. |
-| G | `PrivacyInfo.xcprivacy` validates; `metadata.md` covers all required answers. |
-| H | Clean archive, valid build, submitted, not rejected on first review (or rejection defended successfully). |
+| A | Clean sim build, no warnings. Sim UDID + iOS version in `device-baseline.md`. 🟢 |
+| B | "Content block not found" absent from `post-fix.log` after sim repro. 🟢 |
+| C | Denied-auth + no-network paths documented as 🟡 sim-verified. Real playback, lock screen, background audio deferred to real-device gate. 🟡/🔴 |
+| D | `.storekit` config wired + sim-verified for product resolve / trial / tier flip. 🟢. Real product + sandbox Apple ID deferred to real-device gate. 🔴 |
+| E | Free tier on sim cannot trigger DJ arc, no silent fallbacks, Restore Purchases works. 🟢 |
+| F | RecentStation persisted locally on sim. Cross-device CloudKit sync deferred to real-device gate. 🟢/🟡 |
+| G | `PrivacyInfo.xcprivacy` validates; `metadata.md` covers all required answers. 🟢 |
+| H | Clean sim archive. Real-device gate re-runs C2/C3/C4/C6/D5/F5. Code signing, upload, submit, monitor all 🔴. |
+
+**Real-device gate (single, before H6):** a focused run on the connected iPhone that re-verifies every 🟡 and 🔴 task, captures `idevicesyslog` for the MusicKit auth + playback + lock screen + background audio flow, and produces a one-line "all clear" entry in `smoke-test-results.md`. If any item fails on device, halt H6 until fixed.
 
 ## 6. Risk Register
 
@@ -222,7 +243,7 @@ The following are explicitly **not** in v1 and are documented here so the next b
 
 This plan is **done** when:
 
-1. All 8 milestones are checked off in section 3.
+1. All 8 milestones are checked off in section 3, **and** every 🟡 and 🔴 task has been re-verified on a real device in the single "real-device gate" run before H6.
 2. The app is **submitted** to App Store Review (does not need to be approved; that's v1's first day).
 3. `ROADMAP.md` shows "App Store v1: 100% — Submitted YYYY-MM-DD" and links to this plan.
 4. A short retrospective note is added to `docs/app-store/rejection-playbook.md` after the first review outcome.

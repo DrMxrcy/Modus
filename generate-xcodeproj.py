@@ -17,6 +17,7 @@ SWIFT_FILES = [
     ('Data/Models/UserTasteProfile.swift', 'UserTasteProfile.swift'),
     ('Data/Models/TrackCooldown.swift', 'TrackCooldown.swift'),
     ('Data/Models/CachedTrack.swift', 'CachedTrack.swift'),
+    ('Data/Models/StationSession.swift', 'StationSession.swift'),
     ('Engine/Protocols/MusicProviderProtocol.swift', 'MusicProviderProtocol.swift'),
     ('Engine/Protocols/DJBrainProtocol.swift', 'DJBrainProtocol.swift'),
     ('Engine/Concrete/VectorAffinityEngine.swift', 'VectorAffinityEngine.swift'),
@@ -34,6 +35,11 @@ SWIFT_FILES = [
     ('UI/Tabs/RadioView.swift', 'RadioView.swift'),
     ('UI/Tabs/SearchView.swift', 'SearchView.swift'),
     ('UI/Components/VibeVisualizer.swift', 'VibeVisualizer.swift'),
+]
+
+# Define resource files (bundled but not compiled; .storekit configs, asset catalogs, etc.)
+RESOURCE_FILES = [
+    ('Resources/StoreKit/EchoDJ.storekit', 'EchoDJ.storekit'),
 ]
 
 # Generate UUIDs
@@ -82,6 +88,23 @@ for rel_path, name in SWIFT_FILES:
 info_plist_uuid = gen_uuid()
 info_build_uuid = gen_uuid()
 
+# Resource file refs and build files (mirrors SWIFT_FILES pattern)
+resource_file_refs = {}
+resource_build_files = {}
+for rel_path, name in RESOURCE_FILES:
+    file_uuid = gen_uuid()
+    build_uuid = gen_uuid()
+    resource_file_refs[name] = {
+        'uuid': file_uuid,
+        'rel_path': rel_path,
+        'name': name,
+    }
+    resource_build_files[name] = {
+        'uuid': build_uuid,
+        'file_uuid': file_uuid,
+        'name': name,
+    }
+
 # Assets (if we had them)
 # assets_uuid = gen_uuid()
 # assets_build_uuid = gen_uuid()
@@ -105,6 +128,8 @@ lines.append(f"\t\t{musickit_build_uuid} /* MusicKit.framework in Frameworks */ 
 lines.append(f"\t\t{mediaplayer_build_uuid} /* MediaPlayer.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {mediaplayer_ref_uuid} /* MediaPlayer.framework */; }};")
 lines.append(f"\t\t{avfoundation_build_uuid} /* AVFoundation.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {avfoundation_ref_uuid} /* AVFoundation.framework */; }};")
 lines.append(f"\t\t{storekit_build_uuid} /* StoreKit.framework in Frameworks */ = {{isa = PBXBuildFile; fileRef = {storekit_ref_uuid} /* StoreKit.framework */; }};")
+for name, bf in resource_build_files.items():
+    lines.append(f"\t\t{bf['uuid']} /* {name} in Resources */ = {{isa = PBXBuildFile; fileRef = {bf['file_uuid']} /* {name} */; }};")
 lines.append('/* End PBXBuildFile section */')
 lines.append('')
 
@@ -118,6 +143,8 @@ lines.append(f"\t\t{musickit_ref_uuid} /* MusicKit.framework */ = {{isa = PBXFil
 lines.append(f"\t\t{mediaplayer_ref_uuid} /* MediaPlayer.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; }};")
 lines.append(f"\t\t{avfoundation_ref_uuid} /* AVFoundation.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; }};")
 lines.append(f"\t\t{storekit_ref_uuid} /* StoreKit.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; }};")
+for name, fr in resource_file_refs.items():
+    lines.append(f"\t\t{fr['uuid']} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = file; path = {fr['rel_path']}; sourceTree = \"<group>\"; }};")
 lines.append('/* End PBXFileReference section */')
 lines.append('')
 
@@ -165,6 +192,8 @@ lines.append('\t\t\tchildren = (')
 for name, fr in file_refs.items():
     lines.append(f"\t\t\t\t{fr['uuid']} /* {name} */,")
 lines.append(f"\t\t\t\t{info_plist_uuid} /* Info.plist */,")
+for name, fr in resource_file_refs.items():
+    lines.append(f"\t\t\t\t{fr['uuid']} /* {name} */,")
 lines.append('\t\t\t);')
 lines.append('\t\t\tpath = EchoDJ;')
 lines.append('\t\t\tsourceTree = "<group>";')
@@ -234,6 +263,8 @@ lines.append(f"\t\t{resources_phase_uuid} /* Resources */ = {{")
 lines.append('\t\t\tisa = PBXResourcesBuildPhase;')
 lines.append('\t\t\tbuildActionMask = 2147483647;')
 lines.append('\t\t\tfiles = (')
+for name, bf in resource_build_files.items():
+    lines.append(f"\t\t\t\t{bf['uuid']} /* {name} in Resources */,")
 lines.append('\t\t\t);')
 lines.append('\t\t\trunOnlyForDeploymentPostprocessing = 0;')
 lines.append('\t\t};')
@@ -390,6 +421,7 @@ lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
 lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
+lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "EchoDJ/Resources/StoreKit/EchoDJ.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')
 lines.append('\t\t\t\tSWIFT_STRICT_CONCURRENCY = complete;')
 lines.append('\t\t\t\tSWIFT_VERSION = 6.0;')
@@ -416,6 +448,7 @@ lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
 lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
+lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "EchoDJ/Resources/StoreKit/EchoDJ.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')
 lines.append('\t\t\t\tSWIFT_STRICT_CONCURRENCY = complete;')
 lines.append('\t\t\t\tSWIFT_VERSION = 6.0;')

@@ -1,0 +1,61 @@
+{
+  "identifier" : "EchoDJ",
+  "nonRenewingSubscriptions" : [],
+  "products" : [],
+  "settings" : {
+    "_askToBuyEnabled" : false,
+    "_billingIssuesEnabled" : false,
+    "_billingRetryStateEnabled" : false,
+    "_disableDialogs" : false,
+    "_failTransactionsEnabled" : false,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : []
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "premium_monthly_group",
+      "localizations" : [
+        {
+          "description" : "EchoDJ Pro",
+          "displayName" : "EchoDJ Pro",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "Premium",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [],
+          "codeOffers" : [],
+          "displayPrice" : "4.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "B1A2C3D4-E5F6-7890-ABCD-EF1234567890",
+          "introductoryOffer" : {
+            "displayPrice" : "Free",
+            "internalID" : "intro_free_trial_7d",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P1W"
+          },
+          "localizations" : [
+            {
+              "description" : "Unlock DJ Arc, station memory, and unlimited exploration. 7-day free trial, then $4.99/month.",
+              "displayName" : "EchoDJ Pro (Monthly)",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "com.echodj.app.pro.monthly",
+          "recurringSubscriptionPeriod" : "P1M",
+          "referenceName" : "EchoDJ Pro Monthly",
+          "subscriptionGroupID" : "premium_monthly_group",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 4,
+    "minor" : 0
+  }
+}
