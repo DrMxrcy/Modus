@@ -1,7 +1,10 @@
 import Foundation
+import OSLog
 
 #if canImport(FoundationModels)
 import FoundationModels
+
+private let logger = Logger(subsystem: "app.echodj", category: "OnDeviceDJBrain")
 
 @available(iOS 26.0, *)
 actor OnDeviceDJBrain: DJBrainProtocol {
@@ -19,10 +22,10 @@ actor OnDeviceDJBrain: DJBrainProtocol {
                 You are 'Echo', an audio radio DJ companion. Your goal is to write conversational, brief segues between music tracks. Keep your responses under 15 words. Always reference the user's explicit listening mood vibe when transitioning.
                 """
             )
-            print("OnDeviceDJBrain: LanguageModelSession initialized")
+            logger.info("LanguageModelSession initialized")
         } else {
             self.modelSession = nil
-            print("OnDeviceDJBrain: SystemLanguageModel unavailable (status: \(availability))")
+            logger.info("SystemLanguageModel unavailable (status: \(String(describing: availability), privacy: .public))")
         }
     }
 
@@ -40,15 +43,66 @@ actor OnDeviceDJBrain: DJBrainProtocol {
 
         do {
             let response = try await session.respond(to: prompt)
-            let content = response.content.trimmingCharacters(in: .whitespacesAndNewlines)
-            if content.isEmpty {
-                return fallbackTransition(meta: meta)
+            if let sanitized = Self.sanitizeTransition(response.content) {
+                return sanitized
             }
-            return content
+            return fallbackTransition(meta: meta)
         } catch {
+            #if DEBUG
             print("OnDeviceDJBrain: Inference error \(error)")
+            #endif
             return fallbackTransition(meta: meta)
         }
+    }
+
+    /// Sanitize a model-generated transition. Returns nil if the output is unsafe
+    /// or unusable; callers should fall back to a curated template in that case.
+    ///
+    /// Rules (see `docs/app-store/metadata.md` AI-Generated Content disclosure):
+    /// 1. Strip markdown formatting (asterisks, underscores, backticks, heading marks).
+    /// 2. Reject multi-line responses (the prompt asks for a single brief segue).
+    /// 3. Hard-cap at 15 words regardless of what the model emitted.
+    /// 4. Reject responses that look like quoted lyrics (brackets, double-quoted
+    ///    blocks, or lines beginning with "verse"/"chorus"/"bridge"/"intro"/"outro").
+    /// 5. Reject if the response contains anything that looks like a URL.
+    private static func sanitizeTransition(_ raw: String) -> String? {
+        // Step 1: trim and strip markdown.
+        var text = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let strippedChars: Set<Character> = ["*", "_", "`", "#", ">", "~"]
+        text = String(text.filter { !strippedChars.contains($0) })
+
+        // Step 2: reject multi-line.
+        if text.contains("\n") {
+            return nil
+        }
+
+        // Step 3: hard word cap.
+        let words = text.split(separator: " ", omittingEmptySubsequences: true)
+        guard !words.isEmpty else { return nil }
+        let capped = words.prefix(15).map(String.init)
+        var result = capped.joined(separator: " ")
+
+        // Step 4: lyric-pattern deny.
+        let lower = result.lowercased()
+        let lyricMarkers = ["[", "]", "(verse", "(chorus", "(bridge", "(intro", "(outro", "verse:", "chorus:", "bridge:"]
+        if lyricMarkers.contains(where: { lower.contains($0) }) {
+            return nil
+        }
+        // Quoted lyric block heuristic: a quote longer than 6 chars inside the line.
+        if let firstQuote = result.firstIndex(of: "\""),
+           let lastQuote = result.lastIndex(of: "\""),
+           firstQuote != lastQuote {
+            return nil
+        }
+
+        // Step 5: URL reject.
+        if result.contains("://") || result.lowercased().contains("http") {
+            return nil
+        }
+
+        // Final trim in case capping/filtering left edge whitespace.
+        result = result.trimmingCharacters(in: .whitespacesAndNewlines)
+        return result.isEmpty ? nil : result
     }
 
     private func fallbackTransition(meta: TransitionMetadata) -> String {
@@ -118,7 +172,9 @@ actor OnDeviceDJBrain: DJBrainProtocol {
             }
             return clamped
         } catch {
+            #if DEBUG
             print("OnDeviceDJBrain: Arc generation error \(error)")
+            #endif
             return []
         }
     }

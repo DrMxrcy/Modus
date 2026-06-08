@@ -1,6 +1,9 @@
 import Foundation
 import MusicKit
 import MediaPlayer
+import OSLog
+
+private let logger = Logger(subsystem: "app.echodj", category: "AppleMusicProvider")
 
 actor AppleMusicProvider: MusicProviderProtocol {
 
@@ -62,7 +65,13 @@ actor AppleMusicProvider: MusicProviderProtocol {
     func loadTrack(id: String) async throws {
         var request = MusicCatalogSearchRequest(term: id, types: [Song.self])
         request.limit = 10
-        let response = try await request.response()
+        let response: MusicCatalogSearchResponse
+        do {
+            response = try await request.response()
+        } catch {
+            logger.error("loadTrack catalog search failed: \(error.localizedDescription, privacy: .public)")
+            throw AppleMusicError.trackNotFound
+        }
         guard let song = response.songs.first(where: { $0.id.rawValue == id }) ?? response.songs.first else {
             throw AppleMusicError.trackNotFound
         }
@@ -89,9 +98,9 @@ actor AppleMusicProvider: MusicProviderProtocol {
 
     func skipNext() async throws {
         let finalProgress = currentPlaybackProgress
-        let currentID = loadedTrackID ?? "Unknown"
+        _ = loadedTrackID ?? "Unknown"
 
-        print("Telemetry: skip track \(currentID) at progress \(finalProgress)")
+        logger.debug("skip track at progress \(finalProgress, privacy: .public)")
 
         ApplicationMusicPlayer.shared.stop()
         loadedTrackID = nil

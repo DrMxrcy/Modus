@@ -1,6 +1,9 @@
 import Foundation
 import SwiftData
 import MusicKit
+import OSLog
+
+private let logger = Logger(subsystem: "app.echodj", category: "AppEnvironment")
 
 @MainActor
 final class AppEnvironment: ObservableObject {
@@ -24,7 +27,8 @@ final class AppEnvironment: ObservableObject {
                 UserTasteProfile.self,
                 TrackCooldown.self,
                 CachedTrack.self,
-                StationSession.self
+                StationSession.self,
+                RecentStation.self
             ])
             let cloudConfig = ModelConfiguration(
                 schema: schema,
@@ -35,7 +39,7 @@ final class AppEnvironment: ObservableObject {
                 for: schema,
                 configurations: [cloudConfig]
             )
-            print("AppEnvironment: SwiftData initialized with CloudKit sync")
+            logger.info("SwiftData initialized with CloudKit sync")
         } catch {
             fatalError("Failed to initialize SwiftData Container: \(error)")
         }
@@ -76,9 +80,9 @@ final class AppEnvironment: ObservableObject {
                 provider: realProvider,
                 modelContainer: self.modelContainer
             )
-            print("AppEnvironment: AppleMusicProvider active")
+            logger.info("AppleMusicProvider active")
         } else {
-            print("AppEnvironment: AppleMusicProvider not authorized — using current provider")
+            logger.info("AppleMusicProvider not authorized — using current provider")
         }
 
         let candidate = OnDeviceDJBrain()
@@ -90,9 +94,9 @@ final class AppEnvironment: ObservableObject {
                 provider: self.musicProvider,
                 djBrain: candidate
             )
-            print("AppEnvironment: OnDeviceDJBrain active")
+            logger.info("OnDeviceDJBrain active")
         } else {
-            print("AppEnvironment: OnDeviceDJBrain unavailable — using current brain")
+            logger.info("OnDeviceDJBrain unavailable — using current brain")
         }
     }
 }

@@ -1,5 +1,6 @@
 import Foundation
 import SwiftData
+import OSLog
 
 actor TransitionManager {
     private let djBrain: any DJBrainProtocol
@@ -7,6 +8,8 @@ actor TransitionManager {
     private let audioDucker: AudioDucker
 
     private var nextTransitionURL: URL?
+
+    private static let logger = Logger(subsystem: "app.echodj", category: "TransitionManager")
 
     init(djBrain: any DJBrainProtocol, ttsClient: TTSClient, audioDucker: AudioDucker) {
         self.djBrain = djBrain
@@ -18,8 +21,15 @@ actor TransitionManager {
         lastTrack: CachedTrack,
         nextTrack: CachedTrack,
         moodContext: String,
-        bpm: Double
+        bpm: Double,
+        isPro: Bool = true
     ) async {
+        guard isPro else {
+            Self.logger.debug("preRenderTransition skipped (Free tier)")
+            nextTransitionURL = nil
+            return
+        }
+
         let meta = TransitionMetadata(
             lastTrackTitle: lastTrack.title,
             lastTrackArtist: lastTrack.artistName,
@@ -30,24 +40,25 @@ actor TransitionManager {
         )
 
         let script = await djBrain.generateTransition(meta: meta)
-        print("TransitionManager: Pre-rendered script: \(script)")
+        // NOTE: do not log `script` — generated DJ transitions must not be written
+        // to the system log (privacy + AI content rights, see docs/app-store/metadata.md).
 
         if let url = await ttsClient.synthesize(text: script) {
             self.nextTransitionURL = url
-            print("TransitionManager: TTS cached at \(url)")
+            Self.logger.debug("TTS cached")
         } else {
             self.nextTransitionURL = nil
-            print("TransitionManager: TTS unavailable, will skip transition")
+            Self.logger.debug("TTS unavailable, will skip transition")
         }
     }
 
     func executeTransition(isEnabled: Bool = true) async {
         guard isEnabled else {
-            print("TransitionManager: DJ transitions disabled (Free tier)")
+            Self.logger.debug("DJ transitions disabled (Free tier)")
             return
         }
         guard let url = nextTransitionURL else {
-            print("TransitionManager: No transition to play")
+            Self.logger.debug("No transition to play")
             return
         }
 

@@ -18,6 +18,7 @@ SWIFT_FILES = [
     ('Data/Models/TrackCooldown.swift', 'TrackCooldown.swift'),
     ('Data/Models/CachedTrack.swift', 'CachedTrack.swift'),
     ('Data/Models/StationSession.swift', 'StationSession.swift'),
+    ('Data/Models/RecentStation.swift', 'RecentStation.swift'),
     ('Engine/Protocols/MusicProviderProtocol.swift', 'MusicProviderProtocol.swift'),
     ('Engine/Protocols/DJBrainProtocol.swift', 'DJBrainProtocol.swift'),
     ('Engine/Concrete/VectorAffinityEngine.swift', 'VectorAffinityEngine.swift'),
@@ -40,6 +41,7 @@ SWIFT_FILES = [
 # Define resource files (bundled but not compiled; .storekit configs, asset catalogs, etc.)
 RESOURCE_FILES = [
     ('Resources/StoreKit/EchoDJ.storekit', 'EchoDJ.storekit'),
+    ('Resources/PrivacyInfo.xcprivacy', 'PrivacyInfo.xcprivacy'),
 ]
 
 # Generate UUIDs

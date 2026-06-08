@@ -7,128 +7,134 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		097213652CA54A859AF21C91 /* EchoDJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DC8D602A6845ACB2729A6C /* EchoDJApp.swift */; };
-		4BB65E760D3F46D3BBDC7F0B /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541DC7AE19F5427EA8A970B7 /* AppEnvironment.swift */; };
-		761A6757CEA94D618C21ABF1 /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07897CDA5F964AB6A98660E2 /* UserTasteProfile.swift */; };
-		1611D75742D64192BB2CB820 /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC9911F8EC3C40159AFD04A8 /* TrackCooldown.swift */; };
-		5C787CAA99C04A84B6CA60F1 /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAA94BFFCEB64D178B732FB6 /* CachedTrack.swift */; };
-		9F786A37B4CE4D90A7A716BA /* StationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19CD4A7EF7B5474D91456C5A /* StationSession.swift */; };
-		DE364785CCFC4760AB20523A /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4207DE3769674250A7AB1DCD /* MusicProviderProtocol.swift */; };
-		B834A6FD1DC94ED087FAE619 /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99C7F965E39E4A1EAB97C6BF /* DJBrainProtocol.swift */; };
-		EAC686B3EDC4499793786107 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1076BED59B844CFC9B3DE66E /* VectorAffinityEngine.swift */; };
-		FBA3ECEFCBEE4CE6A76CF3D9 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = D194EE91E9A34CE185336DD4 /* AppleMusicProvider.swift */; };
-		81AADD0A1F0844BBB4E825B0 /* StationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26BDCF37B5A1474BA1CAC116 /* StationQueueManager.swift */; };
-		67A87AC484D24EC28E31EFF2 /* TelemetryCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65C774F93F484A4F93136965 /* TelemetryCollector.swift */; };
-		667B1AED1FB74EE4BEDF23BD /* TTSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4901EA54EEA40198ADDD9F3 /* TTSClient.swift */; };
-		63E14C71897943CCAF2A3145 /* AudioDucker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E74D9CC6BD947B38E5DDAE3 /* AudioDucker.swift */; };
-		ABEB0CFB719E40B182A971BE /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABAD9F47952846489D1CED30 /* TransitionManager.swift */; };
-		B4180BE0E1804DA6A328653C /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F77C9971C96472AA92DFBD9 /* SubscriptionManager.swift */; };
-		AD914C6283BC46ECAED8808D /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEF6EE4283584F7C844A5EE9 /* OnDeviceDJBrain.swift */; };
-		453560702DEE4A9BBD26468F /* SimulatorMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22F85FC8D3349F99492A4D9 /* SimulatorMusicProvider.swift */; };
-		0FE6E90D3C68426AA51342BC /* FallbackDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8BD8F5F8C104FED9927B556 /* FallbackDJBrain.swift */; };
-		CFE48B1F6715419D8BC416F1 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4D84DA8F1994FE9934429A6 /* MainTabView.swift */; };
-		9B6001E48BE7440CA885A6E5 /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F168967FA26F4D0B8229F606 /* RadioView.swift */; };
-		C84FB5D311294EE8AB3C8ACD /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B4EA8323D3E4DA08F5BDA8B /* SearchView.swift */; };
-		734AC2C0DE5E472CA5F2D718 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = C8E03385A32B4D038E231205 /* VibeVisualizer.swift */; };
-		C88B0E665E0B43FB83B38577 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5A05A313014919B51EF227 /* MusicKit.framework */; };
-		917C759D24DD4DCDA5F02710 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 87A7432971E947B6B717EEC5 /* MediaPlayer.framework */; };
-		717E44D1373A453DB57BD3DF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D29AD9BEB85B4DA59C0FBCDC /* AVFoundation.framework */; };
-		6F1AB4AA8961430C872E6FD0 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B8A9B2C258C46D39BD90978 /* StoreKit.framework */; };
-		FAC8124C1C4848BAA388CCD5 /* EchoDJ.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 767AB2FF5D804A9A941D7433 /* EchoDJ.storekit */; };
+		A982F18AC75548B6919051B1 /* EchoDJApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7020DF8F114735A33888D7 /* EchoDJApp.swift */; };
+		082ABEF1DF734E19BA8FAE97 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B3CB0E326B648EFA4557257 /* AppEnvironment.swift */; };
+		7B2A22DB01104169A9C90465 /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA07AF4DE949473889AADC35 /* UserTasteProfile.swift */; };
+		5797E38244044721A07A735F /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 497727774D66440E81E9C609 /* TrackCooldown.swift */; };
+		EDBA3316682E4B778A25E572 /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C671BD5134F84EEAB723CF6E /* CachedTrack.swift */; };
+		847BC738302E44468D07C957 /* StationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 984CF485B4424AF581557124 /* StationSession.swift */; };
+		BBDEEAD33E4D48D7B5AA8051 /* RecentStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F56754567C640919F60F062 /* RecentStation.swift */; };
+		B8387911089B42508E78B6BB /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0DE430F5A864E30A9A7C1BC /* MusicProviderProtocol.swift */; };
+		49C0CDCDB0584AAFB2EE904F /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F87FAC6563C740AF9CD71744 /* DJBrainProtocol.swift */; };
+		196A71A89F0D4DF985D5AE8C /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA1FECE7A62D4CA49B099907 /* VectorAffinityEngine.swift */; };
+		003B8C2236184A56876F6713 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1A386010A442B090B69AE3 /* AppleMusicProvider.swift */; };
+		25095328050C4D5A93DA5B92 /* StationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7F8B5E22D14C6CAF43302E /* StationQueueManager.swift */; };
+		9D0759BED5EF40CA83E0AA07 /* TelemetryCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17564ECDB35C45E9A419EFB1 /* TelemetryCollector.swift */; };
+		371CD75400D546609873B86F /* TTSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007D7BFC44B646209760EB8C /* TTSClient.swift */; };
+		8AE6E2C3CD7E40C7843ABCE4 /* AudioDucker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 126C67865DBB43A0AFB70F1F /* AudioDucker.swift */; };
+		5ADD986CA47F4950A5F5E90C /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 536E035295114182BDE07FB2 /* TransitionManager.swift */; };
+		9EA17D8D3F6F4D8CB535D560 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C538BFB9593C417D90B0282D /* SubscriptionManager.swift */; };
+		3A829078B94B45CA9DA47AD8 /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EB840B2BD84B1BAFB6CFE7 /* OnDeviceDJBrain.swift */; };
+		D5E152C8CC054EF08C445931 /* SimulatorMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627C0F6D04F54D36988F6F3F /* SimulatorMusicProvider.swift */; };
+		D7FDD88975074DA092F48BBE /* FallbackDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = B081E7DEA7FF48CE81B88E56 /* FallbackDJBrain.swift */; };
+		5FF807FF3D2D4464BA3AE2DA /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19014DAFCD354A99BF0A081C /* MainTabView.swift */; };
+		FCDBB94E33D64FFC9CAAF51D /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294A4B5E9E22449F821BA50D /* RadioView.swift */; };
+		07A32BDC9E42407D8A9FB561 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC633626E3498595935900 /* SearchView.swift */; };
+		75A6EDFA068A44C5BC596541 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E34875EE1C4EE48286EE73 /* VibeVisualizer.swift */; };
+		B5366A1752844EDEAA7645BE /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B80D9D6AD34D4E859F9E8477 /* MusicKit.framework */; };
+		37373FBD73BA445F821227D0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7CD2349CBA3341FEA4ED86AA /* MediaPlayer.framework */; };
+		FA425A7E10BD42F399B42366 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D03426DA16CF4026B01FB655 /* AVFoundation.framework */; };
+		06801D8C7AAC468796377DCC /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 385060916B4D47E7B46859E0 /* StoreKit.framework */; };
+		3E86655BA71140E1A644DEFF /* EchoDJ.storekit in Resources */ = {isa = PBXBuildFile; fileRef = AE9F20A05B694A84BE0E1E79 /* EchoDJ.storekit */; };
+		3F3006B7446344DEAF1EFE6C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = FB0BCCE926EE471C8B7A6F6B /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B8BE836911064EB5AF608538 /* EchoDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		39DC8D602A6845ACB2729A6C /* EchoDJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EchoDJApp.swift; sourceTree = "<group>"; };
-		541DC7AE19F5427EA8A970B7 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
-		07897CDA5F964AB6A98660E2 /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
-		AC9911F8EC3C40159AFD04A8 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
-		BAA94BFFCEB64D178B732FB6 /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
-		19CD4A7EF7B5474D91456C5A /* StationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/StationSession.swift; sourceTree = "<group>"; };
-		4207DE3769674250A7AB1DCD /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
-		99C7F965E39E4A1EAB97C6BF /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
-		1076BED59B844CFC9B3DE66E /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
-		D194EE91E9A34CE185336DD4 /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
-		26BDCF37B5A1474BA1CAC116 /* StationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/StationQueueManager.swift; sourceTree = "<group>"; };
-		65C774F93F484A4F93136965 /* TelemetryCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TelemetryCollector.swift; sourceTree = "<group>"; };
-		F4901EA54EEA40198ADDD9F3 /* TTSClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TTSClient.swift; sourceTree = "<group>"; };
-		8E74D9CC6BD947B38E5DDAE3 /* AudioDucker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AudioDucker.swift; sourceTree = "<group>"; };
-		ABAD9F47952846489D1CED30 /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TransitionManager.swift; sourceTree = "<group>"; };
-		0F77C9971C96472AA92DFBD9 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/SubscriptionManager.swift; sourceTree = "<group>"; };
-		FEF6EE4283584F7C844A5EE9 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
-		B22F85FC8D3349F99492A4D9 /* SimulatorMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/SimulatorMusicProvider.swift; sourceTree = "<group>"; };
-		E8BD8F5F8C104FED9927B556 /* FallbackDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/FallbackDJBrain.swift; sourceTree = "<group>"; };
-		A4D84DA8F1994FE9934429A6 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
-		F168967FA26F4D0B8229F606 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
-		0B4EA8323D3E4DA08F5BDA8B /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
-		C8E03385A32B4D038E231205 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
-		64397D622D3E47C7AACFF9EF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
-		DA5A05A313014919B51EF227 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
-		87A7432971E947B6B717EEC5 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		D29AD9BEB85B4DA59C0FBCDC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		9B8A9B2C258C46D39BD90978 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		767AB2FF5D804A9A941D7433 /* EchoDJ.storekit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/StoreKit/EchoDJ.storekit; sourceTree = "<group>"; };
+		EABF746364FC4361B61A7723 /* EchoDJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D7020DF8F114735A33888D7 /* EchoDJApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/EchoDJApp.swift; sourceTree = "<group>"; };
+		6B3CB0E326B648EFA4557257 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
+		AA07AF4DE949473889AADC35 /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
+		497727774D66440E81E9C609 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
+		C671BD5134F84EEAB723CF6E /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
+		984CF485B4424AF581557124 /* StationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/StationSession.swift; sourceTree = "<group>"; };
+		1F56754567C640919F60F062 /* RecentStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/RecentStation.swift; sourceTree = "<group>"; };
+		D0DE430F5A864E30A9A7C1BC /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
+		F87FAC6563C740AF9CD71744 /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
+		AA1FECE7A62D4CA49B099907 /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
+		0E1A386010A442B090B69AE3 /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
+		4A7F8B5E22D14C6CAF43302E /* StationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/StationQueueManager.swift; sourceTree = "<group>"; };
+		17564ECDB35C45E9A419EFB1 /* TelemetryCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TelemetryCollector.swift; sourceTree = "<group>"; };
+		007D7BFC44B646209760EB8C /* TTSClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TTSClient.swift; sourceTree = "<group>"; };
+		126C67865DBB43A0AFB70F1F /* AudioDucker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AudioDucker.swift; sourceTree = "<group>"; };
+		536E035295114182BDE07FB2 /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TransitionManager.swift; sourceTree = "<group>"; };
+		C538BFB9593C417D90B0282D /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/SubscriptionManager.swift; sourceTree = "<group>"; };
+		53EB840B2BD84B1BAFB6CFE7 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
+		627C0F6D04F54D36988F6F3F /* SimulatorMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/SimulatorMusicProvider.swift; sourceTree = "<group>"; };
+		B081E7DEA7FF48CE81B88E56 /* FallbackDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/FallbackDJBrain.swift; sourceTree = "<group>"; };
+		19014DAFCD354A99BF0A081C /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
+		294A4B5E9E22449F821BA50D /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
+		0EAC633626E3498595935900 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
+		33E34875EE1C4EE48286EE73 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
+		3AA46046119441F8A1651DA9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		B80D9D6AD34D4E859F9E8477 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
+		7CD2349CBA3341FEA4ED86AA /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		D03426DA16CF4026B01FB655 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		385060916B4D47E7B46859E0 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		AE9F20A05B694A84BE0E1E79 /* EchoDJ.storekit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/StoreKit/EchoDJ.storekit; sourceTree = "<group>"; };
+		FB0BCCE926EE471C8B7A6F6B /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		DBA486491C3E4FEAADA28A75 /* Frameworks */ = {
+		9227B510BC514C368627D8A7 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C88B0E665E0B43FB83B38577 /* MusicKit.framework in Frameworks */,
-				917C759D24DD4DCDA5F02710 /* MediaPlayer.framework in Frameworks */,
-				717E44D1373A453DB57BD3DF /* AVFoundation.framework in Frameworks */,
-				6F1AB4AA8961430C872E6FD0 /* StoreKit.framework in Frameworks */,
+				B5366A1752844EDEAA7645BE /* MusicKit.framework in Frameworks */,
+				37373FBD73BA445F821227D0 /* MediaPlayer.framework in Frameworks */,
+				FA425A7E10BD42F399B42366 /* AVFoundation.framework in Frameworks */,
+				06801D8C7AAC468796377DCC /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5084E530B4B141B697B647A6 = {
+		A652D5800CD24B78A19350F5 = {
 			isa = PBXGroup;
 			children = (
-				4FEDB0686BFC498D89ECB216 /* EchoDJ */,
-				2588ECFAD35649498FEA7E81 /* Products */,
+				66E127D01C264449B900548D /* EchoDJ */,
+				9E3916D9330C468CBF7EF7B1 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		2588ECFAD35649498FEA7E81 /* Products */ = {
+		9E3916D9330C468CBF7EF7B1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				B8BE836911064EB5AF608538 /* EchoDJ.app */,
+				EABF746364FC4361B61A7723 /* EchoDJ.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		4FEDB0686BFC498D89ECB216 /* EchoDJ */ = {
+		66E127D01C264449B900548D /* EchoDJ */ = {
 			isa = PBXGroup;
 			children = (
-				39DC8D602A6845ACB2729A6C /* EchoDJApp.swift */,
-				541DC7AE19F5427EA8A970B7 /* AppEnvironment.swift */,
-				07897CDA5F964AB6A98660E2 /* UserTasteProfile.swift */,
-				AC9911F8EC3C40159AFD04A8 /* TrackCooldown.swift */,
-				BAA94BFFCEB64D178B732FB6 /* CachedTrack.swift */,
-				19CD4A7EF7B5474D91456C5A /* StationSession.swift */,
-				4207DE3769674250A7AB1DCD /* MusicProviderProtocol.swift */,
-				99C7F965E39E4A1EAB97C6BF /* DJBrainProtocol.swift */,
-				1076BED59B844CFC9B3DE66E /* VectorAffinityEngine.swift */,
-				D194EE91E9A34CE185336DD4 /* AppleMusicProvider.swift */,
-				26BDCF37B5A1474BA1CAC116 /* StationQueueManager.swift */,
-				65C774F93F484A4F93136965 /* TelemetryCollector.swift */,
-				F4901EA54EEA40198ADDD9F3 /* TTSClient.swift */,
-				8E74D9CC6BD947B38E5DDAE3 /* AudioDucker.swift */,
-				ABAD9F47952846489D1CED30 /* TransitionManager.swift */,
-				0F77C9971C96472AA92DFBD9 /* SubscriptionManager.swift */,
-				FEF6EE4283584F7C844A5EE9 /* OnDeviceDJBrain.swift */,
-				B22F85FC8D3349F99492A4D9 /* SimulatorMusicProvider.swift */,
-				E8BD8F5F8C104FED9927B556 /* FallbackDJBrain.swift */,
-				A4D84DA8F1994FE9934429A6 /* MainTabView.swift */,
-				F168967FA26F4D0B8229F606 /* RadioView.swift */,
-				0B4EA8323D3E4DA08F5BDA8B /* SearchView.swift */,
-				C8E03385A32B4D038E231205 /* VibeVisualizer.swift */,
-				64397D622D3E47C7AACFF9EF /* Info.plist */,
-				767AB2FF5D804A9A941D7433 /* EchoDJ.storekit */,
+				4D7020DF8F114735A33888D7 /* EchoDJApp.swift */,
+				6B3CB0E326B648EFA4557257 /* AppEnvironment.swift */,
+				AA07AF4DE949473889AADC35 /* UserTasteProfile.swift */,
+				497727774D66440E81E9C609 /* TrackCooldown.swift */,
+				C671BD5134F84EEAB723CF6E /* CachedTrack.swift */,
+				984CF485B4424AF581557124 /* StationSession.swift */,
+				1F56754567C640919F60F062 /* RecentStation.swift */,
+				D0DE430F5A864E30A9A7C1BC /* MusicProviderProtocol.swift */,
+				F87FAC6563C740AF9CD71744 /* DJBrainProtocol.swift */,
+				AA1FECE7A62D4CA49B099907 /* VectorAffinityEngine.swift */,
+				0E1A386010A442B090B69AE3 /* AppleMusicProvider.swift */,
+				4A7F8B5E22D14C6CAF43302E /* StationQueueManager.swift */,
+				17564ECDB35C45E9A419EFB1 /* TelemetryCollector.swift */,
+				007D7BFC44B646209760EB8C /* TTSClient.swift */,
+				126C67865DBB43A0AFB70F1F /* AudioDucker.swift */,
+				536E035295114182BDE07FB2 /* TransitionManager.swift */,
+				C538BFB9593C417D90B0282D /* SubscriptionManager.swift */,
+				53EB840B2BD84B1BAFB6CFE7 /* OnDeviceDJBrain.swift */,
+				627C0F6D04F54D36988F6F3F /* SimulatorMusicProvider.swift */,
+				B081E7DEA7FF48CE81B88E56 /* FallbackDJBrain.swift */,
+				19014DAFCD354A99BF0A081C /* MainTabView.swift */,
+				294A4B5E9E22449F821BA50D /* RadioView.swift */,
+				0EAC633626E3498595935900 /* SearchView.swift */,
+				33E34875EE1C4EE48286EE73 /* VibeVisualizer.swift */,
+				3AA46046119441F8A1651DA9 /* Info.plist */,
+				AE9F20A05B694A84BE0E1E79 /* EchoDJ.storekit */,
+				FB0BCCE926EE471C8B7A6F6B /* PrivacyInfo.xcprivacy */,
 			);
 			path = EchoDJ;
 			sourceTree = "<group>";
@@ -136,13 +142,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C2A79290EF354156A40B3A14 /* EchoDJ */ = {
+		A1242EAA96B34C16A1CBED86 /* EchoDJ */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D60631FB39B54A92AA2713CD /* Build configuration list for PBXNativeTarget "EchoDJ" */;
+			buildConfigurationList = B0DDB4B92F5447C5AE05E13A /* Build configuration list for PBXNativeTarget "EchoDJ" */;
 			buildPhases = (
-				B96CBDF7E5F24A37B54F07FD /* Sources */,
-				DBA486491C3E4FEAADA28A75 /* Frameworks */,
-				CA271055618B44E4B4BE6BD3 /* Resources */,
+				3F4C5EB9DDB349F1B6881137 /* Sources */,
+				9227B510BC514C368627D8A7 /* Frameworks */,
+				6D9CFC7DECC741119D901F18 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -150,25 +156,25 @@
 			);
 			name = EchoDJ;
 			productName = EchoDJ;
-			productReference = B8BE836911064EB5AF608538 /* EchoDJ.app */;
+			productReference = EABF746364FC4361B61A7723 /* EchoDJ.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		A629FEB95A754A79887049B9 /* Project object */ = {
+		B56639490AF34AE48A20C078 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					C2A79290EF354156A40B3A14 = {
+					A1242EAA96B34C16A1CBED86 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = 73598646F1E144579278D383 /* Build configuration list for PBXProject "EchoDJ" */;
+			buildConfigurationList = 011FC8569DFE4DB29222B69B /* Build configuration list for PBXProject "EchoDJ" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -176,62 +182,64 @@
 				en,
 				Base,
 			);
-			mainGroup = 5084E530B4B141B697B647A6;
-			productRefGroup = 2588ECFAD35649498FEA7E81 /* Products */;
+			mainGroup = A652D5800CD24B78A19350F5;
+			productRefGroup = 9E3916D9330C468CBF7EF7B1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C2A79290EF354156A40B3A14 /* EchoDJ */,
+				A1242EAA96B34C16A1CBED86 /* EchoDJ */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		CA271055618B44E4B4BE6BD3 /* Resources */ = {
+		6D9CFC7DECC741119D901F18 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAC8124C1C4848BAA388CCD5 /* EchoDJ.storekit in Resources */,
+				3E86655BA71140E1A644DEFF /* EchoDJ.storekit in Resources */,
+				3F3006B7446344DEAF1EFE6C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		B96CBDF7E5F24A37B54F07FD /* Sources */ = {
+		3F4C5EB9DDB349F1B6881137 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				097213652CA54A859AF21C91 /* EchoDJApp.swift in Sources */,
-				4BB65E760D3F46D3BBDC7F0B /* AppEnvironment.swift in Sources */,
-				761A6757CEA94D618C21ABF1 /* UserTasteProfile.swift in Sources */,
-				1611D75742D64192BB2CB820 /* TrackCooldown.swift in Sources */,
-				5C787CAA99C04A84B6CA60F1 /* CachedTrack.swift in Sources */,
-				9F786A37B4CE4D90A7A716BA /* StationSession.swift in Sources */,
-				DE364785CCFC4760AB20523A /* MusicProviderProtocol.swift in Sources */,
-				B834A6FD1DC94ED087FAE619 /* DJBrainProtocol.swift in Sources */,
-				EAC686B3EDC4499793786107 /* VectorAffinityEngine.swift in Sources */,
-				FBA3ECEFCBEE4CE6A76CF3D9 /* AppleMusicProvider.swift in Sources */,
-				81AADD0A1F0844BBB4E825B0 /* StationQueueManager.swift in Sources */,
-				67A87AC484D24EC28E31EFF2 /* TelemetryCollector.swift in Sources */,
-				667B1AED1FB74EE4BEDF23BD /* TTSClient.swift in Sources */,
-				63E14C71897943CCAF2A3145 /* AudioDucker.swift in Sources */,
-				ABEB0CFB719E40B182A971BE /* TransitionManager.swift in Sources */,
-				B4180BE0E1804DA6A328653C /* SubscriptionManager.swift in Sources */,
-				AD914C6283BC46ECAED8808D /* OnDeviceDJBrain.swift in Sources */,
-				453560702DEE4A9BBD26468F /* SimulatorMusicProvider.swift in Sources */,
-				0FE6E90D3C68426AA51342BC /* FallbackDJBrain.swift in Sources */,
-				CFE48B1F6715419D8BC416F1 /* MainTabView.swift in Sources */,
-				9B6001E48BE7440CA885A6E5 /* RadioView.swift in Sources */,
-				C84FB5D311294EE8AB3C8ACD /* SearchView.swift in Sources */,
-				734AC2C0DE5E472CA5F2D718 /* VibeVisualizer.swift in Sources */,
+				A982F18AC75548B6919051B1 /* EchoDJApp.swift in Sources */,
+				082ABEF1DF734E19BA8FAE97 /* AppEnvironment.swift in Sources */,
+				7B2A22DB01104169A9C90465 /* UserTasteProfile.swift in Sources */,
+				5797E38244044721A07A735F /* TrackCooldown.swift in Sources */,
+				EDBA3316682E4B778A25E572 /* CachedTrack.swift in Sources */,
+				847BC738302E44468D07C957 /* StationSession.swift in Sources */,
+				BBDEEAD33E4D48D7B5AA8051 /* RecentStation.swift in Sources */,
+				B8387911089B42508E78B6BB /* MusicProviderProtocol.swift in Sources */,
+				49C0CDCDB0584AAFB2EE904F /* DJBrainProtocol.swift in Sources */,
+				196A71A89F0D4DF985D5AE8C /* VectorAffinityEngine.swift in Sources */,
+				003B8C2236184A56876F6713 /* AppleMusicProvider.swift in Sources */,
+				25095328050C4D5A93DA5B92 /* StationQueueManager.swift in Sources */,
+				9D0759BED5EF40CA83E0AA07 /* TelemetryCollector.swift in Sources */,
+				371CD75400D546609873B86F /* TTSClient.swift in Sources */,
+				8AE6E2C3CD7E40C7843ABCE4 /* AudioDucker.swift in Sources */,
+				5ADD986CA47F4950A5F5E90C /* TransitionManager.swift in Sources */,
+				9EA17D8D3F6F4D8CB535D560 /* SubscriptionManager.swift in Sources */,
+				3A829078B94B45CA9DA47AD8 /* OnDeviceDJBrain.swift in Sources */,
+				D5E152C8CC054EF08C445931 /* SimulatorMusicProvider.swift in Sources */,
+				D7FDD88975074DA092F48BBE /* FallbackDJBrain.swift in Sources */,
+				5FF807FF3D2D4464BA3AE2DA /* MainTabView.swift in Sources */,
+				FCDBB94E33D64FFC9CAAF51D /* RadioView.swift in Sources */,
+				07A32BDC9E42407D8A9FB561 /* SearchView.swift in Sources */,
+				75A6EDFA068A44C5BC596541 /* VibeVisualizer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		C5A3219C8E36481984D48F83 /* Debug */ = {
+		37C3490665674DC99988759F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -291,7 +299,7 @@
 			};
 			name = Debug;
 		};
-		FC3D77FC92C540CE89555210 /* Release */ = {
+		C48B1C09D846483289159C1F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -345,7 +353,7 @@
 			};
 			name = Release;
 		};
-		99891C2E1E5D49C394300BFF /* Debug */ = {
+		55AB8F22A8EF4D029DB2AF01 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -371,7 +379,7 @@
 			};
 			name = Debug;
 		};
-		915AAE87EAFE43C28F9012F0 /* Release */ = {
+		78F400C8FBCD428AA216CDC9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -400,20 +408,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		73598646F1E144579278D383 /* Build configuration list for PBXProject "EchoDJ" */ = {
+		011FC8569DFE4DB29222B69B /* Build configuration list for PBXProject "EchoDJ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C5A3219C8E36481984D48F83 /* Debug */,
-				FC3D77FC92C540CE89555210 /* Release */,
+				37C3490665674DC99988759F /* Debug */,
+				C48B1C09D846483289159C1F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D60631FB39B54A92AA2713CD /* Build configuration list for PBXNativeTarget "EchoDJ" */ = {
+		B0DDB4B92F5447C5AE05E13A /* Build configuration list for PBXNativeTarget "EchoDJ" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				99891C2E1E5D49C394300BFF /* Debug */,
-				915AAE87EAFE43C28F9012F0 /* Release */,
+				55AB8F22A8EF4D029DB2AF01 /* Debug */,
+				78F400C8FBCD428AA216CDC9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -421,5 +429,5 @@
 /* End XCConfigurationList section */
 
 	};
-	rootObject = A629FEB95A754A79887049B9 /* Project object */;
+	rootObject = B56639490AF34AE48A20C078 /* Project object */;
 }

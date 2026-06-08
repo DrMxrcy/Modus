@@ -1,4 +1,7 @@
 import Foundation
+import OSLog
+
+private let logger = Logger(subsystem: "app.echodj", category: "TTSClient")
 
 actor TTSClient {
     private let apiKey: String?
@@ -42,13 +45,14 @@ actor TTSClient {
         do {
             let (data, response) = try await URLSession.shared.data(for: request)
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-                print("TTSClient: API error \(response)")
+                let status = (response as? HTTPURLResponse)?.statusCode ?? 0
+                logger.error("API error: status \(status, privacy: .public)")
                 return nil
             }
             try data.write(to: cachedURL)
             return cachedURL
         } catch {
-            print("TTSClient: Network error \(error)")
+            logger.error("Network error: \(error.localizedDescription, privacy: .public)")
             return nil
         }
     }

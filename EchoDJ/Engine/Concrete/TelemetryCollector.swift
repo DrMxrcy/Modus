@@ -68,6 +68,17 @@ actor TelemetryCollector {
             playbackRatio: 1.0
         )
 
+        // Cooldown write on full play: keep a light 12h "don't auto-replay" so the
+        // station doesn't loop the same track within a session, but shorter than
+        // a hard-skip cooldown. Without this, a long session can repeat tracks.
+        let cooldown = TrackCooldown(
+            trackID: trackID,
+            artistName: track.artistName,
+            expiration: Date().addingTimeInterval(43200), // 12h
+            penaltyScore: 0
+        )
+        context.insert(cooldown)
+
         try? context.save()
     }
 }

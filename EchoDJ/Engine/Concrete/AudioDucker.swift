@@ -1,5 +1,8 @@
 import Foundation
 import AVFoundation
+import OSLog
+
+private let logger = Logger(subsystem: "app.echodj", category: "AudioDucker")
 
 actor AudioDucker {
     private var player: AVAudioPlayer?
@@ -7,12 +10,12 @@ actor AudioDucker {
 
     func duckPlayback(duration: TimeInterval) async {
         duckTask?.cancel()
-        print("AudioDucker: Ducking playback for \(duration)s")
+        logger.debug("Ducking playback for \(duration, privacy: .public)s")
     }
 
     func restorePlayback() async {
         duckTask?.cancel()
-        print("AudioDucker: Restoring playback volume")
+        logger.debug("Restoring playback volume")
     }
 
     func playTransition(url: URL) async {
@@ -26,7 +29,7 @@ actor AudioDucker {
                 try await Task.sleep(nanoseconds: 100_000_000)
             }
         } catch {
-            print("AudioDucker: Failed to play transition \(error)")
+            logger.error("Failed to play transition: \(error.localizedDescription, privacy: .public)")
         }
     }
 }

@@ -1,6 +1,9 @@
 import Foundation
 import SwiftData
 import MusicKit
+import OSLog
+
+private let logger = Logger(subsystem: "app.echodj", category: "StationQueueManager")
 
 struct TrackDisplay: Sendable {
     let trackID: String
@@ -140,6 +143,7 @@ actor StationQueueManager {
 
         persistTracks(ranked)
         try await logStationSession(seed: seed, tracks: ranked, epsilon: epsilon, arc: useArcShaping)
+        await recordRecentStation(seed: seed, trackCount: ranked.count)
         try await loadQueue(tracks: ranked)
     }
 
@@ -155,7 +159,13 @@ actor StationQueueManager {
         if provider is AppleMusicProvider {
             var searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
             searchRequest.limit = 10
-            let searchResponse = try await searchRequest.response()
+            let searchResponse: MusicCatalogSearchResponse
+            do {
+                searchResponse = try await searchRequest.response()
+            } catch {
+                logger.error("resolveSeedTrack search failed: \(error.localizedDescription, privacy: .public)")
+                throw StationError.seedNotFound
+            }
             guard let song = searchResponse.songs.first(where: { $0.id.rawValue == seedID })
                     ?? searchResponse.songs.first else {
                 throw StationError.seedNotFound
@@ -226,8 +236,11 @@ actor StationQueueManager {
 
         var artistSearch = MusicCatalogSearchRequest(term: seed.artistName, types: [Song.self])
         artistSearch.limit = 25
-        if let response = try? await artistSearch.response() {
+        do {
+            let response = try await artistSearch.response()
             snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+        } catch {
+            logger.error("similar-artist search failed: \(error.localizedDescription, privacy: .public)")
         }
 
         let relatedTerms = [
@@ -238,8 +251,11 @@ actor StationQueueManager {
         for term in relatedTerms {
             var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
             request.limit = 15
-            if let response = try? await request.response() {
+            do {
+                let response = try await request.response()
                 snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            } catch {
+                logger.error("related-terms search failed for \(term, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
 
@@ -258,8 +274,11 @@ actor StationQueueManager {
         for term in terms {
             var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
             request.limit = 15
-            if let response = try? await request.response() {
+            do {
+                let response = try await request.response()
                 snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            } catch {
+                logger.error("genre search failed for \(term, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
 
@@ -281,8 +300,11 @@ actor StationQueueManager {
         for term in terms {
             var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
             request.limit = 20
-            if let response = try? await request.response() {
+            do {
+                let response = try await request.response()
                 snapshots.append(contentsOf: response.songs.compactMap { TrackSnapshot(from: $0) })
+            } catch {
+                logger.error("broader search failed for \(term, privacy: .public): \(error.localizedDescription, privacy: .public)")
             }
         }
 
@@ -345,6 +367,25 @@ actor StationQueueManager {
         try context.save()
     }
 
+    /// Insert a RecentStation entry for the seed. Called after the station is built
+    /// so only successful station starts are recorded. The CloudKit-backed SwiftData
+    /// container (configured in `AppEnvironment`) syncs this to the user's private DB.
+    ///
+    /// Pro-tier: the UI only surfaces these when `subscriptionManager.isPro` is true;
+    /// persistence happens unconditionally so upgrading mid-session unlocks history
+    /// the user already created (no surprise data loss on upgrade).
+    private func recordRecentStation(seed: CachedTrack, trackCount: Int) async {
+        let context = ModelContext(modelContainer)
+        let entry = RecentStation(
+            seedTrackID: seed.trackID,
+            seedTitle: seed.title,
+            seedArtist: seed.artistName,
+            trackCount: trackCount
+        )
+        context.insert(entry)
+        try? context.save()
+    }
+
     private func loadQueue(tracks: [CachedTrack]) async throws {
         queuedTrackIDs = tracks.map { $0.trackID }
 
@@ -354,7 +395,11 @@ actor StationQueueManager {
             try await provider.loadTrack(id: firstID)
         } else {
             for track in tracks {
-                try? await provider.loadTrack(id: track.trackID)
+                do {
+                    try await provider.loadTrack(id: track.trackID)
+                } catch {
+                    logger.error("non-Apple provider loadTrack failed for \(track.trackID, privacy: .public): \(error.localizedDescription, privacy: .public)")
+                }
             }
         }
     }

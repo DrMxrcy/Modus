@@ -10,7 +10,7 @@
 - [x] 🟦 Phase 6: On-Device LLM DJ (Progress: 100%) -> *See [.claude/plans/006-ondevice-llm.md](.claude/plans/006-ondevice-llm.md)*
 - [x] ⬜ Phase 7: CloudKit Sync & Monetization (Progress: 100%) -> *See [.claude/plans/007-cloudkit-monetization.md](.claude/plans/007-cloudkit-monetization.md)*
 - [x] 🟩 Phase 8: Hybrid Station Discovery & AI Arc Shaping (Progress: 100%) -> *See [.claude/plans/008-hybrid-station-discovery.md](.claude/plans/008-hybrid-station-discovery.md)*
-- [ ] 🟩 App Store v1: Submission Cut (Progress: 10% — sim pass on Milestones B + D done) -> *See [.claude/plans/009-app-store-review.md](.claude/plans/009-app-store-review.md)*
+- [ ] 🟩 App Store v1: Submission Cut (Progress: 35% — sim pass on Milestones B, D, E, F, G done) -> *See [.claude/plans/009-app-store-review.md](.claude/plans/009-app-store-review.md)*
 - [ ] ⬜ Phase 9: Cloud Taste Aggregation (Progress: 0%) -> *Future / Phase 9*
 
 ## 🗺️ Master Design
