@@ -10,10 +10,15 @@ actor SimulatorMusicProvider: MusicProviderProtocol {
     var currentTrackID: String? = nil
     var currentPlaybackProgress: Double = 0.0
     var playbackDuration: Double = 240.0
+    var currentTitle: String = ""
+    var currentArtist: String = ""
+    var currentArtworkURL: URL? = nil
 
     func loadTrack(id: String) async throws {
         currentTrackID = id
         currentPlaybackProgress = 0.0
+        currentTitle = id
+        currentArtist = ""
     }
 
     func play() async throws {

@@ -9,7 +9,7 @@
 	<key>NSPrivacyAccessedAPITypes</key>
 	<array>
 		<!--
-			EchoDJ does not use UserDefaults, file timestamps, system boot time,
+			Modus does not use UserDefaults, file timestamps, system boot time,
 			or disk space APIs in its own code. SwiftData and CloudKit manage
 			their own disk access and are exempt from the "File Timestamp" reason.
 			Leaving the array empty above. This list will grow if the app adds

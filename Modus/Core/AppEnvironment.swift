@@ -44,7 +44,7 @@ final class AppEnvironment: ObservableObject {
             fatalError("Failed to initialize SwiftData Container: \(error)")
         }
 
-        let provider = makeMusicProvider()
+        let provider = makeMusicProvider(modelContainer: self.modelContainer)
         self.musicProvider = provider
 
         let brain = makeDJBrain()
@@ -68,6 +68,11 @@ final class AppEnvironment: ObservableObject {
     }
 
     func resolveCapabilities() async {
+        // Request MusicKit authorization if the user has not yet decided.
+        if MusicAuthorization.currentStatus == .notDetermined {
+            _ = await MusicAuthorization.request()
+        }
+
         let realProvider = AppleMusicProvider(modelContainer: self.modelContainer)
         if await realProvider.isAvailable {
             self.musicProvider = realProvider
@@ -120,11 +125,11 @@ private func isSimulatorBuild() -> Bool {
     #endif
 }
 
-private func makeMusicProvider() -> any MusicProviderProtocol {
+private func makeMusicProvider(modelContainer: ModelContainer) -> any MusicProviderProtocol {
     #if targetEnvironment(simulator)
     return SimulatorMusicProvider()
     #else
-    return AppleMusicProvider()
+    return AppleMusicProvider(modelContainer: modelContainer)
     #endif
 }
 

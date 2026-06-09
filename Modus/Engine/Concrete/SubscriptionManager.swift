@@ -33,6 +33,18 @@ final class SubscriptionManager: ObservableObject {
     private var updatesTask: Task<Void, Error>? = nil
 
     init() {
+        // Finish any unfinished transactions and read current entitlements before
+        // starting the long-running updates listener. This restores Pro state
+        // after a force-quit or background renewal.
+        Task(priority: .background) {
+            for await result in Transaction.unfinished {
+                await handleTransactionUpdate(result)
+            }
+            for await result in Transaction.currentEntitlements {
+                await handleTransactionUpdate(result)
+            }
+        }
+
         updatesTask = Task {
             for await result in Transaction.updates {
                 await handleTransactionUpdate(result)
@@ -139,13 +151,12 @@ final class SubscriptionManager: ObservableObject {
     }
 
     private func handleTransactionUpdate(_ result: VerificationResult<Transaction>) async {
-        do {
-            let transaction = try result.payloadValue
-            await transaction.finish()
-            await updateSubscriptionStatus()
-        } catch {
-            logger.error("Transaction verification failed: \(error.localizedDescription, privacy: .public)")
+        guard case .verified(let transaction) = result else {
+            logger.error("Transaction verification failed (unverified result)")
+            return
         }
+        await transaction.finish()
+        await updateSubscriptionStatus()
     }
 
     // MARK: - Convenience

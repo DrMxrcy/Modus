@@ -29,11 +29,24 @@ actor AppleMusicProvider: MusicProviderProtocol {
         loadedDuration
     }
 
+    var currentTitle: String {
+        loadedTitle
+    }
+
+    var currentArtist: String {
+        loadedArtist
+    }
+
+    var currentArtworkURL: URL? {
+        loadedArtwork?.url(width: 600, height: 600)
+    }
+
     private var loadedTrackID: String?
     private var loadedDuration: TimeInterval = 0.0
     private var loadedTitle: String = ""
     private var loadedArtist: String = ""
     private var loadedAlbum: String = ""
+    private var loadedArtwork: Artwork?
     private let modelContainer: ModelContainer
 
     init(modelContainer: ModelContainer) {
@@ -108,6 +121,7 @@ actor AppleMusicProvider: MusicProviderProtocol {
         self.loadedArtist = song.artistName
         self.loadedAlbum = song.albumTitle ?? ""
         self.loadedDuration = song.duration ?? 240.0
+        self.loadedArtwork = song.artwork
 
         ApplicationMusicPlayer.shared.queue = [song]
         updateNowPlayingInfo()
@@ -132,6 +146,10 @@ actor AppleMusicProvider: MusicProviderProtocol {
         ApplicationMusicPlayer.shared.stop()
         loadedTrackID = nil
         loadedDuration = 0.0
+        loadedTitle = ""
+        loadedArtist = ""
+        loadedAlbum = ""
+        loadedArtwork = nil
         updateNowPlayingInfo()
     }
 

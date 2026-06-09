@@ -6,6 +6,9 @@ protocol MusicProviderProtocol: Actor {
     var currentTrackID: String? { get }
     var currentPlaybackProgress: Double { get }
     var playbackDuration: Double { get }
+    var currentTitle: String { get }
+    var currentArtist: String { get }
+    var currentArtworkURL: URL? { get }
 
     func loadTrack(id: String) async throws
     func play() async throws

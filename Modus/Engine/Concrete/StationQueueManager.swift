@@ -82,8 +82,8 @@ extension TrackSnapshot {
 
 actor StationQueueManager {
     private let modelContainer: ModelContainer
-    private let provider: any MusicProviderProtocol
-    private let djBrain: any DJBrainProtocol
+    private var provider: any MusicProviderProtocol
+    private var djBrain: any DJBrainProtocol
     private var queuedTrackIDs: [String] = []
 
     init(
@@ -177,7 +177,11 @@ actor StationQueueManager {
                 throw StationError.seedNotFound
             }
             context.insert(cached)
-            try? context.save()
+            do {
+                try context.save()
+            } catch {
+                logger.error("Seed persist failed: \(error.localizedDescription, privacy: .public)")
+            }
             return cached
         }
 
@@ -350,7 +354,11 @@ actor StationQueueManager {
                 context.insert(track)
             }
         }
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("Track persist failed: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
     private func logStationSession(
@@ -386,7 +394,11 @@ actor StationQueueManager {
             trackCount: trackCount
         )
         context.insert(entry)
-        try? context.save()
+        do {
+            try context.save()
+        } catch {
+            logger.error("Recent station persist failed: \(error.localizedDescription, privacy: .public)")
+        }
     }
 
     private func loadQueue(tracks: [CachedTrack]) async throws {

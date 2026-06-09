@@ -1,19 +1,20 @@
 import SwiftUI
 import SwiftData
-import Combine
 import StoreKit
 
 struct RadioView: View {
     @EnvironmentObject var env: AppEnvironment
     @State private var isPlaying: Bool = false
     @State private var progress: Double = 0.0
-    @State private var trackTitle: String = "Station Seed Title"
-    @State private var trackArtist: String = "Echo DJ Station Active"
+    @State private var trackTitle: String = ""
+    @State private var trackArtist: String = ""
+    @State private var artworkURL: URL? = nil
     @State private var upcoming: [TrackDisplay] = []
-    @State private var timerCancellable: AnyCancellable? = nil
     @State private var showPaywall: Bool = false
     @State private var showRecent: Bool = false
     @State private var lastObservedTrackID: String? = nil
+    @State private var pollTask: Task<Void, Never>? = nil
+    @State private var showOnboarding: Bool = false
 
     var body: some View {
         ZStack {
@@ -26,17 +27,59 @@ struct RadioView: View {
             .ignoresSafeArea()
 
             VStack(spacing: 30) {
-                RoundedRectangle(cornerRadius: 24)
-                    .fill(Color.secondary.opacity(0.3))
-                    .frame(width: 300, height: 300)
-                    .overlay(Text("Album Artwork Proxy"))
+                // Artwork or empty-state placeholder
+                Group {
+                    if let url = artworkURL {
+                        AsyncImage(url: url) { phase in
+                            switch phase {
+                            case .empty:
+                                RoundedRectangle(cornerRadius: 24)
+                                    .fill(Color.secondary.opacity(0.3))
+                                    .frame(width: 300, height: 300)
+                                    .overlay(ProgressView())
+                            case .success(let image):
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 300, height: 300)
+                                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                            case .failure:
+                                RoundedRectangle(cornerRadius: 24)
+                                    .fill(Color.secondary.opacity(0.3))
+                                    .frame(width: 300, height: 300)
+                                    .overlay(
+                                        Image(systemName: "music.note")
+                                            .font(.system(size: 64))
+                                            .foregroundStyle(.secondary)
+                                    )
+                            @unknown default:
+                                EmptyView()
+                            }
+                        }
+                    } else {
+                        RoundedRectangle(cornerRadius: 24)
+                            .fill(Color.secondary.opacity(0.3))
+                            .frame(width: 300, height: 300)
+                            .overlay(
+                                VStack(spacing: 12) {
+                                    Image(systemName: "radio")
+                                        .font(.system(size: 64))
+                                        .foregroundStyle(.secondary)
+                                    Text("Start a station from Search")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            )
+                    }
+                }
 
                 VStack(spacing: 8) {
-                    Text(trackTitle)
+                    Text(trackTitle.isEmpty ? "Welcome to Modus" : trackTitle)
                         .font(.title2.bold())
-                    Text(trackArtist)
+                    Text(trackArtist.isEmpty ? "Pick a track to begin your behavioral radio" : trackArtist)
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
+
                     Button {
                         if !env.subscriptionManager.isPro {
                             showPaywall = true
@@ -78,8 +121,9 @@ struct RadioView: View {
 
                 ProgressView(value: progress, total: 1.0)
                     .padding(.horizontal)
+                    .opacity(trackTitle.isEmpty ? 0.3 : 1.0)
 
-                if !upcoming.isEmpty {
+                if !trackTitle.isEmpty && !upcoming.isEmpty {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Next Up")
                             .font(.caption.bold())
@@ -119,13 +163,15 @@ struct RadioView: View {
                     onHardSkip: hardSkip,
                     onSoftSkip: softSkip
                 )
+                .disabled(trackTitle.isEmpty)
+                .opacity(trackTitle.isEmpty ? 0.5 : 1.0)
             }
         }
         .onAppear {
             startProgressTimer()
         }
         .onDisappear {
-            timerCancellable?.cancel()
+            pollTask?.cancel()
         }
         .sheet(isPresented: $showPaywall) {
             PaywallSheet(
@@ -141,33 +187,37 @@ struct RadioView: View {
     }
 
     private func startProgressTimer() {
-        timerCancellable = Timer.publish(every: 1.0, on: .main, in: .common)
-            .autoconnect()
-            .sink { _ in
-                Task { @MainActor in
-                    let provider = env.musicProvider
-                    let playing = await provider.isPlaying
-                    let prog = await provider.currentPlaybackProgress
-                    let title = await provider.currentTrackID ?? "Station Seed Title"
+        pollTask?.cancel()
+        pollTask = Task { @MainActor in
+            while !Task.isCancelled {
+                let provider = env.musicProvider
+                let playing = await provider.isPlaying
+                let prog = await provider.currentPlaybackProgress
+                let title = await provider.currentTitle
+                let artist = await provider.currentArtist
+                let art = await provider.currentArtworkURL
+                let id = await provider.currentTrackID
 
-                    isPlaying = playing
-                    progress = prog
-                    if title != trackTitle && title != "Station Seed Title" {
-                        // Detect a track transition: the previous track completed
-                        // (auto-advance) or was skipped. Record a "full play" for the
-                        // previous ID so the cooldown table prevents immediate replay.
-                        if let previous = lastObservedTrackID, !previous.isEmpty, previous != "Station Seed Title" {
-                            await env.telemetryCollector.recordFullPlay(trackID: previous)
-                        }
-                        trackTitle = title
-                        trackArtist = "Now Playing"
-                        lastObservedTrackID = title
+                isPlaying = playing
+                progress = prog
+                trackTitle = title
+                trackArtist = artist
+                artworkURL = art
+
+                if let currentID = id, currentID != lastObservedTrackID {
+                    // Track changed: record full play for previous
+                    if let previous = lastObservedTrackID, !previous.isEmpty {
+                        await env.telemetryCollector.recordFullPlay(trackID: previous)
                     }
-
-                    let next = await env.queueManager.upcomingTracks(limit: 3)
-                    upcoming = next
+                    lastObservedTrackID = currentID
                 }
+
+                let next = await env.queueManager.upcomingTracks(limit: 3)
+                upcoming = next
+
+                try? await Task.sleep(for: .seconds(1))
             }
+        }
     }
 
     private func togglePlayPause() {
@@ -202,7 +252,7 @@ struct RadioView: View {
 
     private func isExplorationPick(track: TrackDisplay) -> Bool {
         // Exploration picks are disabled for v1. Re-enable when StationQueueManager
-        // can tag tracks that fall outside the user’s taste-profile bounds.
+        // can tag tracks that fall outside the user's taste-profile bounds.
         false
     }
 }
@@ -239,7 +289,7 @@ private struct PaywallSheet: View {
     var body: some View {
         VStack(spacing: 20) {
             HStack {
-                Text("EchoDJ Pro")
+                Text("Modus Pro")
                     .font(.title.bold())
                 Spacer()
                 Button("Close", action: onDismiss)
@@ -308,8 +358,9 @@ private struct PaywallSheet: View {
 
             // Required by App Store guideline 5.1.1: privacy policy must be
             // accessible within the app, not just on the App Store listing.
+            // TODO: Replace with live privacy policy URL before submission.
             Link("Privacy Policy",
-                 destination: URL(string: "https://echodj.app/privacy")!)
+                 destination: URL(string: "https://modus.audio/privacy")!)
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)

@@ -3,7 +3,7 @@ import SwiftData
 import MusicKit
 import OSLog
 
-private let searchLogger = Logger(subsystem: "app.echodj", category: "SearchView")
+private let searchLogger = Logger(subsystem: "app.modus", category: "SearchView")
 
 struct SearchView: View {
     @EnvironmentObject var env: AppEnvironment
@@ -179,7 +179,11 @@ struct SearchView: View {
                             context.insert(track)
                         }
                     }
-                    try? context.save()
+                    do {
+                        try context.save()
+                    } catch {
+                        searchLogger.error("Seed persist failed: \(error.localizedDescription, privacy: .public)")
+                    }
                 }
             }
         }
