@@ -1,0 +1,249 @@
+{
+  "" : {
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJ-primary.dia",
+    "emit-module-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJ-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJ-primary-emit-module.dia",
+    "pch" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJ-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJ-primary.swiftdeps"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Core/AppEnvironment.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppEnvironment~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Core/EchoDJApp.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/EchoDJApp~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Data/Models/CachedTrack.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/CachedTrack~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Data/Models/RecentStation.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RecentStation~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Data/Models/StationSession.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationSession~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Data/Models/TrackCooldown.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TrackCooldown~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Data/Models/UserTasteProfile.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/UserTasteProfile~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/AppleMusicProvider.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AppleMusicProvider~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/AudioDucker.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/AudioDucker~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/OnDeviceDJBrain.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/OnDeviceDJBrain~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/StationQueueManager.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/StationQueueManager~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/SubscriptionManager.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SubscriptionManager~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/TTSClient.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TTSClient~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/TelemetryCollector.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TelemetryCollector~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/TransitionManager.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/TransitionManager~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Concrete/VectorAffinityEngine.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VectorAffinityEngine~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Mocks/FallbackDJBrain.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/FallbackDJBrain~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Mocks/SimulatorMusicProvider.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SimulatorMusicProvider~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Protocols/DJBrainProtocol.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/DJBrainProtocol~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/Engine/Protocols/MusicProviderProtocol.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MusicProviderProtocol~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/UI/Components/VibeVisualizer.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/VibeVisualizer~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/UI/Tabs/MainTabView.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/MainTabView~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/UI/Tabs/RadioView.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/RadioView~partial.swiftmodule"
+  },
+  "/Users/jp/Desktop/Dev/EchoDJ/EchoDJ/UI/Tabs/SearchView.swift" : {
+    "const-values" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.swiftconstvalues",
+    "dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.d",
+    "diagnostics" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.dia",
+    "index-unit-output-path" : "/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.o",
+    "llvm-bc" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.bc",
+    "object" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.o",
+    "swift-dependencies" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView.swiftdeps",
+    "swiftmodule" : "/Users/jp/Desktop/Dev/EchoDJ/build-device/Build/Intermediates.noindex/EchoDJ.build/Debug-iphoneos/EchoDJ.build/Objects-normal/arm64/SearchView~partial.swiftmodule"
+  }
+}

@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
-"""Generate a clean EchoDJ.xcodeproj from scratch."""
+"""Generate a clean Modus.xcodeproj from scratch."""
 
 import os
 import uuid
 
 SRC_DIR = '/Users/jp/Desktop/Dev/EchoDJ'
-OUTPUT_PROJ = os.path.join(SRC_DIR, 'EchoDJ.xcodeproj')
+OUTPUT_PROJ = os.path.join(SRC_DIR, 'Modus.xcodeproj')
 
 def gen_uuid():
     return uuid.uuid4().hex.upper()[:24]
 
 # Define all source files with their relative paths
 SWIFT_FILES = [
-    ('Core/EchoDJApp.swift', 'EchoDJApp.swift'),
+    ('Core/ModusApp.swift', 'ModusApp.swift'),
     ('Core/AppEnvironment.swift', 'AppEnvironment.swift'),
     ('Data/Models/UserTasteProfile.swift', 'UserTasteProfile.swift'),
     ('Data/Models/TrackCooldown.swift', 'TrackCooldown.swift'),
@@ -40,7 +40,7 @@ SWIFT_FILES = [
 
 # Define resource files (bundled but not compiled; .storekit configs, asset catalogs, etc.)
 RESOURCE_FILES = [
-    ('Resources/StoreKit/EchoDJ.storekit', 'EchoDJ.storekit'),
+    ('Resources/StoreKit/Modus.storekit', 'Modus.storekit'),
     ('Resources/PrivacyInfo.xcprivacy', 'PrivacyInfo.xcprivacy'),
 ]
 
@@ -137,10 +137,10 @@ lines.append('')
 
 # PBXFileReference section
 lines.append('/* Begin PBXFileReference section */')
-lines.append(f"\t\t{product_ref_uuid} /* EchoDJ.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EchoDJ.app; sourceTree = BUILT_PRODUCTS_DIR; }};")
+lines.append(f"\t\t{product_ref_uuid} /* Modus.app */ = {{isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Modus.app; sourceTree = BUILT_PRODUCTS_DIR; }};")
 for name, fr in file_refs.items():
     lines.append(f"\t\t{fr['uuid']} /* {name} */ = {{isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = {fr['rel_path']}; sourceTree = \"<group>\"; }};")
-lines.append(f"\t\t{info_plist_uuid} /* Info.plist */ = {{isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = EchoDJ/Resources/Info.plist; sourceTree = SOURCE_ROOT; }};")
+lines.append(f"\t\t{info_plist_uuid} /* Info.plist */ = {{isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Modus/Resources/Info.plist; sourceTree = SOURCE_ROOT; }};")
 lines.append(f"\t\t{musickit_ref_uuid} /* MusicKit.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; }};")
 lines.append(f"\t\t{mediaplayer_ref_uuid} /* MediaPlayer.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; }};")
 lines.append(f"\t\t{avfoundation_ref_uuid} /* AVFoundation.framework */ = {{isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; }};")
@@ -188,7 +188,7 @@ lines.append('\t\t\t);')
 lines.append('\t\t\tname = Products;')
 lines.append('\t\t\tsourceTree = "<group>";')
 lines.append('\t\t};')
-lines.append(f"\t\t{echodj_group_uuid} /* EchoDJ */ = {{")
+lines.append(f"\t\t{echodj_group_uuid} /* Modus */ = {{")
 lines.append('\t\t\tisa = PBXGroup;')
 lines.append('\t\t\tchildren = (')
 for name, fr in file_refs.items():
@@ -197,7 +197,7 @@ lines.append(f"\t\t\t\t{info_plist_uuid} /* Info.plist */,")
 for name, fr in resource_file_refs.items():
     lines.append(f"\t\t\t\t{fr['uuid']} /* {name} */,")
 lines.append('\t\t\t);')
-lines.append('\t\t\tpath = EchoDJ;')
+lines.append('\t\t\tpath = Modus;')
 lines.append('\t\t\tsourceTree = "<group>";')
 lines.append('\t\t};')
 
@@ -206,9 +206,9 @@ lines.append('')
 
 # PBXNativeTarget section
 lines.append('/* Begin PBXNativeTarget section */')
-lines.append(f"\t\t{target_uuid} /* EchoDJ */ = {{")
+lines.append(f"\t\t{target_uuid} /* Modus */ = {{")
 lines.append('\t\t\tisa = PBXNativeTarget;')
-lines.append(f"\t\t\tbuildConfigurationList = {target_config_list_uuid} /* Build configuration list for PBXNativeTarget \"EchoDJ\" */;")
+lines.append(f"\t\t\tbuildConfigurationList = {target_config_list_uuid} /* Build configuration list for PBXNativeTarget \"Modus\" */;")
 lines.append('\t\t\tbuildPhases = (')
 lines.append(f"\t\t\t\t{sources_phase_uuid} /* Sources */,")
 lines.append(f"\t\t\t\t{frameworks_phase_uuid} /* Frameworks */,")
@@ -218,9 +218,9 @@ lines.append('\t\t\tbuildRules = (')
 lines.append('\t\t\t);')
 lines.append('\t\t\tdependencies = (')
 lines.append('\t\t\t);')
-lines.append('\t\t\tname = EchoDJ;')
-lines.append('\t\t\tproductName = EchoDJ;')
-lines.append(f"\t\t\tproductReference = {product_ref_uuid} /* EchoDJ.app */;")
+lines.append('\t\t\tname = Modus;')
+lines.append('\t\t\tproductName = Modus;')
+lines.append(f"\t\t\tproductReference = {product_ref_uuid} /* Modus.app */;")
 lines.append('\t\t\tproductType = "com.apple.product-type.application";')
 lines.append('\t\t};')
 lines.append('/* End PBXNativeTarget section */')
@@ -414,16 +414,16 @@ lines.append('\t\t\t\tCODE_SIGN_STYLE = Automatic;')
 lines.append('\t\t\t\tCURRENT_PROJECT_VERSION = 1;')
 lines.append('\t\t\t\tENABLE_PREVIEWS = YES;')
 lines.append('\t\t\t\tGENERATE_INFOPLIST_FILE = NO;')
-lines.append('\t\t\t\tINFOPLIST_FILE = "EchoDJ/Resources/Info.plist";')
+lines.append('\t\t\t\tINFOPLIST_FILE = "Modus/Resources/Info.plist";')
 lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tLD_RUNPATH_SEARCH_PATHS = (')
 lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
 lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
-lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;')
+lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.jp.modus;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
-lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "EchoDJ/Resources/StoreKit/EchoDJ.storekit";')
+lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "Modus/Resources/StoreKit/Modus.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')
 lines.append('\t\t\t\tSWIFT_STRICT_CONCURRENCY = complete;')
 lines.append('\t\t\t\tSWIFT_VERSION = 6.0;')
@@ -441,16 +441,16 @@ lines.append('\t\t\t\tCODE_SIGN_STYLE = Automatic;')
 lines.append('\t\t\t\tCURRENT_PROJECT_VERSION = 1;')
 lines.append('\t\t\t\tENABLE_PREVIEWS = YES;')
 lines.append('\t\t\t\tGENERATE_INFOPLIST_FILE = NO;')
-lines.append('\t\t\t\tINFOPLIST_FILE = "EchoDJ/Resources/Info.plist";')
+lines.append('\t\t\t\tINFOPLIST_FILE = "Modus/Resources/Info.plist";')
 lines.append('\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 26.0;')
 lines.append('\t\t\t\tLD_RUNPATH_SEARCH_PATHS = (')
 lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
 lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
-lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.echodj.app;')
+lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.jp.modus;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
-lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "EchoDJ/Resources/StoreKit/EchoDJ.storekit";')
+lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "Modus/Resources/StoreKit/Modus.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')
 lines.append('\t\t\t\tSWIFT_STRICT_CONCURRENCY = complete;')
 lines.append('\t\t\t\tSWIFT_VERSION = 6.0;')
@@ -463,7 +463,7 @@ lines.append('')
 
 # XCConfigurationList section
 lines.append('/* Begin XCConfigurationList section */')
-lines.append(f"\t\t{project_config_list_uuid} /* Build configuration list for PBXProject \"EchoDJ\" */ = {{")
+lines.append(f"\t\t{project_config_list_uuid} /* Build configuration list for PBXProject \"Modus\" */ = {{")
 lines.append('\t\t\tisa = XCConfigurationList;')
 lines.append('\t\t\tbuildConfigurations = (')
 lines.append(f"\t\t\t\t{debug_config_uuid} /* Debug */,")
@@ -473,7 +473,7 @@ lines.append('\t\t\tdefaultConfigurationIsVisible = 0;')
 lines.append('\t\t\tdefaultConfigurationName = Release;')
 lines.append('\t\t};')
 
-lines.append(f"\t\t{target_config_list_uuid} /* Build configuration list for PBXNativeTarget \"EchoDJ\" */ = {{")
+lines.append(f"\t\t{target_config_list_uuid} /* Build configuration list for PBXNativeTarget \"Modus\" */ = {{")
 lines.append('\t\t\tisa = XCConfigurationList;')
 lines.append('\t\t\tbuildConfigurations = (')
 lines.append(f"\t\t\t\t{target_debug_config_uuid} /* Debug */,")

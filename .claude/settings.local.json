@@ -20,7 +20,8 @@
       "mcp__XcodeBuildMCP__session_show_defaults",
       "mcp__XcodeBuildMCP__build_sim",
       "mcp__XcodeBuildMCP__*",
-      "mcp__XcodeBuildMCP__show_build_settings"
+      "mcp__XcodeBuildMCP__show_build_settings",
+      "Bash(python3 /Users/jp/Desktop/Dev/EchoDJ/generate-xcodeproj.py)"
     ]
   }
 }
