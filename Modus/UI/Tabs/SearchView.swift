@@ -153,6 +153,7 @@ struct SearchView: View {
                                     errorTitle = "Station Error"
                                     errorMessage = error.localizedDescription
                                 }
+                                selectedSeedTrack = nil
                                 showError = true
                             }
                         }
@@ -280,7 +281,15 @@ struct SearchView: View {
             request.limit = 25
             let response = try await request.response()
             let songs = response.songCharts.flatMap { $0.items }
-            popularPicks = songs.compactMap { CachedTrack(from: $0) }
+            let tracks = songs.compactMap { CachedTrack(from: $0) }
+            
+            let context = ModelContext(env.modelContainer)
+            for track in tracks {
+                context.insert(track)
+            }
+            try? context.save()
+            
+            popularPicks = tracks
         } catch {
             searchLogger.error("Popular picks (charts) load failed: \(error.localizedDescription, privacy: .public)")
         }
@@ -344,7 +353,15 @@ struct SearchView: View {
             var request = MusicLibrarySearchRequest(term: term, types: [Song.self])
             request.limit = 15
             let response = try await request.response()
-            librarySearchResults = response.songs.compactMap { CachedTrack(from: $0) }
+            let tracks = response.songs.compactMap { CachedTrack(from: $0) }
+            
+            let context = ModelContext(env.modelContainer)
+            for track in tracks {
+                context.insert(track)
+            }
+            try? context.save()
+            
+            librarySearchResults = tracks
         } catch {
             librarySearchResults = []
         }
