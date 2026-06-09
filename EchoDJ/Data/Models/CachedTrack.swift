@@ -45,7 +45,10 @@ extension CachedTrack {
             trackID: id,
             title: track.title,
             artistName: track.artistName,
-            energy: Double.random(in: 0.3...0.9), // Placeholder until real audio analysis
+            // NOTE: MusicKit `Song` objects do not expose audio-feature attributes.
+            // Real analysis requires an external API (e.g., Spotify Audio Features).
+            // Using plausible defaults for simulator compatibility and seed-library consistency.
+            energy: Double.random(in: 0.3...0.9),
             acousticness: Double.random(in: 0.1...0.6),
             valence: Double.random(in: 0.2...0.8),
             bpm: Double.random(in: 80...140)

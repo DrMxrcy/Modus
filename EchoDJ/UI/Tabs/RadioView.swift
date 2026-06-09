@@ -200,14 +200,12 @@ struct RadioView: View {
             await env.telemetryCollector.recordSoftSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
             await env.transitionManager.executeTransition(isEnabled: isPro)
-            #if DEBUG
-            print("Soft Skip Triggered for \(trackID)")
-            #endif
         }
     }
 
     private func isExplorationPick(track: TrackDisplay) -> Bool {
-        // Placeholder: queue manager will tag exploration picks in a future update
+        // Exploration picks are disabled for v1. Re-enable when StationQueueManager
+        // can tag tracks that fall outside the user’s taste-profile bounds.
         false
     }
 }

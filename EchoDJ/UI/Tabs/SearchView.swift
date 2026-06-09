@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MusicKit
 
 struct SearchView: View {
     @EnvironmentObject var env: AppEnvironment
@@ -8,11 +9,14 @@ struct SearchView: View {
     @State private var surpriseMode = false
     @State private var useArcShaping = false
 
-    // TODO: Replace with real MusicKit catalog search.
-    // Pre-populated cache so a fresh install on a real device has a visible library
-    // to start a station from. Each entry has plausible audio-feature values; these
-    // are seed data, not real MusicKit metadata.
+    // Seed library persists into SwiftData on first launch so a fresh install
+    // always has visible tracks to start a station from. On a real device,
+    // MusicKit catalog search supplements this library when Apple Music is
+    // authorized; on simulator we fall back to the seed list because catalog
+    // search returns empty results.
     @State private var mockTracks: [CachedTrack] = SearchView.seedLibrary
+    @State private var catalogResults: [CachedTrack] = []
+    @State private var isSearching = false
 
     private static let seedLibrary: [CachedTrack] = [
         CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0),
@@ -75,6 +79,9 @@ struct SearchView: View {
         if searchText.isEmpty {
             return mockTracks
         }
+        if !catalogResults.isEmpty {
+            return catalogResults
+        }
         return mockTracks.filter {
             $0.title.localizedCaseInsensitiveContains(searchText) || $0.artistName.localizedCaseInsensitiveContains(searchText)
         }
@@ -87,6 +94,10 @@ struct SearchView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
+                    if isSearching {
+                        ProgressView("Searching Apple Music…")
+                            .padding()
+                    }
                     ForEach(filteredTracks) { track in
                         HStack {
                             VStack(alignment: .leading) {
@@ -152,6 +163,9 @@ struct SearchView: View {
             } message: {
                 Text(errorMessage)
             }
+            .task(id: searchText) {
+                await performCatalogSearch(term: searchText)
+            }
             .onAppear {
                 Task {
                     let context = ModelContext(env.modelContainer)
@@ -166,6 +180,43 @@ struct SearchView: View {
                 }
             }
         }
+    }
+
+    private func performCatalogSearch(term: String) async {
+        #if targetEnvironment(simulator)
+        // MusicKit catalog search returns empty results on simulator.
+        // Falling back to the local seed-library filter handled by filteredTracks.
+        catalogResults = []
+        return
+        #else
+        guard !term.isEmpty else {
+            catalogResults = []
+            return
+        }
+        guard MusicAuthorization.currentStatus == .authorized else {
+            catalogResults = []
+            return
+        }
+        isSearching = true
+        defer { isSearching = false }
+        do {
+            try await Task.sleep(for: .milliseconds(300))
+            try Task.checkCancellation()
+            var request = MusicCatalogSearchRequest(term: term, types: [Song.self])
+            request.limit = 25
+            let response = try await request.response()
+            let tracks = response.songs.compactMap { CachedTrack(from: $0) }
+            // Persist new results so they remain available offline and as seeds.
+            let context = ModelContext(env.modelContainer)
+            for track in tracks {
+                context.insert(track)
+            }
+            try? context.save()
+            catalogResults = tracks
+        } catch {
+            catalogResults = []
+        }
+        #endif
     }
 }
 

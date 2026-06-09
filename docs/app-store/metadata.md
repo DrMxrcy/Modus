@@ -64,15 +64,21 @@
 
 ## Support URL
 
-`https://echodj.app/support` (placeholder — change before submission)
+`https://echodj.app/support`
+
+> **Action before submission:** Replace with a live page (e.g., a hosted help doc or a mailto link). Reviewers may click this.
 
 ## Marketing URL (optional)
 
-`https://echodj.app` (placeholder)
+`https://echodj.app`
+
+> **Action before submission:** Replace with a live marketing site or landing page. Optional but recommended.
 
 ## Privacy URL
 
-`https://echodj.app/privacy` (placeholder — must be a live page before submission)
+`https://echodj.app/privacy`
+
+> **Action before submission:** Must be a live, publicly accessible privacy policy before the app can pass review. Minimum: data collection, retention, and contact practices.
 
 ## Privacy "Nutrition Label" — App Store Connect answers
 
@@ -141,9 +147,11 @@ Additional context to provide to Review (in the App Review notes field):
 
 Required when the app's primary function requires a paid Apple Music subscription. Provide:
 
-- **Apple ID:** `review@echodj.app` (placeholder — change before submission)
+- **Apple ID:** `review@echodj.app`
 - **Password:** provide via App Review's secure portal, not in this file
 - **Subscription status:** Apple Music Individual, active during review period
+
+> **Action before submission:** Create a dedicated Apple ID for Review (or use your own). Change the email above to the actual account. Ensure the account has an active Apple Music subscription during the review period.
 
 > The reviewer will be asked to sign in on the device, then start a station. They should be able to see Free + Pro flow.
 
