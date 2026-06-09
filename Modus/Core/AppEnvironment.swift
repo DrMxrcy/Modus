@@ -99,7 +99,7 @@ final class AppEnvironment: ObservableObject {
             )
             logger.info("AppleMusicProvider active")
         } else {
-            let fallback = SimulatorMusicProvider()
+            let fallback = SimulatorMusicProvider(modelContainer: self.modelContainer)
             self.musicProvider = fallback
             await self.queueManager.reconfigure(provider: fallback, djBrain: self.djBrain)
             self.telemetryCollector = TelemetryCollector(
@@ -139,7 +139,7 @@ private func isSimulatorBuild() -> Bool {
 
 private func makeMusicProvider(modelContainer: ModelContainer) -> any MusicProviderProtocol {
     #if targetEnvironment(simulator)
-    return SimulatorMusicProvider()
+    return SimulatorMusicProvider(modelContainer: modelContainer)
     #else
     return AppleMusicProvider(modelContainer: modelContainer)
     #endif

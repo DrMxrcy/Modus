@@ -3,6 +3,7 @@ import MusicKit
 import MediaPlayer
 import SwiftData
 import OSLog
+import UIKit
 
 private let logger = Logger(subsystem: "app.modus", category: "AppleMusicProvider")
 
@@ -86,11 +87,11 @@ actor AppleMusicProvider: MusicProviderProtocol {
 
         // Primary path: resolve by real catalog ID (all tracks now come from
         // Apple Music charts, catalog search, or library import — no synthetic IDs).
-        var request = MusicCatalogSearchRequest(term: id, types: [Song.self])
-        request.limit = 10
+        let itemID = MusicItemID(id)
+        var request = MusicCatalogResourceRequest<Song>(matching: \.id, equalTo: itemID)
         do {
             let response = try await request.response()
-            if let song = response.songs.first(where: { $0.id.rawValue == id }) ?? response.songs.first {
+            if let song = response.items.first {
                 await applySong(song)
                 return
             }
@@ -172,7 +173,33 @@ actor AppleMusicProvider: MusicProviderProtocol {
 
         nowPlayingInfo[MPNowPlayingInfoPropertyPlaybackRate] = isPlaying ? 1.0 : 0.0
 
+        // Keep the current artwork if it exists while we fetch the new one, or if we already fetched it.
+        if let currentInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo,
+           let currentArtwork = currentInfo[MPMediaItemPropertyArtwork] {
+            nowPlayingInfo[MPMediaItemPropertyArtwork] = currentArtwork
+        }
+
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nowPlayingInfo
+
+        // Fetch artwork asynchronously
+        if let artworkURL = loadedArtwork?.url(width: 600, height: 600),
+           let trackID = loadedTrackID {
+            Task {
+                do {
+                    let (data, _) = try await URLSession.shared.data(from: artworkURL)
+                    if let image = UIImage(data: data) {
+                        // Check if we are still playing the same track
+                        guard self.loadedTrackID == trackID else { return }
+                        let mediaArtwork = MPMediaItemArtwork(boundsSize: image.size) { _ in return image }
+                        var currentInfo = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [String: Any]()
+                        currentInfo[MPMediaItemPropertyArtwork] = mediaArtwork
+                        MPNowPlayingInfoCenter.default().nowPlayingInfo = currentInfo
+                    }
+                } catch {
+                    logger.error("Failed to load artwork for NowPlayingInfo: \(error.localizedDescription, privacy: .public)")
+                }
+            }
+        }
     }
 }
 

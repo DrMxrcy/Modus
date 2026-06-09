@@ -145,6 +145,9 @@ actor StationQueueManager {
             let fallbackDescriptor = FetchDescriptor<CachedTrack>()
             let all = (try? context.fetch(fallbackDescriptor)) ?? []
             filtered = all.filter { $0.trackID != seed.trackID }
+            if filtered.isEmpty {
+                filtered = all
+            }
             guard !filtered.isEmpty else {
                 logger.error("Station generation failed: no tracks available after fallback (seed=\(seed.trackID, privacy: .public))")
                 throw StationError.seedNotFound
@@ -193,17 +196,16 @@ actor StationQueueManager {
         }
 
         if provider is AppleMusicProvider {
-            var searchRequest = MusicCatalogSearchRequest(term: seedID, types: [Song.self])
-            searchRequest.limit = 10
-            let searchResponse: MusicCatalogSearchResponse
+            let itemID = MusicItemID(seedID)
+            var request = MusicCatalogResourceRequest<Song>(matching: \.id, equalTo: itemID)
+            let response: MusicCatalogResourceResponse<Song>
             do {
-                searchResponse = try await searchRequest.response()
+                response = try await request.response()
             } catch {
-                logger.error("resolveSeedTrack search failed: \(error.localizedDescription, privacy: .public)")
+                logger.error("resolveSeedTrack resource request failed: \(error.localizedDescription, privacy: .public)")
                 throw StationError.seedNotFound
             }
-            guard let song = searchResponse.songs.first(where: { $0.id.rawValue == seedID })
-                    ?? searchResponse.songs.first else {
+            guard let song = response.items.first else {
                 throw StationError.seedNotFound
             }
             guard let cached = CachedTrack(from: song) else {

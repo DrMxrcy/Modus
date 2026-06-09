@@ -355,7 +355,7 @@ struct SearchView: View {
 
     #if targetEnvironment(simulator)
     private static let seedLibrary: [CachedTrack] = [
-        CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0),
+        CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0, artworkURL: "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/41/af/e3/41afe319-be8c-db53-85ec-ed56d09121d5/20UMGIM00898.rgb.jpg/600x600bb.jpg"),
         CachedTrack(trackID: "2", title: "Midnight City", artistName: "M83", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 125.0),
         CachedTrack(trackID: "3", title: "Come a Little Closer", artistName: "Cage The Elephant", energy: 0.68, acousticness: 0.2, valence: 0.5, bpm: 115.0),
         CachedTrack(trackID: "4", title: "Get Lucky", artistName: "Daft Punk", energy: 0.82, acousticness: 0.15, valence: 0.78, bpm: 116.0),

@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 
 /// Fallback music provider that simulates playback state without requiring
 /// Apple Music authorization or real catalog IDs. Available on both simulator
@@ -14,11 +15,33 @@ actor SimulatorMusicProvider: MusicProviderProtocol {
     var currentArtist: String = ""
     var currentArtworkURL: URL? = nil
 
+    private let modelContainer: ModelContainer
+
+    init(modelContainer: ModelContainer) {
+        self.modelContainer = modelContainer
+    }
+
     func loadTrack(id: String) async throws {
         currentTrackID = id
         currentPlaybackProgress = 0.0
-        currentTitle = id
-        currentArtist = ""
+        
+        let context = ModelContext(modelContainer)
+        let descriptor = FetchDescriptor<CachedTrack>(
+            predicate: #Predicate { $0.trackID == id }
+        )
+        if let track = (try? context.fetch(descriptor))?.first {
+            currentTitle = track.title
+            currentArtist = track.artistName
+            if let urlString = track.artworkURL, let url = URL(string: urlString) {
+                currentArtworkURL = url
+            } else {
+                currentArtworkURL = nil
+            }
+        } else {
+            currentTitle = id
+            currentArtist = ""
+            currentArtworkURL = nil
+        }
     }
 
     func play() async throws {
