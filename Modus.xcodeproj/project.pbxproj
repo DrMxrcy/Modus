@@ -7,149 +7,149 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		64AC827C3E494F07AA415FE7 /* ModusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344647CA556F42C2A8D831A8 /* ModusApp.swift */; };
-		C012A8E00EC84FA199420DE4 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = B64F2EE66D334ABA982116A0 /* AppEnvironment.swift */; };
-		322F8104958148509590CD04 /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B6D14D1CBF4F99926712F0 /* UserTasteProfile.swift */; };
-		82ECE823DE2A450385221614 /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BEE8E2DCA645E89518D614 /* TrackCooldown.swift */; };
-		52071A1C57754B1289E8404C /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 325C1CD5FF154E99BCAE3372 /* CachedTrack.swift */; };
-		43F0F5D06D0E413084AEADD9 /* StationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 759EF20CC01D48D6A2E7E84B /* StationSession.swift */; };
-		8BBE660433A54EB09161A65E /* RecentStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83A793088F547A1984810F5 /* RecentStation.swift */; };
-		55B3C55B7F96421F9382BB30 /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F8FEE1C3C66431999378F6A /* MusicProviderProtocol.swift */; };
-		F6278C926876490E882A151B /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FA1F5B04D2453299051AFA /* DJBrainProtocol.swift */; };
-		0AC88543341240FE8651C997 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9384F8511C040B5A4F4FE08 /* VectorAffinityEngine.swift */; };
-		CC214AF3412E493F9848CEB2 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23BE576EEA184C68B4A1167D /* AppleMusicProvider.swift */; };
-		9048D66A2DBA4F26A97C78A7 /* StationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5534842773314F5BBD46FDBE /* StationQueueManager.swift */; };
-		B3081876B234491D87E785A9 /* MusicLibraryImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 096B686FADC641ECBA9F338D /* MusicLibraryImporter.swift */; };
-		5E6EF80B67854E5CBD28EB7F /* TelemetryCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F77ABEBF52D4203ADA694C1 /* TelemetryCollector.swift */; };
-		533E708035CA466DB548DC40 /* TTSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACBCC90EB2544099C5D3D2E /* TTSClient.swift */; };
-		F30118913D964F1D9CAB2759 /* AudioDucker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DD24177E6431B8138D532 /* AudioDucker.swift */; };
-		0BB6BFB56D1A491D81B98DE5 /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC316BCEC64902A3957AAE /* TransitionManager.swift */; };
-		FFB0984E1A3B4873A4A616B7 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4816F792C10A42A29F2C64F0 /* SubscriptionManager.swift */; };
-		D6688D3E6DBB4706AC90EC32 /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7327DB3E37C743B59C3F5611 /* OnDeviceDJBrain.swift */; };
-		6BC153E9B45841AFBA1EC1F5 /* SimulatorMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 525F6C358B2F49DF9127BFF8 /* SimulatorMusicProvider.swift */; };
-		B5C988B43B33448E999DA6AB /* FallbackDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4F4C933F99D47AA94AD7D08 /* FallbackDJBrain.swift */; };
-		6EF7A5CB0BD943608858CC95 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76AF5E80C204430F9062E6E2 /* MainTabView.swift */; };
-		FA864C13D44C4C5D9EF451BF /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 088CFF2EB6164BE4A9FE4199 /* RadioView.swift */; };
-		4A09EB93E8F445B793EDC790 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0F0E6B45CF4FAF9EDCD77D /* SearchView.swift */; };
-		844293A6C2404EEFB3B3AC11 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD4AF301919941EDBC68ABAE /* SettingsView.swift */; };
-		E16949E270904915B33631B0 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2953EB59F7340D597D80916 /* VibeVisualizer.swift */; };
-		11CD745202654E43ACF6F5EE /* PaywallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4C2D2913B44419448E488 /* PaywallSheet.swift */; };
-		86B5E6F084DD481D89886164 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FC155A199F4D6AA4086ED5 /* OnboardingView.swift */; };
-		8E3464C1ABD74295AB56D093 /* ModusTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530AA4A4D259490CA3BD2B50 /* ModusTips.swift */; };
-		D7EAE887352D47D9BF999608 /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D7058A10BD44E61ABFB490F /* MusicKit.framework */; };
-		509123D798F84944B28884B0 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AB003B0CDB744249B7192AD /* MediaPlayer.framework */; };
-		8B54AAE511054C8DA7A0CB08 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 868124CF5706473DBAA5047F /* AVFoundation.framework */; };
-		A7D4453911AF4ECAA3224411 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDF53DAC29E465698BE445C /* StoreKit.framework */; };
-		32AB44E698984BF5B6D3F883 /* Modus.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 20915693BA2F4756ACD8D98B /* Modus.storekit */; };
-		F7F085E313144E4F9550F93C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D3341C3006FD416E956E5C84 /* PrivacyInfo.xcprivacy */; };
+		F6F34BB4EDED49158E281304 /* ModusApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6639327D03284A799ACD7077 /* ModusApp.swift */; };
+		AEA1FC1E3ACB4661A5C0F4FA /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1CFFD68D2E441F289481139 /* AppEnvironment.swift */; };
+		D696A9B8A829403B81F7227B /* UserTasteProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8614D6CCC54FB69EFB0987 /* UserTasteProfile.swift */; };
+		842C011D72B645549182D949 /* TrackCooldown.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC05BC5169B64C9DBBBD83E5 /* TrackCooldown.swift */; };
+		76C7D4D959164C9E8BE1CE19 /* CachedTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BB18434DFD4B34AAF99731 /* CachedTrack.swift */; };
+		6AA9C683901D41C4BCBC0349 /* StationSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A47E3580F9C64A06BCDDA0F2 /* StationSession.swift */; };
+		F3041ABB1F1E4BCD984010B5 /* RecentStation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4794055B4D964FD582FD420C /* RecentStation.swift */; };
+		9C8C0AB48E344E97BD935798 /* MusicProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA232B107AEB4C6A9B5216ED /* MusicProviderProtocol.swift */; };
+		2A0D5C9DE7704CCCA14B8B26 /* DJBrainProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B906D4DBCE54DE1932F21DA /* DJBrainProtocol.swift */; };
+		ECDCD1C76E954202B679F278 /* VectorAffinityEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79E7BF1730442979715940F /* VectorAffinityEngine.swift */; };
+		C4E830EAAC134CF880248499 /* AppleMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3029A591D79448E8BE113452 /* AppleMusicProvider.swift */; };
+		B9F3606B0BB545FBBA2A7BD3 /* StationQueueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C18BF4055D47E39B7B892D /* StationQueueManager.swift */; };
+		609FFE75DF824DBA8A10A2B6 /* MusicLibraryImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7D66469BD5745958B992B01 /* MusicLibraryImporter.swift */; };
+		25A20C20F92048F182C98DA6 /* TelemetryCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C3A38223F2B4F10B687EEFB /* TelemetryCollector.swift */; };
+		58841022080447E1869D1148 /* TTSClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C209C5418F8E4A17AB736DCE /* TTSClient.swift */; };
+		A92F6C2945F04379A74CC8D6 /* AudioDucker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F278461E6AE44DFE98AA2C6E /* AudioDucker.swift */; };
+		98689AF0C5AD4525882C5CBD /* TransitionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C5524454D143BD9AB23D4A /* TransitionManager.swift */; };
+		65A9F4A3B969455EAD5122D1 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F17FD38409343A3A33AD437 /* SubscriptionManager.swift */; };
+		A2E9D31B29DD43418A8D8B0D /* OnDeviceDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D291D7C5A24E1ABF538635 /* OnDeviceDJBrain.swift */; };
+		143CFDDC0F79419CAAB45704 /* SimulatorMusicProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDDAE418738847979AE76F62 /* SimulatorMusicProvider.swift */; };
+		0842BDE343F046A3928F3869 /* FallbackDJBrain.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0673B1811FAE49A4A539FED2 /* FallbackDJBrain.swift */; };
+		411A7C9D468A4671B1EFFB5B /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 149E9F64788846B493CD605A /* MainTabView.swift */; };
+		6413B27448A243F6BD7BD279 /* RadioView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD30A1B153E14727A7AD07A4 /* RadioView.swift */; };
+		A53C94356C5E4464B2921FAD /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1B4FA27880F40FE9F0F14FA /* SearchView.swift */; };
+		55E08BCA5EB6412898309BAF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2532B486C44E4BA6B0C5F7B8 /* SettingsView.swift */; };
+		E0CD05DD16F84400AAC68D55 /* VibeVisualizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F0E0741A254388982B57D3 /* VibeVisualizer.swift */; };
+		D2E3F5E1324D41B8903F10A9 /* PaywallSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782569197E6F48159FB91DF6 /* PaywallSheet.swift */; };
+		D84E54687D4043E4AE9BE19D /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489E66750B7C4D1DB77AA6F5 /* OnboardingView.swift */; };
+		61B9E0B5FAD543C4AEB1C4B8 /* ModusTips.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D1726E6A0E84AADB920CA53 /* ModusTips.swift */; };
+		68F10461347E43E4B2A4A3CC /* MusicKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1E666A7CFA4740B6E672C3 /* MusicKit.framework */; };
+		1A7263EB0F544597AC08BB41 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7F05112EC574EEBA4555636 /* MediaPlayer.framework */; };
+		7C849D50D5A84A9E84991D99 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 419BBD9E8BC4453983AF83E4 /* AVFoundation.framework */; };
+		4FB4800CAD1B49CCA97028DF /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F1F7BCCEC670455394B5DF3C /* StoreKit.framework */; };
+		0BC268937B1F4AF890E4F24A /* Modus.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 8DA5DC7F7DDE402CB9E62A44 /* Modus.storekit */; };
+		D4E4EAE565D44593B3D2614C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 36E3B9003C7146E9A53CFFFC /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A9567757374B4349A3E1F95D /* Modus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Modus.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		344647CA556F42C2A8D831A8 /* ModusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/ModusApp.swift; sourceTree = "<group>"; };
-		B64F2EE66D334ABA982116A0 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
-		D5B6D14D1CBF4F99926712F0 /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
-		46BEE8E2DCA645E89518D614 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
-		325C1CD5FF154E99BCAE3372 /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
-		759EF20CC01D48D6A2E7E84B /* StationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/StationSession.swift; sourceTree = "<group>"; };
-		E83A793088F547A1984810F5 /* RecentStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/RecentStation.swift; sourceTree = "<group>"; };
-		9F8FEE1C3C66431999378F6A /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
-		00FA1F5B04D2453299051AFA /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
-		A9384F8511C040B5A4F4FE08 /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
-		23BE576EEA184C68B4A1167D /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
-		5534842773314F5BBD46FDBE /* StationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/StationQueueManager.swift; sourceTree = "<group>"; };
-		096B686FADC641ECBA9F338D /* MusicLibraryImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/MusicLibraryImporter.swift; sourceTree = "<group>"; };
-		1F77ABEBF52D4203ADA694C1 /* TelemetryCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TelemetryCollector.swift; sourceTree = "<group>"; };
-		AACBCC90EB2544099C5D3D2E /* TTSClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TTSClient.swift; sourceTree = "<group>"; };
-		902DD24177E6431B8138D532 /* AudioDucker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AudioDucker.swift; sourceTree = "<group>"; };
-		11DC316BCEC64902A3957AAE /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TransitionManager.swift; sourceTree = "<group>"; };
-		4816F792C10A42A29F2C64F0 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/SubscriptionManager.swift; sourceTree = "<group>"; };
-		7327DB3E37C743B59C3F5611 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
-		525F6C358B2F49DF9127BFF8 /* SimulatorMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/SimulatorMusicProvider.swift; sourceTree = "<group>"; };
-		F4F4C933F99D47AA94AD7D08 /* FallbackDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/FallbackDJBrain.swift; sourceTree = "<group>"; };
-		76AF5E80C204430F9062E6E2 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
-		088CFF2EB6164BE4A9FE4199 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
-		CC0F0E6B45CF4FAF9EDCD77D /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
-		FD4AF301919941EDBC68ABAE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SettingsView.swift; sourceTree = "<group>"; };
-		A2953EB59F7340D597D80916 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
-		39E4C2D2913B44419448E488 /* PaywallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PaywallSheet.swift; sourceTree = "<group>"; };
-		44FC155A199F4D6AA4086ED5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Onboarding/OnboardingView.swift; sourceTree = "<group>"; };
-		530AA4A4D259490CA3BD2B50 /* ModusTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tips/ModusTips.swift; sourceTree = "<group>"; };
-		E90032CCAD324C72BE74216D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Modus/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
-		4D7058A10BD44E61ABFB490F /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
-		7AB003B0CDB744249B7192AD /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		868124CF5706473DBAA5047F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		8CDF53DAC29E465698BE445C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		20915693BA2F4756ACD8D98B /* Modus.storekit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/StoreKit/Modus.storekit; sourceTree = "<group>"; };
-		D3341C3006FD416E956E5C84 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		05F387A605CB4EC698BE0B4D /* Modus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Modus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6639327D03284A799ACD7077 /* ModusApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/ModusApp.swift; sourceTree = "<group>"; };
+		C1CFFD68D2E441F289481139 /* AppEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core/AppEnvironment.swift; sourceTree = "<group>"; };
+		9C8614D6CCC54FB69EFB0987 /* UserTasteProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/UserTasteProfile.swift; sourceTree = "<group>"; };
+		BC05BC5169B64C9DBBBD83E5 /* TrackCooldown.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/TrackCooldown.swift; sourceTree = "<group>"; };
+		F3BB18434DFD4B34AAF99731 /* CachedTrack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/CachedTrack.swift; sourceTree = "<group>"; };
+		A47E3580F9C64A06BCDDA0F2 /* StationSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/StationSession.swift; sourceTree = "<group>"; };
+		4794055B4D964FD582FD420C /* RecentStation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data/Models/RecentStation.swift; sourceTree = "<group>"; };
+		AA232B107AEB4C6A9B5216ED /* MusicProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/MusicProviderProtocol.swift; sourceTree = "<group>"; };
+		9B906D4DBCE54DE1932F21DA /* DJBrainProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Protocols/DJBrainProtocol.swift; sourceTree = "<group>"; };
+		C79E7BF1730442979715940F /* VectorAffinityEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/VectorAffinityEngine.swift; sourceTree = "<group>"; };
+		3029A591D79448E8BE113452 /* AppleMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AppleMusicProvider.swift; sourceTree = "<group>"; };
+		B6C18BF4055D47E39B7B892D /* StationQueueManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/StationQueueManager.swift; sourceTree = "<group>"; };
+		B7D66469BD5745958B992B01 /* MusicLibraryImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/MusicLibraryImporter.swift; sourceTree = "<group>"; };
+		6C3A38223F2B4F10B687EEFB /* TelemetryCollector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TelemetryCollector.swift; sourceTree = "<group>"; };
+		C209C5418F8E4A17AB736DCE /* TTSClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TTSClient.swift; sourceTree = "<group>"; };
+		F278461E6AE44DFE98AA2C6E /* AudioDucker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/AudioDucker.swift; sourceTree = "<group>"; };
+		61C5524454D143BD9AB23D4A /* TransitionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/TransitionManager.swift; sourceTree = "<group>"; };
+		1F17FD38409343A3A33AD437 /* SubscriptionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/SubscriptionManager.swift; sourceTree = "<group>"; };
+		53D291D7C5A24E1ABF538635 /* OnDeviceDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Concrete/OnDeviceDJBrain.swift; sourceTree = "<group>"; };
+		FDDAE418738847979AE76F62 /* SimulatorMusicProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/SimulatorMusicProvider.swift; sourceTree = "<group>"; };
+		0673B1811FAE49A4A539FED2 /* FallbackDJBrain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Engine/Mocks/FallbackDJBrain.swift; sourceTree = "<group>"; };
+		149E9F64788846B493CD605A /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/MainTabView.swift; sourceTree = "<group>"; };
+		AD30A1B153E14727A7AD07A4 /* RadioView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/RadioView.swift; sourceTree = "<group>"; };
+		F1B4FA27880F40FE9F0F14FA /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SearchView.swift; sourceTree = "<group>"; };
+		2532B486C44E4BA6B0C5F7B8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tabs/SettingsView.swift; sourceTree = "<group>"; };
+		86F0E0741A254388982B57D3 /* VibeVisualizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/VibeVisualizer.swift; sourceTree = "<group>"; };
+		782569197E6F48159FB91DF6 /* PaywallSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Components/PaywallSheet.swift; sourceTree = "<group>"; };
+		489E66750B7C4D1DB77AA6F5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Onboarding/OnboardingView.swift; sourceTree = "<group>"; };
+		6D1726E6A0E84AADB920CA53 /* ModusTips.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI/Tips/ModusTips.swift; sourceTree = "<group>"; };
+		569089DEF3F148C493F86129 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Modus/Resources/Info.plist; sourceTree = SOURCE_ROOT; };
+		6B1E666A7CFA4740B6E672C3 /* MusicKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MusicKit.framework; path = System/Library/Frameworks/MusicKit.framework; sourceTree = SDKROOT; };
+		D7F05112EC574EEBA4555636 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		419BBD9E8BC4453983AF83E4 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F1F7BCCEC670455394B5DF3C /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		8DA5DC7F7DDE402CB9E62A44 /* Modus.storekit */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/StoreKit/Modus.storekit; sourceTree = "<group>"; };
+		36E3B9003C7146E9A53CFFFC /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = file; path = Resources/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		8EA88C0CA93C40D4B8D1D389 /* Frameworks */ = {
+		965BEE1C27F14B4AB2068E77 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D7EAE887352D47D9BF999608 /* MusicKit.framework in Frameworks */,
-				509123D798F84944B28884B0 /* MediaPlayer.framework in Frameworks */,
-				8B54AAE511054C8DA7A0CB08 /* AVFoundation.framework in Frameworks */,
-				A7D4453911AF4ECAA3224411 /* StoreKit.framework in Frameworks */,
+				68F10461347E43E4B2A4A3CC /* MusicKit.framework in Frameworks */,
+				1A7263EB0F544597AC08BB41 /* MediaPlayer.framework in Frameworks */,
+				7C849D50D5A84A9E84991D99 /* AVFoundation.framework in Frameworks */,
+				4FB4800CAD1B49CCA97028DF /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CA5ADF4A69E54A6E8C3D6137 = {
+		B540910B8A1D43D6BF85719D = {
 			isa = PBXGroup;
 			children = (
-				2FED05BF85E44BFAB440B502 /* EchoDJ */,
-				67F137B203A84DDAA114E606 /* Products */,
+				79920C6A84554C04BC566CF9 /* EchoDJ */,
+				9AD1A6A83DB34243BC033A7F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		67F137B203A84DDAA114E606 /* Products */ = {
+		9AD1A6A83DB34243BC033A7F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A9567757374B4349A3E1F95D /* EchoDJ.app */,
+				05F387A605CB4EC698BE0B4D /* EchoDJ.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		2FED05BF85E44BFAB440B502 /* Modus */ = {
+		79920C6A84554C04BC566CF9 /* Modus */ = {
 			isa = PBXGroup;
 			children = (
-				344647CA556F42C2A8D831A8 /* ModusApp.swift */,
-				B64F2EE66D334ABA982116A0 /* AppEnvironment.swift */,
-				D5B6D14D1CBF4F99926712F0 /* UserTasteProfile.swift */,
-				46BEE8E2DCA645E89518D614 /* TrackCooldown.swift */,
-				325C1CD5FF154E99BCAE3372 /* CachedTrack.swift */,
-				759EF20CC01D48D6A2E7E84B /* StationSession.swift */,
-				E83A793088F547A1984810F5 /* RecentStation.swift */,
-				9F8FEE1C3C66431999378F6A /* MusicProviderProtocol.swift */,
-				00FA1F5B04D2453299051AFA /* DJBrainProtocol.swift */,
-				A9384F8511C040B5A4F4FE08 /* VectorAffinityEngine.swift */,
-				23BE576EEA184C68B4A1167D /* AppleMusicProvider.swift */,
-				5534842773314F5BBD46FDBE /* StationQueueManager.swift */,
-				096B686FADC641ECBA9F338D /* MusicLibraryImporter.swift */,
-				1F77ABEBF52D4203ADA694C1 /* TelemetryCollector.swift */,
-				AACBCC90EB2544099C5D3D2E /* TTSClient.swift */,
-				902DD24177E6431B8138D532 /* AudioDucker.swift */,
-				11DC316BCEC64902A3957AAE /* TransitionManager.swift */,
-				4816F792C10A42A29F2C64F0 /* SubscriptionManager.swift */,
-				7327DB3E37C743B59C3F5611 /* OnDeviceDJBrain.swift */,
-				525F6C358B2F49DF9127BFF8 /* SimulatorMusicProvider.swift */,
-				F4F4C933F99D47AA94AD7D08 /* FallbackDJBrain.swift */,
-				76AF5E80C204430F9062E6E2 /* MainTabView.swift */,
-				088CFF2EB6164BE4A9FE4199 /* RadioView.swift */,
-				CC0F0E6B45CF4FAF9EDCD77D /* SearchView.swift */,
-				FD4AF301919941EDBC68ABAE /* SettingsView.swift */,
-				A2953EB59F7340D597D80916 /* VibeVisualizer.swift */,
-				39E4C2D2913B44419448E488 /* PaywallSheet.swift */,
-				44FC155A199F4D6AA4086ED5 /* OnboardingView.swift */,
-				530AA4A4D259490CA3BD2B50 /* ModusTips.swift */,
-				E90032CCAD324C72BE74216D /* Info.plist */,
-				20915693BA2F4756ACD8D98B /* Modus.storekit */,
-				D3341C3006FD416E956E5C84 /* PrivacyInfo.xcprivacy */,
+				6639327D03284A799ACD7077 /* ModusApp.swift */,
+				C1CFFD68D2E441F289481139 /* AppEnvironment.swift */,
+				9C8614D6CCC54FB69EFB0987 /* UserTasteProfile.swift */,
+				BC05BC5169B64C9DBBBD83E5 /* TrackCooldown.swift */,
+				F3BB18434DFD4B34AAF99731 /* CachedTrack.swift */,
+				A47E3580F9C64A06BCDDA0F2 /* StationSession.swift */,
+				4794055B4D964FD582FD420C /* RecentStation.swift */,
+				AA232B107AEB4C6A9B5216ED /* MusicProviderProtocol.swift */,
+				9B906D4DBCE54DE1932F21DA /* DJBrainProtocol.swift */,
+				C79E7BF1730442979715940F /* VectorAffinityEngine.swift */,
+				3029A591D79448E8BE113452 /* AppleMusicProvider.swift */,
+				B6C18BF4055D47E39B7B892D /* StationQueueManager.swift */,
+				B7D66469BD5745958B992B01 /* MusicLibraryImporter.swift */,
+				6C3A38223F2B4F10B687EEFB /* TelemetryCollector.swift */,
+				C209C5418F8E4A17AB736DCE /* TTSClient.swift */,
+				F278461E6AE44DFE98AA2C6E /* AudioDucker.swift */,
+				61C5524454D143BD9AB23D4A /* TransitionManager.swift */,
+				1F17FD38409343A3A33AD437 /* SubscriptionManager.swift */,
+				53D291D7C5A24E1ABF538635 /* OnDeviceDJBrain.swift */,
+				FDDAE418738847979AE76F62 /* SimulatorMusicProvider.swift */,
+				0673B1811FAE49A4A539FED2 /* FallbackDJBrain.swift */,
+				149E9F64788846B493CD605A /* MainTabView.swift */,
+				AD30A1B153E14727A7AD07A4 /* RadioView.swift */,
+				F1B4FA27880F40FE9F0F14FA /* SearchView.swift */,
+				2532B486C44E4BA6B0C5F7B8 /* SettingsView.swift */,
+				86F0E0741A254388982B57D3 /* VibeVisualizer.swift */,
+				782569197E6F48159FB91DF6 /* PaywallSheet.swift */,
+				489E66750B7C4D1DB77AA6F5 /* OnboardingView.swift */,
+				6D1726E6A0E84AADB920CA53 /* ModusTips.swift */,
+				569089DEF3F148C493F86129 /* Info.plist */,
+				8DA5DC7F7DDE402CB9E62A44 /* Modus.storekit */,
+				36E3B9003C7146E9A53CFFFC /* PrivacyInfo.xcprivacy */,
 			);
 			path = Modus;
 			sourceTree = "<group>";
@@ -157,13 +157,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		F4E701738A2D4DF5B180DDC3 /* Modus */ = {
+		A7753C97FBC34105A2BF6310 /* Modus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DFA2DD9B528C4B33AE152D20 /* Build configuration list for PBXNativeTarget "Modus" */;
+			buildConfigurationList = 3B61CB9E19624A118159C964 /* Build configuration list for PBXNativeTarget "Modus" */;
 			buildPhases = (
-				CC4C034F5A4947A89836D924 /* Sources */,
-				8EA88C0CA93C40D4B8D1D389 /* Frameworks */,
-				8D3825172EE74D44BF59B370 /* Resources */,
+				4CC5FE8D4DEB497F9B7E4AA2 /* Sources */,
+				965BEE1C27F14B4AB2068E77 /* Frameworks */,
+				7280CE6A10D94120B6427412 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -171,25 +171,25 @@
 			);
 			name = Modus;
 			productName = Modus;
-			productReference = A9567757374B4349A3E1F95D /* Modus.app */;
+			productReference = 05F387A605CB4EC698BE0B4D /* Modus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		7C144F3A76E74DA18A38DB72 /* Project object */ = {
+		3402DB9228B84494AB165F78 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1600;
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
-					F4E701738A2D4DF5B180DDC3 = {
+					A7753C97FBC34105A2BF6310 = {
 						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
-			buildConfigurationList = 75EA5FC4FDE4482AA349B070 /* Build configuration list for PBXProject "EchoDJ" */;
+			buildConfigurationList = 57BE4D7309554856A0301DEC /* Build configuration list for PBXProject "EchoDJ" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -197,69 +197,69 @@
 				en,
 				Base,
 			);
-			mainGroup = CA5ADF4A69E54A6E8C3D6137;
-			productRefGroup = 67F137B203A84DDAA114E606 /* Products */;
+			mainGroup = B540910B8A1D43D6BF85719D;
+			productRefGroup = 9AD1A6A83DB34243BC033A7F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				F4E701738A2D4DF5B180DDC3 /* Modus */,
+				A7753C97FBC34105A2BF6310 /* Modus */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		8D3825172EE74D44BF59B370 /* Resources */ = {
+		7280CE6A10D94120B6427412 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				32AB44E698984BF5B6D3F883 /* Modus.storekit in Resources */,
-				F7F085E313144E4F9550F93C /* PrivacyInfo.xcprivacy in Resources */,
+				0BC268937B1F4AF890E4F24A /* Modus.storekit in Resources */,
+				D4E4EAE565D44593B3D2614C /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		CC4C034F5A4947A89836D924 /* Sources */ = {
+		4CC5FE8D4DEB497F9B7E4AA2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64AC827C3E494F07AA415FE7 /* ModusApp.swift in Sources */,
-				C012A8E00EC84FA199420DE4 /* AppEnvironment.swift in Sources */,
-				322F8104958148509590CD04 /* UserTasteProfile.swift in Sources */,
-				82ECE823DE2A450385221614 /* TrackCooldown.swift in Sources */,
-				52071A1C57754B1289E8404C /* CachedTrack.swift in Sources */,
-				43F0F5D06D0E413084AEADD9 /* StationSession.swift in Sources */,
-				8BBE660433A54EB09161A65E /* RecentStation.swift in Sources */,
-				55B3C55B7F96421F9382BB30 /* MusicProviderProtocol.swift in Sources */,
-				F6278C926876490E882A151B /* DJBrainProtocol.swift in Sources */,
-				0AC88543341240FE8651C997 /* VectorAffinityEngine.swift in Sources */,
-				CC214AF3412E493F9848CEB2 /* AppleMusicProvider.swift in Sources */,
-				9048D66A2DBA4F26A97C78A7 /* StationQueueManager.swift in Sources */,
-				B3081876B234491D87E785A9 /* MusicLibraryImporter.swift in Sources */,
-				5E6EF80B67854E5CBD28EB7F /* TelemetryCollector.swift in Sources */,
-				533E708035CA466DB548DC40 /* TTSClient.swift in Sources */,
-				F30118913D964F1D9CAB2759 /* AudioDucker.swift in Sources */,
-				0BB6BFB56D1A491D81B98DE5 /* TransitionManager.swift in Sources */,
-				FFB0984E1A3B4873A4A616B7 /* SubscriptionManager.swift in Sources */,
-				D6688D3E6DBB4706AC90EC32 /* OnDeviceDJBrain.swift in Sources */,
-				6BC153E9B45841AFBA1EC1F5 /* SimulatorMusicProvider.swift in Sources */,
-				B5C988B43B33448E999DA6AB /* FallbackDJBrain.swift in Sources */,
-				6EF7A5CB0BD943608858CC95 /* MainTabView.swift in Sources */,
-				FA864C13D44C4C5D9EF451BF /* RadioView.swift in Sources */,
-				4A09EB93E8F445B793EDC790 /* SearchView.swift in Sources */,
-				844293A6C2404EEFB3B3AC11 /* SettingsView.swift in Sources */,
-				E16949E270904915B33631B0 /* VibeVisualizer.swift in Sources */,
-				11CD745202654E43ACF6F5EE /* PaywallSheet.swift in Sources */,
-				86B5E6F084DD481D89886164 /* OnboardingView.swift in Sources */,
-				8E3464C1ABD74295AB56D093 /* ModusTips.swift in Sources */,
+				F6F34BB4EDED49158E281304 /* ModusApp.swift in Sources */,
+				AEA1FC1E3ACB4661A5C0F4FA /* AppEnvironment.swift in Sources */,
+				D696A9B8A829403B81F7227B /* UserTasteProfile.swift in Sources */,
+				842C011D72B645549182D949 /* TrackCooldown.swift in Sources */,
+				76C7D4D959164C9E8BE1CE19 /* CachedTrack.swift in Sources */,
+				6AA9C683901D41C4BCBC0349 /* StationSession.swift in Sources */,
+				F3041ABB1F1E4BCD984010B5 /* RecentStation.swift in Sources */,
+				9C8C0AB48E344E97BD935798 /* MusicProviderProtocol.swift in Sources */,
+				2A0D5C9DE7704CCCA14B8B26 /* DJBrainProtocol.swift in Sources */,
+				ECDCD1C76E954202B679F278 /* VectorAffinityEngine.swift in Sources */,
+				C4E830EAAC134CF880248499 /* AppleMusicProvider.swift in Sources */,
+				B9F3606B0BB545FBBA2A7BD3 /* StationQueueManager.swift in Sources */,
+				609FFE75DF824DBA8A10A2B6 /* MusicLibraryImporter.swift in Sources */,
+				25A20C20F92048F182C98DA6 /* TelemetryCollector.swift in Sources */,
+				58841022080447E1869D1148 /* TTSClient.swift in Sources */,
+				A92F6C2945F04379A74CC8D6 /* AudioDucker.swift in Sources */,
+				98689AF0C5AD4525882C5CBD /* TransitionManager.swift in Sources */,
+				65A9F4A3B969455EAD5122D1 /* SubscriptionManager.swift in Sources */,
+				A2E9D31B29DD43418A8D8B0D /* OnDeviceDJBrain.swift in Sources */,
+				143CFDDC0F79419CAAB45704 /* SimulatorMusicProvider.swift in Sources */,
+				0842BDE343F046A3928F3869 /* FallbackDJBrain.swift in Sources */,
+				411A7C9D468A4671B1EFFB5B /* MainTabView.swift in Sources */,
+				6413B27448A243F6BD7BD279 /* RadioView.swift in Sources */,
+				A53C94356C5E4464B2921FAD /* SearchView.swift in Sources */,
+				55E08BCA5EB6412898309BAF /* SettingsView.swift in Sources */,
+				E0CD05DD16F84400AAC68D55 /* VibeVisualizer.swift in Sources */,
+				D2E3F5E1324D41B8903F10A9 /* PaywallSheet.swift in Sources */,
+				D84E54687D4043E4AE9BE19D /* OnboardingView.swift in Sources */,
+				61B9E0B5FAD543C4AEB1C4B8 /* ModusTips.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		F051B0E6192B4A868530756D /* Debug */ = {
+		F1ED24D497AE44AABE93701C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -319,7 +319,7 @@
 			};
 			name = Debug;
 		};
-		174A755B1AA347CAB3FE0C13 /* Release */ = {
+		84948DEE958F4B36918503A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -373,7 +373,7 @@
 			};
 			name = Release;
 		};
-		8AF4E912EB9945AA82667B55 /* Debug */ = {
+		D3C1A8B05C5D48A8B185D5F3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -400,7 +400,7 @@
 			};
 			name = Debug;
 		};
-		C94760A1CEDD441D8964A55E /* Release */ = {
+		660AB88F6225441F9BA7F3C4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -430,20 +430,20 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		75EA5FC4FDE4482AA349B070 /* Build configuration list for PBXProject "Modus" */ = {
+		57BE4D7309554856A0301DEC /* Build configuration list for PBXProject "Modus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				F051B0E6192B4A868530756D /* Debug */,
-				174A755B1AA347CAB3FE0C13 /* Release */,
+				F1ED24D497AE44AABE93701C /* Debug */,
+				84948DEE958F4B36918503A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		DFA2DD9B528C4B33AE152D20 /* Build configuration list for PBXNativeTarget "Modus" */ = {
+		3B61CB9E19624A118159C964 /* Build configuration list for PBXNativeTarget "Modus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8AF4E912EB9945AA82667B55 /* Debug */,
-				C94760A1CEDD441D8964A55E /* Release */,
+				D3C1A8B05C5D48A8B185D5F3 /* Debug */,
+				660AB88F6225441F9BA7F3C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -451,5 +451,5 @@
 /* End XCConfigurationList section */
 
 	};
-	rootObject = 7C144F3A76E74DA18A38DB72 /* Project object */;
+	rootObject = 3402DB9228B84494AB165F78 /* Project object */;
 }

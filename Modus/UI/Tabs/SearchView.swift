@@ -175,6 +175,8 @@ struct SearchView: View {
                 await loadPopularPicks()
             }
             .onAppear {
+                #if targetEnvironment(simulator)
+                // Persist demo seeds to SwiftData on simulator so @Query has content
                 Task {
                     let context = ModelContext(env.modelContainer)
                     let existing = (try? context.fetch(FetchDescriptor<CachedTrack>())) ?? []
@@ -190,6 +192,7 @@ struct SearchView: View {
                         searchLogger.error("Seed persist failed: \(error.localizedDescription, privacy: .public)")
                     }
                 }
+                #endif
             }
             .popoverTip(searchStartTip)
         }

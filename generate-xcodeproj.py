@@ -586,10 +586,16 @@ with open(os.path.join(workspace_dir, 'xcshareddata', 'IDEWorkspaceChecks.plist'
         f.write(f'            ReferencedContainer = "container:Modus.xcodeproj">\n')
         f.write(f'         </BuildableReference>\n')
         f.write('      </BuildableProductRunnable>\n')
-        f.write('      <StoreKitConfiguration\n')
-        f.write(f'         identifier = "../Modus/Resources/StoreKit/Modus.storekit"\n')
-        f.write(f'         reference = "container:Modus/Resources/StoreKit/Modus.storekit">\n')
-        f.write('      </StoreKitConfiguration>\n')
+        # Xcode requires <StoreKitConfigurationFileReference> with a single
+        # `identifier` attribute (path relative to the .xcodeproj). The older
+        # <StoreKitConfiguration reference=...> form is NOT recognized by Xcode
+        # and is silently ignored — causing the app to hit the real App Store
+        # (Apple ID prompt, product unavailable). On-device StoreKit testing
+        # requires this AND launching through the Xcode scheme (Run), not a
+        # detached home-screen launch.
+        f.write('      <StoreKitConfigurationFileReference\n')
+        f.write(f'         identifier = "../Modus/Resources/StoreKit/Modus.storekit">\n')
+        f.write('      </StoreKitConfigurationFileReference>\n')
         f.write('   </LaunchAction>\n')
         f.write('   <ProfileAction\n')
         f.write('      buildConfiguration = "Release"\n')
