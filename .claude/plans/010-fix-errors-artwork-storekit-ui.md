@@ -95,6 +95,13 @@ Real-device-first where possible (we have a paid dev account and device builds w
 | 5 | Device: deny MusicKit → app shows settings prompt; allow → station starts successfully. |
 | 6 | Clean build, no warnings, installs on device. |
 
+## 4a. Verification Log
+
+- **2026-06-09 14:35** — Simulator build (`xcodebuild` for iOS Simulator, iPhone 17 Pro Max) succeeded with **zero warnings**.
+- **2026-06-09 14:35** — Device build (`xcodebuild` for Debug-iphoneos) succeeded with **zero warnings**.
+- **2026-06-09 14:36** — App installed on physical iPhone (UDID `00008150-001445042188401C`) via `ios-deploy`.
+- **2026-06-09 14:37** — App launched successfully on device after unlock. MusicKit auth flow + station start path was exercised end-to-end.
+
 ## 5. Risk Register
 
 | Risk | Likelihood | Impact | Mitigation |
