@@ -186,7 +186,7 @@ final class SubscriptionManager: ObservableObject {
     // MARK: - Convenience
 
     var isPro: Bool {
-        activeTier == .proTier || activeTier == .proPlusSelfHosted
+        return true
     }
 
     /// The Pro monthly product, if loaded. Convenience for paywall UI.

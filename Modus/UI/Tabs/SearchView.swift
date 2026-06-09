@@ -208,15 +208,42 @@ struct SearchView: View {
     @ViewBuilder
     private func trackRow(_ track: CachedTrack) -> some View {
         HStack(spacing: 12) {
-            // Colored artwork placeholder circle (deterministic from track title)
-            Circle()
-                .fill(colorForTitle(track.title))
-                .frame(width: 44, height: 44)
-                .overlay(
-                    Image(systemName: "music.note")
-                        .font(.caption)
-                        .foregroundStyle(.white)
-                )
+            Group {
+                if let artworkURLString = track.artworkURL, let url = URL(string: artworkURLString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .empty:
+                            ProgressView()
+                                .frame(width: 44, height: 44)
+                        case .success(let image):
+                            image.resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 44, height: 44)
+                                .clipShape(Circle())
+                        case .failure:
+                            Circle()
+                                .fill(colorForTitle(track.title))
+                                .frame(width: 44, height: 44)
+                                .overlay(
+                                    Image(systemName: "music.note")
+                                        .font(.caption)
+                                        .foregroundStyle(.white)
+                                )
+                        @unknown default:
+                            EmptyView()
+                        }
+                    }
+                } else {
+                    Circle()
+                        .fill(colorForTitle(track.title))
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            Image(systemName: "music.note")
+                                .font(.caption)
+                                .foregroundStyle(.white)
+                        )
+                }
+            }
 
             VStack(alignment: .leading) {
                 Text(track.title)
@@ -380,14 +407,42 @@ private struct StationOptionsSheet: View {
             VStack(spacing: 20) {
                 // Track artwork + metadata header
                 HStack(spacing: 16) {
-                    Circle()
-                        .fill(colorForTitle(track.title))
-                        .frame(width: 56, height: 56)
-                        .overlay(
-                            Image(systemName: "music.note")
-                                .font(.title3)
-                                .foregroundStyle(.white)
-                        )
+                    Group {
+                        if let artworkURLString = track.artworkURL, let url = URL(string: artworkURLString) {
+                            AsyncImage(url: url) { phase in
+                                switch phase {
+                                case .empty:
+                                    ProgressView()
+                                        .frame(width: 56, height: 56)
+                                case .success(let image):
+                                    image.resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 56, height: 56)
+                                        .clipShape(Circle())
+                                case .failure:
+                                    Circle()
+                                        .fill(colorForTitle(track.title))
+                                        .frame(width: 56, height: 56)
+                                        .overlay(
+                                            Image(systemName: "music.note")
+                                                .font(.title3)
+                                                .foregroundStyle(.white)
+                                        )
+                                @unknown default:
+                                    EmptyView()
+                                }
+                            }
+                        } else {
+                            Circle()
+                                .fill(colorForTitle(track.title))
+                                .frame(width: 56, height: 56)
+                                .overlay(
+                                    Image(systemName: "music.note")
+                                        .font(.title3)
+                                        .foregroundStyle(.white)
+                                )
+                        }
+                    }
 
                     VStack(alignment: .leading, spacing: 4) {
                         Text(track.title)
