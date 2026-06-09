@@ -47,15 +47,24 @@ struct SearchView: View {
                     }
                 }
 
-                // Popular Picks section (always shown)
-                Section("Popular Picks") {
-                    ForEach(filteredTracks) { track in
-                        Button {
-                            selectedSeedTrack = track
-                            surpriseMode = defaultSurpriseMode
-                            useArcShaping = djVoiceEnabled && defaultArcShaping
-                        } label: {
-                            trackRow(track)
+                if !searchText.isEmpty && !isSearching && filteredTracks.isEmpty && catalogResults.isEmpty {
+                    // No-results state
+                    ContentUnavailableView {
+                        Label("No Results", systemImage: "magnifyingglass")
+                    } description: {
+                        Text("No results for \"\(searchText)\". Try a different song or artist.")
+                    }
+                } else {
+                    // Popular Picks section
+                    Section(searchText.isEmpty ? "Popular Picks" : "Library") {
+                        ForEach(filteredTracks) { track in
+                            Button {
+                                selectedSeedTrack = track
+                                surpriseMode = defaultSurpriseMode
+                                useArcShaping = djVoiceEnabled && defaultArcShaping
+                            } label: {
+                                trackRow(track)
+                            }
                         }
                     }
                 }

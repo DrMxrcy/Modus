@@ -279,6 +279,7 @@ struct HCenterControlsView: View {
             }
             .contentShape(Rectangle())
             .accessibilityLabel("Hard skip — don't like this track")
+            .popoverTip(HardSkipTip())
 
             Button(action: onPlayPause) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
