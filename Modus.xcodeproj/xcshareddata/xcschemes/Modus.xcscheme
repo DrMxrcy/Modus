@@ -15,7 +15,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "682AD8F3899846909D3E0549"
+               BlueprintIdentifier = "E8DF045F755D4C16AC66594C"
                BuildableName = "Modus.app"
                BlueprintName = "Modus"
                ReferencedContainer = "container:Modus.xcodeproj">
@@ -46,7 +46,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "682AD8F3899846909D3E0549"
+            BlueprintIdentifier = "E8DF045F755D4C16AC66594C"
             BuildableName = "Modus.app"
             BlueprintName = "Modus"
             ReferencedContainer = "container:Modus.xcodeproj">
@@ -67,7 +67,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "682AD8F3899846909D3E0549"
+            BlueprintIdentifier = "E8DF045F755D4C16AC66594C"
             BuildableName = "Modus.app"
             BlueprintName = "Modus"
             ReferencedContainer = "container:Modus.xcodeproj">

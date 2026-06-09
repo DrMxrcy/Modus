@@ -79,20 +79,26 @@ actor AppleMusicProvider: MusicProviderProtocol {
     }
 
     func loadTrack(id: String) async throws {
-        // 1. Try catalog search by ID (real MusicKit ID path)
-        var request = MusicCatalogSearchRequest(term: id, types: [Song.self])
-        request.limit = 10
-        do {
-            let response = try await request.response()
-            if let song = response.songs.first(where: { $0.id.rawValue == id }) ?? response.songs.first {
-                await applySong(song)
-                return
+        // Seed-library tracks use synthetic IDs ("1", "2"…). Real MusicKit catalog
+        // IDs are longer alphanumeric strings. Skip the ID-as-search-term path for
+        // synthetic IDs and go straight to title+artist lookup to avoid wrong results.
+        let isSyntheticID = id.count < 8
+
+        if !isSyntheticID {
+            var request = MusicCatalogSearchRequest(term: id, types: [Song.self])
+            request.limit = 10
+            do {
+                let response = try await request.response()
+                if let song = response.songs.first(where: { $0.id.rawValue == id }) ?? response.songs.first {
+                    await applySong(song)
+                    return
+                }
+            } catch {
+                logger.error("loadTrack catalog search by ID failed: \(error.localizedDescription, privacy: .public)")
             }
-        } catch {
-            logger.error("loadTrack catalog search by ID failed: \(error.localizedDescription, privacy: .public)")
         }
 
-        // 2. Fallback: look up the cached track metadata and search by title + artist
+        // Primary path for synthetic seeds: look up cached metadata and search by title + artist
         let context = ModelContext(modelContainer)
         let descriptor = FetchDescriptor<CachedTrack>(
             predicate: #Predicate { $0.trackID == id }

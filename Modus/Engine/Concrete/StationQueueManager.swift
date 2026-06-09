@@ -91,6 +91,7 @@ actor StationQueueManager {
     private var provider: any MusicProviderProtocol
     private var djBrain: any DJBrainProtocol
     private var queuedTrackIDs: [String] = []
+    private var currentQueueIndex: Int = 0
 
     init(
         modelContainer: ModelContainer,
@@ -419,13 +420,27 @@ actor StationQueueManager {
 
     private func loadQueue(tracks: [CachedTrack]) async throws {
         queuedTrackIDs = tracks.map { $0.trackID }
+        currentQueueIndex = 0
+        guard let first = tracks.first else { return }
+        do {
+            try await provider.loadTrack(id: first.trackID)
+        } catch {
+            logger.error("loadTrack failed for \(first.trackID, privacy: .public): \(error.localizedDescription, privacy: .public)")
+        }
+    }
 
-        for track in tracks {
-            do {
-                try await provider.loadTrack(id: track.trackID)
-            } catch {
-                logger.error("loadTrack failed for \(track.trackID, privacy: .public): \(error.localizedDescription, privacy: .public)")
-            }
+    /// Advance to the next track in the queue and load it into the provider.
+    /// Called from RadioView when the user skips or a track finishes.
+    func advanceQueue() async {
+        let ids = queuedTrackIDs
+        guard !ids.isEmpty else { return }
+        currentQueueIndex = (currentQueueIndex + 1) % ids.count
+        let nextID = ids[currentQueueIndex]
+        do {
+            try await provider.loadTrack(id: nextID)
+            try await provider.play()
+        } catch {
+            logger.error("advanceQueue failed for \(nextID, privacy: .public): \(error.localizedDescription, privacy: .public)")
         }
     }
 

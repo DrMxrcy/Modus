@@ -2,81 +2,29 @@ import SwiftUI
 import SwiftData
 import MusicKit
 import OSLog
+import TipKit
 
 private let searchLogger = Logger(subsystem: "app.modus", category: "SearchView")
 
 struct SearchView: View {
     @EnvironmentObject var env: AppEnvironment
+    @AppStorage("defaultSurpriseMode") private var defaultSurpriseMode = false
+    @AppStorage("defaultArcShaping") private var defaultArcShaping = false
+    @AppStorage("djVoiceEnabled") private var djVoiceEnabled = true
     @State private var searchText = ""
     @State private var selectedSeedTrack: CachedTrack? = nil
     @State private var surpriseMode = false
     @State private var useArcShaping = false
 
-    // Seed library persists into SwiftData on first launch so a fresh install
-    // always has visible tracks to start a station from. On a real device,
-    // MusicKit catalog search supplements this library when Apple Music is
-    // authorized; on simulator we fall back to the seed list because catalog
-    // search returns empty results.
     @State private var mockTracks: [CachedTrack] = SearchView.seedLibrary
     @State private var catalogResults: [CachedTrack] = []
     @State private var isSearching = false
 
-    private static let seedLibrary: [CachedTrack] = [
-        CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0),
-        CachedTrack(trackID: "2", title: "Midnight City", artistName: "M83", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 125.0),
-        CachedTrack(trackID: "3", title: "Come a Little Closer", artistName: "Cage The Elephant", energy: 0.68, acousticness: 0.2, valence: 0.5, bpm: 115.0),
-        CachedTrack(trackID: "4", title: "Get Lucky", artistName: "Daft Punk", energy: 0.82, acousticness: 0.15, valence: 0.78, bpm: 116.0),
-        CachedTrack(trackID: "5", title: "Blinding Lights", artistName: "The Weeknd", energy: 0.85, acousticness: 0.08, valence: 0.62, bpm: 171.0),
-        CachedTrack(trackID: "6", title: "Levitating", artistName: "Dua Lipa", energy: 0.83, acousticness: 0.12, valence: 0.92, bpm: 103.0),
-        CachedTrack(trackID: "7", title: "Save Your Tears", artistName: "The Weeknd", energy: 0.7, acousticness: 0.1, valence: 0.55, bpm: 118.0),
-        CachedTrack(trackID: "8", title: "Heat Waves", artistName: "Glass Animals", energy: 0.55, acousticness: 0.35, valence: 0.45, bpm: 81.0),
-        CachedTrack(trackID: "9", title: "As It Was", artistName: "Harry Styles", energy: 0.73, acousticness: 0.2, valence: 0.66, bpm: 174.0),
-        CachedTrack(trackID: "10", title: "Anti-Hero", artistName: "Taylor Swift", energy: 0.65, acousticness: 0.18, valence: 0.48, bpm: 97.0),
-        CachedTrack(trackID: "11", title: "Cruel Summer", artistName: "Taylor Swift", energy: 0.78, acousticness: 0.1, valence: 0.58, bpm: 170.0),
-        CachedTrack(trackID: "12", title: "Flowers", artistName: "Miley Cyrus", energy: 0.7, acousticness: 0.12, valence: 0.65, bpm: 118.0),
-        CachedTrack(trackID: "13", title: "Unholy", artistName: "Sam Smith & Kim Petras", energy: 0.8, acousticness: 0.08, valence: 0.4, bpm: 131.0),
-        CachedTrack(trackID: "14", title: "Calm Down", artistName: "Rema & Selena Gomez", energy: 0.72, acousticness: 0.15, valence: 0.75, bpm: 107.0),
-        CachedTrack(trackID: "15", title: "Stay", artistName: "The Kid LAROI & Justin Bieber", energy: 0.78, acousticness: 0.1, valence: 0.5, bpm: 170.0),
-        CachedTrack(trackID: "16", title: "As It Was", artistName: "Harry Styles", energy: 0.73, acousticness: 0.2, valence: 0.66, bpm: 174.0),
-        CachedTrack(trackID: "17", title: "Watermelon Sugar", artistName: "Harry Styles", energy: 0.7, acousticness: 0.18, valence: 0.78, bpm: 95.0),
-        CachedTrack(trackID: "18", title: "good 4 u", artistName: "Olivia Rodrigo", energy: 0.85, acousticness: 0.07, valence: 0.42, bpm: 166.0),
-        CachedTrack(trackID: "19", title: "Drivers License", artistName: "Olivia Rodrigo", energy: 0.4, acousticness: 0.3, valence: 0.2, bpm: 144.0),
-        CachedTrack(trackID: "20", title: "Peaches", artistName: "Justin Bieber", energy: 0.65, acousticness: 0.2, valence: 0.7, bpm: 90.0),
-        CachedTrack(trackID: "21", title: "Montero", artistName: "Lil Nas X", energy: 0.78, acousticness: 0.1, valence: 0.55, bpm: 178.0),
-        CachedTrack(trackID: "22", title: "Industry Baby", artistName: "Lil Nas X & Jack Harlow", energy: 0.85, acousticness: 0.08, valence: 0.6, bpm: 150.0),
-        CachedTrack(trackID: "23", title: "Easy On Me", artistName: "Adele", energy: 0.4, acousticness: 0.55, valence: 0.25, bpm: 142.0),
-        CachedTrack(trackID: "24", title: "Hello", artistName: "Adele", energy: 0.45, acousticness: 0.35, valence: 0.3, bpm: 79.0),
-        CachedTrack(trackID: "25", title: "Rolling in the Deep", artistName: "Adele", energy: 0.7, acousticness: 0.15, valence: 0.4, bpm: 105.0),
-        CachedTrack(trackID: "26", title: "Shape of You", artistName: "Ed Sheeran", energy: 0.75, acousticness: 0.2, valence: 0.68, bpm: 96.0),
-        CachedTrack(trackID: "27", title: "Bad Habits", artistName: "Ed Sheeran", energy: 0.85, acousticness: 0.1, valence: 0.6, bpm: 126.0),
-        CachedTrack(trackID: "28", title: "Perfect", artistName: "Ed Sheeran", energy: 0.4, acousticness: 0.45, valence: 0.6, bpm: 95.0),
-        CachedTrack(trackID: "29", title: "Shivers", artistName: "Ed Sheeran", energy: 0.8, acousticness: 0.12, valence: 0.75, bpm: 141.0),
-        CachedTrack(trackID: "30", title: "Bad Guy", artistName: "Billie Eilish", energy: 0.7, acousticness: 0.15, valence: 0.5, bpm: 135.0),
-        CachedTrack(trackID: "31", title: "Happier Than Ever", artistName: "Billie Eilish", energy: 0.35, acousticness: 0.4, valence: 0.3, bpm: 100.0),
-        CachedTrack(trackID: "32", title: "Therefore I Am", artistName: "Billie Eilish", energy: 0.6, acousticness: 0.2, valence: 0.55, bpm: 130.0),
-        CachedTrack(trackID: "33", title: "Bury a Friend", artistName: "Billie Eilish", energy: 0.5, acousticness: 0.3, valence: 0.3, bpm: 120.0),
-        CachedTrack(trackID: "34", title: "Ocean Eyes", artistName: "Billie Eilish", energy: 0.25, acousticness: 0.6, valence: 0.5, bpm: 145.0),
-        CachedTrack(trackID: "35", title: "When the Party's Over", artistName: "Billie Eilish", energy: 0.3, acousticness: 0.5, valence: 0.25, bpm: 75.0),
-        CachedTrack(trackID: "36", title: "Lovely", artistName: "Billie Eilish & Khalid", energy: 0.3, acousticness: 0.5, valence: 0.2, bpm: 115.0),
-        CachedTrack(trackID: "37", title: "positions", artistName: "Ariana Grande", energy: 0.7, acousticness: 0.15, valence: 0.7, bpm: 144.0),
-        CachedTrack(trackID: "38", title: "7 rings", artistName: "Ariana Grande", energy: 0.75, acousticness: 0.1, valence: 0.7, bpm: 140.0),
-        CachedTrack(trackID: "39", title: "thank u, next", artistName: "Ariana Grande", energy: 0.65, acousticness: 0.15, valence: 0.7, bpm: 107.0),
-        CachedTrack(trackID: "40", title: "no tears left to cry", artistName: "Ariana Grande", energy: 0.8, acousticness: 0.1, valence: 0.65, bpm: 122.0),
-        CachedTrack(trackID: "41", title: "God is a woman", artistName: "Ariana Grande", energy: 0.65, acousticness: 0.2, valence: 0.55, bpm: 145.0),
-        CachedTrack(trackID: "42", title: "Side to Side", artistName: "Ariana Grande ft. Nicki Minaj", energy: 0.85, acousticness: 0.1, valence: 0.7, bpm: 95.0),
-        CachedTrack(trackID: "43", title: "Problem", artistName: "Ariana Grande ft. Iggy Azalea", energy: 0.85, acousticness: 0.1, valence: 0.75, bpm: 103.0),
-        CachedTrack(trackID: "44", title: "Break Free", artistName: "Ariana Grande ft. Zedd", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 130.0),
-        CachedTrack(trackID: "45", title: "Bang Bang", artistName: "Jessie J, Ariana Grande, Nicki Minaj", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 150.0),
-        CachedTrack(trackID: "46", title: "Levitating", artistName: "Dua Lipa", energy: 0.83, acousticness: 0.12, valence: 0.92, bpm: 103.0),
-        CachedTrack(trackID: "47", title: "Don't Start Now", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.1, valence: 0.75, bpm: 124.0),
-        CachedTrack(trackID: "48", title: "New Rules", artistName: "Dua Lipa", energy: 0.78, acousticness: 0.15, valence: 0.6, bpm: 116.0),
-        CachedTrack(trackID: "49", title: "IDGAF", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.08, valence: 0.55, bpm: 130.0),
-        CachedTrack(trackID: "50", title: "Physical", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.1, valence: 0.7, bpm: 146.0),
-        CachedTrack(trackID: "51", title: "Hallucinate", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.12, valence: 0.78, bpm: 122.0),
-        CachedTrack(trackID: "52", title: "Break My Heart", artistName: "Dua Lipa", energy: 0.83, acousticness: 0.1, valence: 0.7, bpm: 113.0),
-        CachedTrack(trackID: "53", title: "Blinding Lights", artistName: "The Weeknd", energy: 0.85, acousticness: 0.08, valence: 0.62, bpm: 171.0),
-        CachedTrack(trackID: "54", title: "Starboy", artistName: "The Weeknd ft. Daft Punk", energy: 0.8, acousticness: 0.1, valence: 0.5, bpm: 186.0)
-    ]
+    @State private var showError: Bool = false
+    @State private var errorMessage: String = ""
+
+    // TipKit tip for search onboarding
+    @State private var searchStartTip = SearchStartTip()
 
     var filteredTracks: [CachedTrack] {
         if searchText.isEmpty {
@@ -90,103 +38,44 @@ struct SearchView: View {
         }
     }
 
-    @State private var showError: Bool = false
-    @State private var errorMessage: String = ""
-
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 0) {
-                    if env.musicAuthDenied {
-                        HStack(spacing: 8) {
-                            Image(systemName: "exclamationmark.triangle.fill")
-                                .foregroundStyle(.yellow)
-                            Text("Apple Music access denied. Enable it in Settings for full playback.")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                            Spacer()
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .background(Color.yellow.opacity(0.1))
-                    }
-                    if !env.isReady {
-                        HStack {
-                            Spacer()
-                            VStack(spacing: 8) {
-                                ProgressView()
-                                Text("Initializing Modus…")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                            Spacer()
-                        }
-                        .padding(.vertical, 40)
-                    } else {
-                    if isSearching {
+            List {
+                if isSearching {
+                    Section {
                         ProgressView("Searching Apple Music…")
-                            .padding()
                     }
+                }
+
+                // Popular Picks section (always shown)
+                Section("Popular Picks") {
                     ForEach(filteredTracks) { track in
-                        HStack(spacing: 12) {
-                            // Artwork thumbnail
-                            Group {
-                                if let artURLString = track.artworkURL,
-                                   let artURL = URL(string: artURLString) {
-                                    AsyncImage(url: artURL) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            RoundedRectangle(cornerRadius: 6)
-                                                .fill(Color.secondary.opacity(0.2))
-                                                .overlay(ProgressView().scaleEffect(0.6))
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fill)
-                                        case .failure:
-                                            placeholderThumbnail
-                                        @unknown default:
-                                            placeholderThumbnail
-                                        }
-                                    }
-                                } else {
-                                    placeholderThumbnail
-                                }
-                            }
-                            .frame(width: 48, height: 48)
-                            .clipShape(RoundedRectangle(cornerRadius: 6))
-
-                            // Title + artist
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(track.title)
-                                    .font(.system(size: 16, weight: .semibold))
-                                    .lineLimit(1)
-                                Text(track.artistName)
-                                    .font(.system(size: 14, weight: .regular))
-                                    .foregroundStyle(.secondary)
-                                    .lineLimit(1)
-                            }
-
-                            Spacer()
-
-                            Image(systemName: "play.radiowaves.left.and.right")
-                                .font(.system(size: 14, weight: .semibold))
-                                .foregroundStyle(.tint)
-                        }
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 10)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
+                        Button {
                             selectedSeedTrack = track
-                        }
-                        if track != filteredTracks.last {
-                            Divider()
-                                .padding(.leading, 76)
+                            surpriseMode = defaultSurpriseMode
+                            useArcShaping = djVoiceEnabled && defaultArcShaping
+                        } label: {
+                            trackRow(track)
                         }
                     }
+                }
+
+                // Apple Music section (shown when catalog results exist)
+                if !catalogResults.isEmpty {
+                    Section("Apple Music") {
+                        ForEach(catalogResults) { track in
+                            Button {
+                                selectedSeedTrack = track
+                                surpriseMode = defaultSurpriseMode
+                                useArcShaping = djVoiceEnabled && defaultArcShaping
+                            } label: {
+                                trackRow(track)
+                            }
+                        }
                     }
                 }
             }
+            .listStyle(.insetGrouped)
             .navigationTitle("Search & Seed")
             .searchable(text: $searchText, prompt: "Search songs, albums, or vibes")
             .sheet(item: $selectedSeedTrack) { track in
@@ -195,6 +84,7 @@ struct SearchView: View {
                     surpriseMode: $surpriseMode,
                     useArcShaping: $useArcShaping,
                     activeTier: env.subscriptionManager.activeTier,
+                    djVoiceEnabled: djVoiceEnabled,
                     onStart: {
                         Task { @MainActor in
                             do {
@@ -248,13 +138,51 @@ struct SearchView: View {
                     }
                 }
             }
+            .popoverTip(searchStartTip)
         }
     }
 
+    // MARK: - Track Row
+
+    @ViewBuilder
+    private func trackRow(_ track: CachedTrack) -> some View {
+        HStack(spacing: 12) {
+            // Colored artwork placeholder circle (deterministic from track title)
+            Circle()
+                .fill(colorForTitle(track.title))
+                .frame(width: 44, height: 44)
+                .overlay(
+                    Image(systemName: "music.note")
+                        .font(.caption)
+                        .foregroundStyle(.white)
+                )
+
+            VStack(alignment: .leading) {
+                Text(track.title)
+                    .font(.headline)
+                Text(track.artistName)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+            }
+
+            Spacer()
+
+            Image(systemName: "play.radiowaves.left.and.right")
+                .foregroundStyle(.tint)
+        }
+    }
+
+    /// Generate a deterministic accent color from the track title hash.
+    private func colorForTitle(_ title: String) -> Color {
+        let hash = abs(title.hashValue)
+        let hues: [Color] = [.purple, .blue, .teal, .indigo, .pink, .orange, .mint, .cyan]
+        return hues[hash % hues.count].opacity(0.7)
+    }
+
+    // MARK: - Catalog Search
+
     private func performCatalogSearch(term: String) async {
         #if targetEnvironment(simulator)
-        // MusicKit catalog search returns empty results on simulator.
-        // Falling back to the local seed-library filter handled by filteredTracks.
         catalogResults = []
         return
         #else
@@ -275,7 +203,6 @@ struct SearchView: View {
             request.limit = 25
             let response = try await request.response()
             let tracks = response.songs.compactMap { CachedTrack(from: $0) }
-            // Persist new results so they remain available offline and as seeds.
             let context = ModelContext(env.modelContainer)
             for track in tracks {
                 context.insert(track)
@@ -289,49 +216,154 @@ struct SearchView: View {
         }
         #endif
     }
+
+    // MARK: - Seed Library
+
+    private static let seedLibrary: [CachedTrack] = [
+        CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0),
+        CachedTrack(trackID: "2", title: "Midnight City", artistName: "M83", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 125.0),
+        CachedTrack(trackID: "3", title: "Come a Little Closer", artistName: "Cage The Elephant", energy: 0.68, acousticness: 0.2, valence: 0.5, bpm: 115.0),
+        CachedTrack(trackID: "4", title: "Get Lucky", artistName: "Daft Punk", energy: 0.82, acousticness: 0.15, valence: 0.78, bpm: 116.0),
+        CachedTrack(trackID: "5", title: "Blinding Lights", artistName: "The Weeknd", energy: 0.85, acousticness: 0.08, valence: 0.62, bpm: 171.0),
+        CachedTrack(trackID: "6", title: "Levitating", artistName: "Dua Lipa", energy: 0.83, acousticness: 0.12, valence: 0.92, bpm: 103.0),
+        CachedTrack(trackID: "7", title: "Save Your Tears", artistName: "The Weeknd", energy: 0.7, acousticness: 0.1, valence: 0.55, bpm: 118.0),
+        CachedTrack(trackID: "8", title: "Heat Waves", artistName: "Glass Animals", energy: 0.55, acousticness: 0.35, valence: 0.45, bpm: 81.0),
+        CachedTrack(trackID: "9", title: "As It Was", artistName: "Harry Styles", energy: 0.73, acousticness: 0.2, valence: 0.66, bpm: 174.0),
+        CachedTrack(trackID: "10", title: "Anti-Hero", artistName: "Taylor Swift", energy: 0.65, acousticness: 0.18, valence: 0.48, bpm: 97.0),
+        CachedTrack(trackID: "11", title: "Cruel Summer", artistName: "Taylor Swift", energy: 0.78, acousticness: 0.1, valence: 0.58, bpm: 170.0),
+        CachedTrack(trackID: "12", title: "Flowers", artistName: "Miley Cyrus", energy: 0.7, acousticness: 0.12, valence: 0.65, bpm: 118.0),
+        CachedTrack(trackID: "13", title: "Unholy", artistName: "Sam Smith & Kim Petras", energy: 0.8, acousticness: 0.08, valence: 0.4, bpm: 131.0),
+        CachedTrack(trackID: "14", title: "Calm Down", artistName: "Rema & Selena Gomez", energy: 0.72, acousticness: 0.15, valence: 0.75, bpm: 107.0),
+        CachedTrack(trackID: "15", title: "Stay", artistName: "The Kid LAROI & Justin Bieber", energy: 0.78, acousticness: 0.1, valence: 0.5, bpm: 170.0),
+        CachedTrack(trackID: "23", title: "Easy On Me", artistName: "Adele", energy: 0.4, acousticness: 0.55, valence: 0.25, bpm: 142.0),
+        CachedTrack(trackID: "24", title: "Hello", artistName: "Adele", energy: 0.45, acousticness: 0.35, valence: 0.3, bpm: 79.0),
+        CachedTrack(trackID: "25", title: "Rolling in the Deep", artistName: "Adele", energy: 0.7, acousticness: 0.15, valence: 0.4, bpm: 105.0),
+        CachedTrack(trackID: "26", title: "Shape of You", artistName: "Ed Sheeran", energy: 0.75, acousticness: 0.2, valence: 0.68, bpm: 96.0),
+        CachedTrack(trackID: "27", title: "Bad Habits", artistName: "Ed Sheeran", energy: 0.85, acousticness: 0.1, valence: 0.6, bpm: 126.0),
+        CachedTrack(trackID: "30", title: "Bad Guy", artistName: "Billie Eilish", energy: 0.7, acousticness: 0.15, valence: 0.5, bpm: 135.0),
+        CachedTrack(trackID: "34", title: "Ocean Eyes", artistName: "Billie Eilish", energy: 0.25, acousticness: 0.6, valence: 0.5, bpm: 145.0),
+        CachedTrack(trackID: "37", title: "positions", artistName: "Ariana Grande", energy: 0.7, acousticness: 0.15, valence: 0.7, bpm: 144.0),
+        CachedTrack(trackID: "40", title: "no tears left to cry", artistName: "Ariana Grande", energy: 0.8, acousticness: 0.1, valence: 0.65, bpm: 122.0),
+        CachedTrack(trackID: "47", title: "Don't Start Now", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.1, valence: 0.75, bpm: 124.0),
+        CachedTrack(trackID: "48", title: "New Rules", artistName: "Dua Lipa", energy: 0.78, acousticness: 0.15, valence: 0.6, bpm: 116.0),
+        CachedTrack(trackID: "50", title: "Physical", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.1, valence: 0.7, bpm: 146.0),
+        CachedTrack(trackID: "54", title: "Starboy", artistName: "The Weeknd ft. Daft Punk", energy: 0.8, acousticness: 0.1, valence: 0.5, bpm: 186.0),
+    ]
 }
 
-private var placeholderThumbnail: some View {
-    RoundedRectangle(cornerRadius: 6)
-        .fill(Color.secondary.opacity(0.2))
-        .overlay(
-            Image(systemName: "music.note")
-                .font(.system(size: 20))
-                .foregroundStyle(.secondary)
-        )
-}
+// MARK: - Station Options Sheet
 
 private struct StationOptionsSheet: View {
     let track: CachedTrack
     @Binding var surpriseMode: Bool
     @Binding var useArcShaping: Bool
     let activeTier: SubscriptionTier
+    let djVoiceEnabled: Bool
     let onStart: () -> Void
     let onCancel: () -> Void
 
     var body: some View {
-        VStack(spacing: 20) {
-            Text(track.title)
-                .font(.headline)
-            Text(track.artistName)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+        NavigationStack {
+            VStack(spacing: 20) {
+                // Track artwork + metadata header
+                HStack(spacing: 16) {
+                    Circle()
+                        .fill(colorForTitle(track.title))
+                        .frame(width: 56, height: 56)
+                        .overlay(
+                            Image(systemName: "music.note")
+                                .font(.title3)
+                                .foregroundStyle(.white)
+                        )
 
-            Toggle("Surprise Me", isOn: $surpriseMode)
-            if activeTier != .freeTier {
-                Toggle("DJ Arc (Pro)", isOn: $useArcShaping)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(track.title)
+                            .font(.headline)
+                        Text(track.artistName)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                }
+                .padding(.horizontal)
+
+                Divider()
+
+                // Options
+                VStack(spacing: 16) {
+                    Toggle(isOn: $surpriseMode) {
+                        Label("Surprise Me", systemImage: "shuffle")
+                    }
+                    Text("Mix in tracks outside your usual taste")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    if activeTier != .freeTier {
+                        Toggle(isOn: $useArcShaping) {
+                            Label("DJ Arc", systemImage: "sparkles")
+                        }
+                        Text("AI commentary between tracks")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    } else {
+                        HStack {
+                            Label {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text("DJ Arc")
+                                    Text("Pro feature — AI-powered station shaping")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                            } icon: {
+                                Image(systemName: "sparkles")
+                            }
+                            Spacer()
+                            Text("Pro")
+                                .font(.caption2.bold())
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, 8)
+                                .padding(.vertical, 3)
+                                .background(Color.accentColor, in: Capsule())
+                        }
+                    }
+                }
+                .padding(.horizontal)
+
+                // Explanation
+                Text("Modus builds a station from this track's energy, mood, and rhythm profile.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal)
+
+                // Start button
+                Button(action: onStart) {
+                    Text("Start Station")
+                        .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+
+                Spacer(minLength: 0)
             }
-
-            Button(action: onStart) {
-                Text("Start Station")
-                    .frame(maxWidth: .infinity)
+            .padding(.vertical)
+            .navigationTitle("Station Options")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Cancel", action: onCancel)
+                }
             }
-            .buttonStyle(.borderedProminent)
-
-            Button("Cancel", role: .cancel, action: onCancel)
-                .frame(maxWidth: .infinity)
         }
-        .padding()
         .presentationDetents([.medium])
+        .presentationDragIndicator(.visible)
+        .popoverTip(SurpriseModeTip())
+    }
+
+    private func colorForTitle(_ title: String) -> Color {
+        let hash = abs(title.hashValue)
+        let hues: [Color] = [.purple, .blue, .teal, .indigo, .pink, .orange, .mint, .cyan]
+        return hues[hash % hues.count].opacity(0.7)
     }
 }

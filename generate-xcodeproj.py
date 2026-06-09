@@ -35,7 +35,11 @@ SWIFT_FILES = [
     ('UI/Tabs/MainTabView.swift', 'MainTabView.swift'),
     ('UI/Tabs/RadioView.swift', 'RadioView.swift'),
     ('UI/Tabs/SearchView.swift', 'SearchView.swift'),
+    ('UI/Tabs/SettingsView.swift', 'SettingsView.swift'),
     ('UI/Components/VibeVisualizer.swift', 'VibeVisualizer.swift'),
+    ('UI/Components/PaywallSheet.swift', 'PaywallSheet.swift'),
+    ('UI/Onboarding/OnboardingView.swift', 'OnboardingView.swift'),
+    ('UI/Tips/ModusTips.swift', 'ModusTips.swift'),
 ]
 
 # Define resource files (bundled but not compiled; .storekit configs, asset catalogs, etc.)

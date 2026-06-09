@@ -4,6 +4,7 @@ import StoreKit
 
 struct RadioView: View {
     @EnvironmentObject var env: AppEnvironment
+    @AppStorage("djVoiceEnabled") private var djVoiceEnabled = true
     @State private var isPlaying: Bool = false
     @State private var progress: Double = 0.0
     @State private var trackTitle: String = ""
@@ -12,44 +13,50 @@ struct RadioView: View {
     @State private var upcoming: [TrackDisplay] = []
     @State private var showPaywall: Bool = false
     @State private var showRecent: Bool = false
+    @State private var showQueue: Bool = false
     @State private var lastObservedTrackID: String? = nil
     @State private var pollTask: Task<Void, Never>? = nil
-    @State private var showOnboarding: Bool = false
+    @State private var isTransitioning: Bool = false
+    @State private var currentEnergy: Double = 0.5
+    @State private var currentValence: Double = 0.5
+
+    // Haptic feedback generators
+    private let skipImpact = UIImpactFeedbackGenerator(style: .light)
+    private let playImpact = UIImpactFeedbackGenerator(style: .medium)
 
     var body: some View {
         ZStack {
-            // Subtle gradient background
-            LinearGradient(
-                colors: [Color.purple.opacity(0.15), Color.black, Color.indigo.opacity(0.15)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
-            .ignoresSafeArea()
+            // Reactive VibeVisualizer background
+            VibeVisualizer(energy: currentEnergy, valence: currentValence)
+                .ignoresSafeArea()
 
-            VStack(spacing: 30) {
+            VStack(spacing: 20) {
+                Spacer(minLength: 20)
+
                 // Artwork or empty-state placeholder
                 Group {
                     if let url = artworkURL {
                         AsyncImage(url: url) { phase in
                             switch phase {
                             case .empty:
-                                RoundedRectangle(cornerRadius: 24)
-                                    .fill(Color.secondary.opacity(0.3))
-                                    .frame(width: 300, height: 300)
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.ultraThinMaterial)
+                                    .frame(width: 260, height: 260)
                                     .overlay(ProgressView())
                             case .success(let image):
                                 image
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 300, height: 300)
-                                    .clipShape(RoundedRectangle(cornerRadius: 24))
+                                    .frame(width: 260, height: 260)
+                                    .clipShape(RoundedRectangle(cornerRadius: 20))
+                                    .shadow(radius: 12)
                             case .failure:
-                                RoundedRectangle(cornerRadius: 24)
-                                    .fill(Color.secondary.opacity(0.3))
-                                    .frame(width: 300, height: 300)
+                                RoundedRectangle(cornerRadius: 20)
+                                    .fill(.ultraThinMaterial)
+                                    .frame(width: 260, height: 260)
                                     .overlay(
                                         Image(systemName: "music.note")
-                                            .font(.system(size: 64))
+                                            .font(.system(size: 48))
                                             .foregroundStyle(.secondary)
                                     )
                             @unknown default:
@@ -57,107 +64,90 @@ struct RadioView: View {
                             }
                         }
                     } else {
-                        RoundedRectangle(cornerRadius: 24)
-                            .fill(Color.secondary.opacity(0.3))
-                            .frame(width: 300, height: 300)
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(.ultraThinMaterial)
+                            .frame(width: 260, height: 260)
                             .overlay(
                                 VStack(spacing: 12) {
                                     Image(systemName: "radio")
-                                        .font(.system(size: 64))
+                                        .font(.system(size: 48))
                                         .foregroundStyle(.secondary)
-                                    Text("Tap Search to pick a song and start your station")
+                                    Text("Start a station from Search")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
-                                        .multilineTextAlignment(.center)
-                                        .padding(.horizontal, 40)
                                 }
                             )
                     }
                 }
-                .shadow(color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
 
-                VStack(spacing: 8) {
+                // Track info + tier badge
+                VStack(spacing: 6) {
                     Text(trackTitle.isEmpty ? "Welcome to Modus" : trackTitle)
                         .font(.title2.bold())
-                    Text(trackArtist.isEmpty ? "Pick a track to begin your behavioral radio" : trackArtist)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
 
-                    Button {
-                        if !env.subscriptionManager.isPro {
-                            showPaywall = true
+                    HStack(spacing: 6) {
+                        Text(trackArtist.isEmpty ? "Pick a track to begin your behavioral radio" : trackArtist)
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+
+                        if !trackTitle.isEmpty {
+                            Button {
+                                if !env.subscriptionManager.isPro {
+                                    showPaywall = true
+                                }
+                            } label: {
+                                Text(env.subscriptionManager.activeTier == .freeTier ? "Free" : "Pro")
+                                    .font(.caption2.bold())
+                                    .foregroundStyle(env.subscriptionManager.activeTier == .freeTier ? Color.secondary : Color.green)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(
+                                        env.subscriptionManager.activeTier == .freeTier
+                                            ? Color.secondary.opacity(0.15)
+                                            : Color.green.opacity(0.15),
+                                        in: Capsule()
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityHint(env.subscriptionManager.isPro ? "Pro subscription active" : "Tap to see Pro subscription options")
                         }
-                    } label: {
-                        Text(env.subscriptionManager.activeTier == .freeTier ? "Free" : "Pro")
+                    }
+                }
+
+                // DJ Arc transition indicator
+                if isTransitioning {
+                    HStack(spacing: 6) {
+                        Image(systemName: "waveform")
+                            .foregroundStyle(.accentColor)
+                        Text("DJ Arc")
                             .font(.caption.bold())
-                            .foregroundStyle(env.subscriptionManager.activeTier == .freeTier ? Color.secondary : Color.green)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(env.subscriptionManager.activeTier == .freeTier ? Color.secondary.opacity(0.2) : Color.green.opacity(0.2))
-                            .cornerRadius(8)
+                            .foregroundStyle(.accentColor)
                     }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(env.subscriptionManager.isPro ? "Pro subscription active" : "Tap to see Pro subscription options")
-
-                    Button {
-                        if env.subscriptionManager.isPro {
-                            showRecent = true
-                        } else {
-                            showPaywall = true
-                        }
-                    } label: {
-                        HStack(spacing: 4) {
-                            Image(systemName: env.subscriptionManager.isPro ? "clock.arrow.circlepath" : "lock.fill")
-                                .font(.caption2)
-                            Text("Recent")
-                                .font(.caption.bold())
-                        }
-                        .foregroundStyle(env.subscriptionManager.isPro ? Color.accentColor : Color.secondary)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
-                        .background(env.subscriptionManager.isPro ? Color.accentColor.opacity(0.15) : Color.secondary.opacity(0.15))
-                        .cornerRadius(8)
-                    }
-                    .buttonStyle(.plain)
-                    .accessibilityHint(env.subscriptionManager.isPro ? "View recently played stations" : "Pro feature — tap to upgrade")
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                    .animation(.easeInOut(duration: 0.3), value: isTransitioning)
                 }
 
                 ProgressView(value: progress, total: 1.0)
+                    .tint(.accentColor)
                     .padding(.horizontal)
                     .opacity(trackTitle.isEmpty ? 0.3 : 1.0)
 
+                // "Next Up" button (opens queue sheet)
                 if !trackTitle.isEmpty && !upcoming.isEmpty {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Next Up")
-                            .font(.caption.bold())
-                            .foregroundStyle(.secondary)
-                        ForEach(upcoming.indices, id: \.self) { index in
-                            let track = upcoming[index]
-                            HStack {
-                                Text("\(index + 1).")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                VStack(alignment: .leading) {
-                                    Text(track.title)
-                                        .font(.caption.bold())
-                                    Text(track.artistName)
-                                        .font(.caption2)
-                                        .foregroundStyle(.secondary)
-                                }
-                                if isExplorationPick(track: track) {
-                                    Image(systemName: "sparkles")
-                                        .foregroundStyle(Color.accentColor)
-                                        .accessibilityLabel("Exploration pick")
-                                        .help("Exploration pick — discovering new vibes")
-                                }
-                                Spacer()
-                            }
+                    Button {
+                        showQueue = true
+                    } label: {
+                        HStack(spacing: 4) {
+                            Text("Next Up")
+                                .font(.caption.bold())
+                                .foregroundStyle(.secondary)
+                            Image(systemName: "chevron.up")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
                         }
                     }
-                    .padding()
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(12)
-                    .padding(.horizontal)
+                    .buttonStyle(.plain)
                 }
 
                 HCenterControlsView(
@@ -168,6 +158,8 @@ struct RadioView: View {
                 )
                 .disabled(trackTitle.isEmpty)
                 .opacity(trackTitle.isEmpty ? 0.5 : 1.0)
+
+                Spacer(minLength: 0)
             }
         }
         .onAppear {
@@ -187,6 +179,12 @@ struct RadioView: View {
             RecentStationsSheet(modelContainer: env.modelContainer)
                 .presentationDetents([.medium, .large])
         }
+        .sheet(isPresented: $showQueue) {
+            QueueSheet(upcoming: upcoming)
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
+        }
+        .tipBorderShadow(RadioQueueTip(), isEnabled: !upcoming.isEmpty && !trackTitle.isEmpty)
     }
 
     private func startProgressTimer() {
@@ -208,15 +206,20 @@ struct RadioView: View {
                 artworkURL = art
 
                 if let currentID = id, currentID != lastObservedTrackID {
-                    // Track changed: record full play for previous
                     if let previous = lastObservedTrackID, !previous.isEmpty {
                         await env.telemetryCollector.recordFullPlay(trackID: previous)
                     }
                     lastObservedTrackID = currentID
                 }
 
-                let next = await env.queueManager.upcomingTracks(limit: 3)
+                let next = await env.queueManager.upcomingTracks(limit: 5)
                 upcoming = next
+
+                // Update vibe visualizer energy/valence from current track metadata
+                if let firstTrack = next.first {
+                    currentEnergy = firstTrack.energy
+                    currentValence = firstTrack.valence
+                }
 
                 try? await Task.sleep(for: .seconds(1))
             }
@@ -224,6 +227,7 @@ struct RadioView: View {
     }
 
     private func togglePlayPause() {
+        playImpact.impactOccurred()
         Task {
             if isPlaying {
                 await env.musicProvider.pause()
@@ -234,31 +238,30 @@ struct RadioView: View {
     }
 
     private func hardSkip() {
+        skipImpact.impactOccurred()
         Task {
-            let isPro = env.subscriptionManager.isPro
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordHardSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            await env.transitionManager.executeTransition(isEnabled: isPro)
+
+            // Only execute DJ transition if voice is enabled
+            await env.transitionManager.executeTransition(isEnabled: djVoiceEnabled)
         }
     }
 
     private func softSkip() {
+        skipImpact.impactOccurred()
         Task {
-            let isPro = env.subscriptionManager.isPro
             let trackID = await env.musicProvider.currentTrackID ?? "Unknown"
             await env.telemetryCollector.recordSoftSkip(trackID: trackID)
             try? await env.musicProvider.skipNext()
-            await env.transitionManager.executeTransition(isEnabled: isPro)
+
+            await env.transitionManager.executeTransition(isEnabled: djVoiceEnabled)
         }
     }
-
-    private func isExplorationPick(track: TrackDisplay) -> Bool {
-        // Exploration picks are disabled for v1. Re-enable when StationQueueManager
-        // can tag tracks that fall outside the user's taste-profile bounds.
-        false
-    }
 }
+
+// MARK: - Center Controls
 
 struct HCenterControlsView: View {
     let isPlaying: Bool
@@ -271,128 +274,71 @@ struct HCenterControlsView: View {
             Button(action: onHardSkip) {
                 Image(systemName: "hand.thumbsdown.fill")
                     .font(.title)
+                    .frame(minWidth: 44, minHeight: 44)
             }
+            .contentShape(Rectangle())
+            .accessibilityLabel("Hard skip — don't like this track")
+
             Button(action: onPlayPause) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                     .font(.system(size: 64))
+                    .frame(minWidth: 44, minHeight: 44)
             }
+            .contentShape(Rectangle())
+            .scaleEffect(isPlaying ? 1.0 : 0.95)
+            .animation(.easeInOut(duration: 0.15), value: isPlaying)
+            .accessibilityLabel(isPlaying ? "Pause" : "Play")
+
             Button(action: onSoftSkip) {
                 Image(systemName: "goforward.10")
                     .font(.title)
+                    .frame(minWidth: 44, minHeight: 44)
             }
+            .contentShape(Rectangle())
+            .accessibilityLabel("Soft skip — next track")
         }
         .foregroundStyle(.primary)
     }
 }
 
-private struct PaywallSheet: View {
-    @ObservedObject var subscriptionManager: SubscriptionManager
-    let onDismiss: () -> Void
+// MARK: - Queue Sheet
+
+private struct QueueSheet: View {
+    let upcoming: [TrackDisplay]
+    @Environment(\.dismiss) private var dismiss
 
     var body: some View {
-        VStack(spacing: 20) {
-            HStack {
-                Text("Modus Pro")
-                    .font(.title.bold())
-                Spacer()
-                Button("Close", action: onDismiss)
-            }
-
-            Text("Unlock DJ Arc, station memory, and unlimited exploration.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, alignment: .leading)
-
-            if let product = subscriptionManager.proMonthlyProduct {
-                VStack(alignment: .leading, spacing: 6) {
-                    Text(product.displayName)
-                        .font(.headline)
-                    Text(product.description)
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
-                    if let subscription = product.subscription {
-                        Text(subscriptionPeriodDescription(for: product, subscription: subscription))
+        NavigationStack {
+            List {
+                ForEach(upcoming.indices, id: \.self) { index in
+                    let track = upcoming[index]
+                    HStack {
+                        Text("\(index + 1).")
                             .font(.caption)
                             .foregroundStyle(.secondary)
+                        VStack(alignment: .leading) {
+                            Text(track.title)
+                                .font(.subheadline.bold())
+                            Text(track.artistName)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
                     }
                 }
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding()
-                .background(.ultraThinMaterial)
-                .cornerRadius(12)
-
-                Button {
-                    Task { await subscriptionManager.purchase(product) }
-                } label: {
-                    HStack {
-                        if subscriptionManager.isPurchasing { ProgressView() }
-                        Text(subscriptionManager.proMonthlyProduct?.subscription?.introductoryOffer != nil
-                             ? "Start 7-Day Free Trial"
-                             : "Subscribe")
-                            .frame(maxWidth: .infinity)
-                    }
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(subscriptionManager.isPurchasing)
-            } else {
-                Text("Subscription unavailable. Pull to retry.")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
             }
-
-            Button {
-                Task { await subscriptionManager.restorePurchases() }
-            } label: {
-                HStack {
-                    if subscriptionManager.isRestoring { ProgressView() }
-                    Text("Restore Purchases")
-                        .frame(maxWidth: .infinity)
+            .navigationTitle("Next Up")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") { dismiss() }
                 }
             }
-            .buttonStyle(.bordered)
-            .disabled(subscriptionManager.isRestoring || subscriptionManager.isPurchasing)
-
-            if let error = subscriptionManager.purchaseError {
-                Text(error)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .multilineTextAlignment(.center)
-            }
-
-            // Required by App Store guideline 5.1.1: privacy policy must be
-            // accessible within the app, not just on the App Store listing.
-            // TODO: Replace with live privacy policy URL before submission.
-            Link("Privacy Policy",
-                 destination: URL(string: "https://modus.audio/privacy")!)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .padding(.top, 4)
-
-            Spacer(minLength: 0)
         }
-        .padding()
-    }
-
-    private func subscriptionPeriodDescription(for product: Product, subscription: Product.SubscriptionInfo) -> String {
-        let period = subscription.subscriptionPeriod
-        let value = period.value
-        let unit = period.unit
-        let unitLabel: String
-        switch unit {
-        case .day: unitLabel = value == 1 ? "day" : "days"
-        case .week: unitLabel = value == 1 ? "week" : "weeks"
-        case .month: unitLabel = value == 1 ? "month" : "months"
-        case .year: unitLabel = value == 1 ? "year" : "years"
-        @unknown default: unitLabel = "period"
-        }
-        var lines: [String] = []
-        if let introductory = subscription.introductoryOffer, introductory.paymentMode == .freeTrial {
-            lines.append("Free for \(introductory.period.value) \(unitLabel == "weeks" ? "week" : (unitLabel == "days" ? "day" : unitLabel))")
-        }
-        lines.append("Then \(product.displayPrice) per \(value) \(unitLabel).")
-        return lines.joined(separator: "\n")
     }
 }
+
+// MARK: - Recent Stations Sheet
 
 private struct RecentStationsSheet: View {
     let modelContainer: ModelContainer
