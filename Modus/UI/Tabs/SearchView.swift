@@ -20,6 +20,7 @@ struct SearchView: View {
     /// SwiftData on appear so the simulator has content without real MusicKit.
     @State private var mockTracks: [CachedTrack] = SearchView.seedLibrary
     @State private var catalogResults: [CachedTrack] = []
+    @State private var librarySearchResults: [CachedTrack] = []
     @State private var isSearching = false
 
     /// Real Apple Music data: the user's imported library (persisted by MusicLibraryImporter).
@@ -36,8 +37,10 @@ struct SearchView: View {
     // TipKit tip for search onboarding
     @State private var searchStartTip = SearchStartTip()
 
-    /// Library songs matching the current search text.
-    private var filteredLibraryMatches: [CachedTrack] {
+    /// Library songs matching the current search text — fetched live from Apple Music
+    /// via MusicLibrarySearchRequest, falling back to local @Query filter.
+    private var activeLibraryMatches: [CachedTrack] {
+        if !librarySearchResults.isEmpty { return librarySearchResults }
         guard !searchText.isEmpty else { return [] }
         return libraryTracks.filter {
             $0.title.localizedCaseInsensitiveContains(searchText) || $0.artistName.localizedCaseInsensitiveContains(searchText)
@@ -87,12 +90,12 @@ struct SearchView: View {
                 ForEach(catalogResults) { seedButton($0) }
             }
         }
-        if !filteredLibraryMatches.isEmpty {
+        if !activeLibraryMatches.isEmpty {
             Section("Your Library") {
-                ForEach(filteredLibraryMatches) { seedButton($0) }
+                ForEach(activeLibraryMatches) { seedButton($0) }
             }
         }
-        if catalogResults.isEmpty && filteredLibraryMatches.isEmpty && !isSearching {
+        if catalogResults.isEmpty && activeLibraryMatches.isEmpty && !isSearching {
             ContentUnavailableView {
                 Label("No Results", systemImage: "magnifyingglass")
             } description: {
@@ -169,7 +172,9 @@ struct SearchView: View {
                 Text(errorMessage)
             }
             .task(id: searchText) {
-                await performCatalogSearch(term: searchText)
+                async let catalog: () = performCatalogSearch(term: searchText)
+                async let library: () = performLibrarySearch(term: searchText)
+                _ = await (catalog, library)
             }
             .task {
                 await loadPopularPicks()
@@ -287,6 +292,34 @@ struct SearchView: View {
             catalogResults = tracks
         } catch {
             catalogResults = []
+        }
+        #endif
+    }
+
+    /// Search the user's Apple Music library live via MusicLibrarySearchRequest (iOS 16+).
+    /// Results appear in the "Your Library" section alongside catalog results.
+    private func performLibrarySearch(term: String) async {
+        #if targetEnvironment(simulator)
+        librarySearchResults = []
+        return
+        #else
+        guard !term.isEmpty else {
+            librarySearchResults = []
+            return
+        }
+        guard MusicAuthorization.currentStatus == .authorized else {
+            librarySearchResults = []
+            return
+        }
+        do {
+            try await Task.sleep(for: .milliseconds(300))
+            try Task.checkCancellation()
+            var request = MusicLibrarySearchRequest(term: term, types: [Song.self])
+            request.limit = 15
+            let response = try await request.response()
+            librarySearchResults = response.songs.compactMap { CachedTrack(from: $0) }
+        } catch {
+            librarySearchResults = []
         }
         #endif
     }
