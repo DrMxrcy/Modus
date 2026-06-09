@@ -9,6 +9,8 @@ struct TrackDisplay: Sendable {
     let trackID: String
     let title: String
     let artistName: String
+    let energy: Double
+    let valence: Double
 }
 
 enum StationError: Error {
@@ -451,7 +453,7 @@ actor StationQueueManager {
             let descriptor = FetchDescriptor<CachedTrack>()
             let all = (try? context.fetch(descriptor)) ?? []
             return Array(all.prefix(limit)).map {
-                TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName)
+                TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName, energy: $0.energy, valence: $0.valence)
             }
         }
 
@@ -461,7 +463,7 @@ actor StationQueueManager {
         let matches = (try? context.fetch(descriptor)) ?? []
         let ordered = ids.compactMap { id in matches.first(where: { $0.trackID == id }) }
         return Array(ordered.prefix(limit)).map {
-            TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName)
+            TrackDisplay(trackID: $0.trackID, title: $0.title, artistName: $0.artistName, energy: $0.energy, valence: $0.valence)
         }
     }
 }

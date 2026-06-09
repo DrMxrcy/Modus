@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftData
 import StoreKit
+import TipKit
 
 struct RadioView: View {
     @EnvironmentObject var env: AppEnvironment
@@ -119,10 +120,10 @@ struct RadioView: View {
                 if isTransitioning {
                     HStack(spacing: 6) {
                         Image(systemName: "waveform")
-                            .foregroundStyle(.accentColor)
+                            .foregroundStyle(Color.accentColor)
                         Text("DJ Arc")
                             .font(.caption.bold())
-                            .foregroundStyle(.accentColor)
+                            .foregroundStyle(Color.accentColor)
                     }
                     .transition(.opacity.combined(with: .move(edge: .top)))
                     .animation(.easeInOut(duration: 0.3), value: isTransitioning)
@@ -148,6 +149,7 @@ struct RadioView: View {
                         }
                     }
                     .buttonStyle(.plain)
+                    .popoverTip(RadioQueueTip())
                 }
 
                 HCenterControlsView(
@@ -184,7 +186,6 @@ struct RadioView: View {
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
         }
-        .tipBorderShadow(RadioQueueTip(), isEnabled: !upcoming.isEmpty && !trackTitle.isEmpty)
     }
 
     private func startProgressTimer() {
