@@ -97,31 +97,93 @@ struct SearchView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 0) {
+                    if env.musicAuthDenied {
+                        HStack(spacing: 8) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.yellow)
+                            Text("Apple Music access denied. Enable it in Settings for full playback.")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            Spacer()
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .background(Color.yellow.opacity(0.1))
+                    }
+                    if !env.isReady {
+                        HStack {
+                            Spacer()
+                            VStack(spacing: 8) {
+                                ProgressView()
+                                Text("Initializing Modus…")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            Spacer()
+                        }
+                        .padding(.vertical, 40)
+                    } else {
                     if isSearching {
                         ProgressView("Searching Apple Music…")
                             .padding()
                     }
                     ForEach(filteredTracks) { track in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(track.title)
-                                    .font(.headline)
-                                Text(track.artistName)
-                                    .font(.subheadline)
-                                    .foregroundStyle(.secondary)
+                        HStack(spacing: 12) {
+                            // Artwork thumbnail
+                            Group {
+                                if let artURLString = track.artworkURL,
+                                   let artURL = URL(string: artURLString) {
+                                    AsyncImage(url: artURL) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            RoundedRectangle(cornerRadius: 6)
+                                                .fill(Color.secondary.opacity(0.2))
+                                                .overlay(ProgressView().scaleEffect(0.6))
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fill)
+                                        case .failure:
+                                            placeholderThumbnail
+                                        @unknown default:
+                                            placeholderThumbnail
+                                        }
+                                    }
+                                } else {
+                                    placeholderThumbnail
+                                }
                             }
+                            .frame(width: 48, height: 48)
+                            .clipShape(RoundedRectangle(cornerRadius: 6))
+
+                            // Title + artist
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(track.title)
+                                    .font(.system(size: 16, weight: .semibold))
+                                    .lineLimit(1)
+                                Text(track.artistName)
+                                    .font(.system(size: 14, weight: .regular))
+                                    .foregroundStyle(.secondary)
+                                    .lineLimit(1)
+                            }
+
                             Spacer()
+
                             Image(systemName: "play.radiowaves.left.and.right")
+                                .font(.system(size: 14, weight: .semibold))
                                 .foregroundStyle(.tint)
                         }
-                        .padding()
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             selectedSeedTrack = track
                         }
                         if track != filteredTracks.last {
                             Divider()
+                                .padding(.leading, 76)
                         }
+                    }
                     }
                 }
             }
@@ -227,6 +289,16 @@ struct SearchView: View {
         }
         #endif
     }
+}
+
+private var placeholderThumbnail: some View {
+    RoundedRectangle(cornerRadius: 6)
+        .fill(Color.secondary.opacity(0.2))
+        .overlay(
+            Image(systemName: "music.note")
+                .font(.system(size: 20))
+                .foregroundStyle(.secondary)
+        )
 }
 
 private struct StationOptionsSheet: View {

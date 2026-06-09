@@ -29,6 +29,7 @@ struct TrackSnapshot: Sendable {
     let acousticness: Double
     let valence: Double
     let bpm: Double
+    let artworkURL: String?
 
     init?(
         trackID: String,
@@ -37,7 +38,8 @@ struct TrackSnapshot: Sendable {
         energy: Double,
         acousticness: Double,
         valence: Double,
-        bpm: Double
+        bpm: Double,
+        artworkURL: String? = nil
     ) {
         guard !trackID.isEmpty else { return nil }
         self.trackID = trackID
@@ -47,6 +49,7 @@ struct TrackSnapshot: Sendable {
         self.acousticness = acousticness
         self.valence = valence
         self.bpm = bpm
+        self.artworkURL = artworkURL
     }
 }
 
@@ -55,6 +58,7 @@ extension TrackSnapshot {
     init?(from song: Song) {
         let id = song.id.rawValue
         guard !id.isEmpty else { return nil }
+        let artURL = song.artwork?.url(width: 300, height: 300)?.absoluteString
         self.init(
             trackID: id,
             title: song.title,
@@ -62,7 +66,8 @@ extension TrackSnapshot {
             energy: Double.random(in: 0.3...0.9),
             acousticness: Double.random(in: 0.1...0.6),
             valence: Double.random(in: 0.2...0.8),
-            bpm: Double.random(in: 80...140)
+            bpm: Double.random(in: 80...140),
+            artworkURL: artURL
         )
     }
 
@@ -74,7 +79,8 @@ extension TrackSnapshot {
             energy: energy,
             acousticness: acousticness,
             valence: valence,
-            bpm: bpm
+            bpm: bpm,
+            artworkURL: artworkURL
         )
     }
 }
@@ -92,6 +98,16 @@ actor StationQueueManager {
         djBrain: any DJBrainProtocol
     ) {
         self.modelContainer = modelContainer
+        self.provider = provider
+        self.djBrain = djBrain
+    }
+
+    /// Reconfigure the manager with a new provider or brain without losing
+    /// the current queued track state. Called when capabilities resolve.
+    func reconfigure(
+        provider: any MusicProviderProtocol,
+        djBrain: any DJBrainProtocol
+    ) {
         self.provider = provider
         self.djBrain = djBrain
     }

@@ -10,6 +10,7 @@ final class CachedTrack {
     var acousticness: Double
     var valence: Double
     var bpm: Double
+    var artworkURL: String?
 
     init(
         trackID: String,
@@ -18,7 +19,8 @@ final class CachedTrack {
         energy: Double,
         acousticness: Double,
         valence: Double,
-        bpm: Double
+        bpm: Double,
+        artworkURL: String? = nil
     ) {
         self.trackID = trackID
         self.title = title
@@ -27,6 +29,7 @@ final class CachedTrack {
         self.acousticness = acousticness
         self.valence = valence
         self.bpm = bpm
+        self.artworkURL = artworkURL
     }
 }
 
@@ -41,6 +44,7 @@ extension CachedTrack {
     convenience init?(from track: Song) {
         let id = track.id.rawValue
         guard !id.isEmpty else { return nil }
+        let artURL = track.artwork?.url(width: 300, height: 300)?.absoluteString
         self.init(
             trackID: id,
             title: track.title,
@@ -51,7 +55,8 @@ extension CachedTrack {
             energy: Double.random(in: 0.3...0.9),
             acousticness: Double.random(in: 0.1...0.6),
             valence: Double.random(in: 0.2...0.8),
-            bpm: Double.random(in: 80...140)
+            bpm: Double.random(in: 80...140),
+            artworkURL: artURL
         )
     }
 }

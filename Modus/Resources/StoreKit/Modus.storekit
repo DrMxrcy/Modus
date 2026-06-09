@@ -17,8 +17,8 @@
       "id" : "premium_monthly_group",
       "localizations" : [
         {
-          "description" : "EchoDJ Pro",
-          "displayName" : "EchoDJ Pro",
+          "description" : "Modus Pro",
+          "displayName" : "Modus Pro",
           "locale" : "en_US"
         }
       ],
@@ -41,11 +41,11 @@
           "localizations" : [
             {
               "description" : "Unlock DJ Arc, station memory, and unlimited exploration. 7-day free trial, then $4.99/month.",
-              "displayName" : "EchoDJ Pro (Monthly)",
+              "displayName" : "Modus Pro (Monthly)",
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.echodj.app.pro.monthly",
+          "productID" : "com.jp.modus.pro.monthly",
           "recurringSubscriptionPeriod" : "P1M",
           "referenceName" : "EchoDJ Pro Monthly",
           "subscriptionGroupID" : "premium_monthly_group",

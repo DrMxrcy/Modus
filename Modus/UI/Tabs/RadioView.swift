@@ -65,13 +65,16 @@ struct RadioView: View {
                                     Image(systemName: "radio")
                                         .font(.system(size: 64))
                                         .foregroundStyle(.secondary)
-                                    Text("Start a station from Search")
+                                    Text("Tap Search to pick a song and start your station")
                                         .font(.caption)
                                         .foregroundStyle(.secondary)
+                                        .multilineTextAlignment(.center)
+                                        .padding(.horizontal, 40)
                                 }
                             )
                     }
                 }
+                .shadow(color: Color.black.opacity(0.25), radius: 20, x: 0, y: 10)
 
                 VStack(spacing: 8) {
                     Text(trackTitle.isEmpty ? "Welcome to Modus" : trackTitle)

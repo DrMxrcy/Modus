@@ -13,8 +13,10 @@ final class AppEnvironment: ObservableObject {
     @Published var musicProvider: any MusicProviderProtocol
     @Published var djBrain: any DJBrainProtocol
     @Published var selectedTab: Int = 0
+    @Published var isReady: Bool = false
+    @Published var musicAuthDenied: Bool = false
     let modelContainer: ModelContainer
-    var queueManager: StationQueueManager
+    let queueManager: StationQueueManager
     var telemetryCollector: TelemetryCollector
     var transitionManager: TransitionManager
     let subscriptionManager: SubscriptionManager
@@ -73,14 +75,13 @@ final class AppEnvironment: ObservableObject {
             _ = await MusicAuthorization.request()
         }
 
+        let authStatus = MusicAuthorization.currentStatus
+        self.musicAuthDenied = (authStatus == .denied)
+
         let realProvider = AppleMusicProvider(modelContainer: self.modelContainer)
         if await realProvider.isAvailable {
             self.musicProvider = realProvider
-            self.queueManager = StationQueueManager(
-                modelContainer: self.modelContainer,
-                provider: realProvider,
-                djBrain: self.djBrain
-            )
+            await self.queueManager.reconfigure(provider: realProvider, djBrain: self.djBrain)
             self.telemetryCollector = TelemetryCollector(
                 provider: realProvider,
                 modelContainer: self.modelContainer
@@ -89,11 +90,7 @@ final class AppEnvironment: ObservableObject {
         } else {
             let fallback = SimulatorMusicProvider()
             self.musicProvider = fallback
-            self.queueManager = StationQueueManager(
-                modelContainer: self.modelContainer,
-                provider: fallback,
-                djBrain: self.djBrain
-            )
+            await self.queueManager.reconfigure(provider: fallback, djBrain: self.djBrain)
             self.telemetryCollector = TelemetryCollector(
                 provider: fallback,
                 modelContainer: self.modelContainer
@@ -105,15 +102,13 @@ final class AppEnvironment: ObservableObject {
         if await candidate.isAvailable {
             self.djBrain = candidate
             self.transitionManager = makeTransitionManager(brain: candidate)
-            self.queueManager = StationQueueManager(
-                modelContainer: self.modelContainer,
-                provider: self.musicProvider,
-                djBrain: candidate
-            )
+            await self.queueManager.reconfigure(provider: self.musicProvider, djBrain: candidate)
             logger.info("OnDeviceDJBrain active")
         } else {
             logger.info("OnDeviceDJBrain unavailable — using current brain")
         }
+
+        self.isReady = true
     }
 }
 
