@@ -51,38 +51,38 @@ Real-device-first where possible (we have a paid dev account and device builds w
 ## 3. Step-by-Step Execution Checklist
 
 ### Step 1 — StoreKit Product ID Alignment & Branding (🟢 sim-verifiable)
-- [ ] **1a.** Read current `.storekit` file product ID and SubscriptionManager product ID; confirm mismatch.
-- [ ] **1b.** Update `.storekit`: change `com.echodj.app.pro.monthly` → `com.jp.modus.pro.monthly` (or whichever single ID we commit to).
-- [ ] **1c.** Update `.storekit` localizations: "EchoDJ Pro" → "Modus Pro".
-- [ ] **1d.** Verify SubscriptionManager uses the exact same ID string.
-- [ ] **1e.** Update `generate-xcodeproj.py` to set `STOREKIT_CONFIGURATION_URL = "$(SRCROOT)/Modus/Resources/StoreKit/Modus.storekit"` in build settings AND ensure scheme Options tab references it.
+- [x] **1a.** Read current `.storekit` file product ID and SubscriptionManager product ID; confirm mismatch.
+- [x] **1b.** Update `.storekit`: change `com.echodj.app.pro.monthly` → `com.jp.modus.pro.monthly` (or whichever single ID we commit to).
+- [x] **1c.** Update `.storekit` localizations: "EchoDJ Pro" → "Modus Pro".
+- [x] **1d.** Verify SubscriptionManager uses the exact same ID string.
+- [x] **1e.** Update `generate-xcodeproj.py` to set `STOREKIT_CONFIGURATION_URL = "$(SRCROOT)/Modus/Resources/StoreKit/Modus.storekit"` in build settings AND ensure scheme Options tab references it.
 
 ### Step 2 — CachedTrack Artwork URL (🟢 sim-verifiable)
-- [ ] **2a.** Add `var artworkURL: String?` to `CachedTrack` model with default `nil` for migration safety.
-- [ ] **2b.** Update `CachedTrack(from song: Song)` convenience init to extract `song.artwork?.url(width: 300, height: 300)?.absoluteString`.
-- [ ] **2c.** Update `TrackSnapshot` to carry `artworkURL: String?` and forward it into `toCachedTrack()`.
-- [ ] **2d.** Update `SimulatorMusicProvider` to provide a placeholder artwork URL for known seed tracks (e.g., using a data URI or system image fallback).
+- [x] **2a.** Add `var artworkURL: String?` to `CachedTrack` model with default `nil` for migration safety.
+- [x] **2b.** Update `CachedTrack(from song: Song)` convenience init to extract `song.artwork?.url(width: 300, height: 300)?.absoluteString`.
+- [x] **2c.** Update `TrackSnapshot` to carry `artworkURL: String?` and forward it into `toCachedTrack()`.
+- [x] **2d.** Update `SimulatorMusicProvider` to provide a placeholder artwork URL for known seed tracks (e.g., using a data URI or system image fallback).
 
 ### Step 3 — SearchView Artwork + Layout (🟢 sim-verifiable)
-- [ ] **3a.** Redesign `SearchView` row: `HStack` with `AsyncImage(url:)` thumbnail (48×48, corner radius 6) + title/artist VStack.
-- [ ] **3b.** Add `.listStyle(.plain)` feel with dividers, padding consistent with Music app density.
-- [ ] **3c.** Handle empty artwork gracefully with a `music.note` placeholder in a gray rounded rect.
-- [ ] **3d.** Build and verify on simulator: seed library rows show placeholder, catalog search rows (on device) show real artwork.
+- [x] **3a.** Redesign `SearchView` row: `HStack` with `AsyncImage(url:)` thumbnail (48×48, corner radius 6) + title/artist VStack.
+- [x] **3b.** Add `.listStyle(.plain)` feel with dividers, padding consistent with Music app density.
+- [x] **3c.** Handle empty artwork gracefully with a `music.note` placeholder in a gray rounded rect.
+- [x] **3d.** Build and verify on simulator: seed library rows show placeholder, catalog search rows (on device) show real artwork.
 
 ### Step 4 — RadioView UI Polish (🟢 sim-verifiable)
-- [ ] **4a.** Add shadow to artwork `RoundedRectangle` / `AsyncImage` container.
-- [ ] **4b.** Improve empty-state copy: "Tap Search to pick a song and start your station".
-- [ ] **4c.** Verify tier badge and Recent button spacing looks balanced.
+- [x] **4a.** Add shadow to artwork `RoundedRectangle` / `AsyncImage` container.
+- [x] **4b.** Improve empty-state copy: "Tap Search to pick a song and start your station".
+- [x] **4c.** Verify tier badge and Recent button spacing looks balanced.
 
 ### Step 5 — AppEnvironment Permission Hardening (🟡 sim-degraded, 🔴 device-critical)
-- [ ] **5a.** In `resolveCapabilities()`, after auth request, if status is `.denied`, show a user-facing banner/alert directing to Settings — don't silently fall back and then crash later.
-- [ ] **5b.** Ensure `queueManager.reconfigure` is awaited before any UI action can call `generateStation`. Consider adding an `@Published var isReady: Bool` to AppEnvironment that gates the SearchView "Start Station" button until provider resolution is done.
-- [ ] **5c.** On device: verify MusicKit auth → AppleMusicProvider active → station start succeeds end-to-end.
+- [x] **5a.** In `resolveCapabilities()`, after auth request, if status is `.denied`, show a user-facing banner/alert directing to Settings — don't silently fall back and then crash later.
+- [x] **5b.** Ensure `queueManager.reconfigure` is awaited before any UI action can call `generateStation`. Consider adding an `@Published var isReady: Bool` to AppEnvironment that gates the SearchView "Start Station" button until provider resolution is done.
+- [x] **5c.** On device: verify MusicKit auth → AppleMusicProvider active → station start succeeds end-to-end.
 
 ### Step 6 — Build Verification (🟢 sim + 🔴 device)
-- [ ] **6a.** Regenerate `Modus.xcodeproj` via `generate-xcodeproj.py`.
-- [ ] **6b.** Clean build on simulator; confirm zero warnings.
-- [ ] **6c.** Device build + install; confirm app launches, requests MusicKit, station starts, search shows artwork.
+- [x] **6a.** Regenerate `Modus.xcodeproj` via `generate-xcodeproj.py`.
+- [x] **6b.** Clean build on simulator; confirm zero warnings.
+- [x] **6c.** Device build + install; confirm app launches, requests MusicKit, station starts, search shows artwork.
 
 ## 4. Verification Strategy
 
@@ -106,9 +106,9 @@ Real-device-first where possible (we have a paid dev account and device builds w
 
 ## 6. Definition of Done
 
-- [ ] Simulator build succeeds with zero warnings.
-- [ ] Search rows display artwork thumbnails (placeholder on sim, real on device).
-- [ ] StoreKit product ID is consistent across `.storekit`, `SubscriptionManager`, and `generate-xcodeproj.py`.
-- [ ] Restore Purchases on simulator does NOT prompt for Apple ID sign-in (uses local config).
-- [ ] Device build installs; MusicKit permission → station start works end-to-end without runtime errors.
-- [ ] `ROADMAP.md` progress for App Store v1 updated to reflect these fixes.
+- [x] Simulator build succeeds with zero warnings.
+- [x] Search rows display artwork thumbnails (placeholder on sim, real on device).
+- [x] StoreKit product ID is consistent across `.storekit`, `SubscriptionManager`, and `generate-xcodeproj.py`.
+- [x] Restore Purchases on simulator does NOT prompt for Apple ID sign-in (uses local config).
+- [x] Device build installs; MusicKit permission → station start works end-to-end without runtime errors.
+- [x] `ROADMAP.md` progress for App Store v1 updated to reflect these fixes.
