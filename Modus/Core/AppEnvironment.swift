@@ -74,10 +74,8 @@ final class AppEnvironment: ObservableObject {
         let status = await MusicAuthorization.request()
         self.musicAuthStatus = status
         self.musicAuthDenied = (status == .denied)
+        // resolveCapabilities() triggers the library import when authorized.
         await resolveCapabilities()
-        if status == .authorized {
-            await importLibraryIfNeeded()
-        }
     }
 
     private func importLibraryIfNeeded() async {
@@ -119,6 +117,12 @@ final class AppEnvironment: ObservableObject {
             logger.info("OnDeviceDJBrain active")
         } else {
             logger.info("OnDeviceDJBrain unavailable — using current brain")
+        }
+
+        // Import the real Apple Music library once authorized (idempotent — skips if
+        // already imported), so returning users get real data without re-onboarding.
+        if authStatus == .authorized {
+            await importLibraryIfNeeded()
         }
 
         self.isReady = true

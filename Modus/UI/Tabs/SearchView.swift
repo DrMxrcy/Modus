@@ -16,26 +16,88 @@ struct SearchView: View {
     @State private var surpriseMode = false
     @State private var useArcShaping = false
 
+    /// Simulator-only demo seeds (empty on device per `seedLibrary`); persisted to
+    /// SwiftData on appear so the simulator has content without real MusicKit.
     @State private var mockTracks: [CachedTrack] = SearchView.seedLibrary
     @State private var catalogResults: [CachedTrack] = []
     @State private var isSearching = false
+
+    /// Real Apple Music data: the user's imported library (persisted by MusicLibraryImporter).
+    /// Drives the starter list — no synthetic data on device.
+    @Query(sort: [SortDescriptor(\CachedTrack.title)]) private var libraryTracks: [CachedTrack]
 
     @State private var showError: Bool = false
     @State private var errorMessage: String = ""
     @State private var errorTitle: String = "Station Error"
 
+    /// Real Apple Music popular content (top charts), loaded live on the starter screen.
+    @State private var popularPicks: [CachedTrack] = []
+
     // TipKit tip for search onboarding
     @State private var searchStartTip = SearchStartTip()
 
-    var filteredTracks: [CachedTrack] {
-        if searchText.isEmpty {
-            return mockTracks
-        }
-        if !catalogResults.isEmpty {
-            return catalogResults
-        }
-        return mockTracks.filter {
+    /// Library songs matching the current search text.
+    private var filteredLibraryMatches: [CachedTrack] {
+        guard !searchText.isEmpty else { return [] }
+        return libraryTracks.filter {
             $0.title.localizedCaseInsensitiveContains(searchText) || $0.artistName.localizedCaseInsensitiveContains(searchText)
+        }
+    }
+
+    /// Tappable row that selects a track as the station seed.
+    @ViewBuilder
+    private func seedButton(_ track: CachedTrack) -> some View {
+        Button {
+            selectedSeedTrack = track
+            surpriseMode = defaultSurpriseMode
+            useArcShaping = djVoiceEnabled && defaultArcShaping
+        } label: {
+            trackRow(track)
+        }
+    }
+
+    /// Starter screen (no search text): real Apple Music charts + the user's library.
+    @ViewBuilder
+    private var starterSections: some View {
+        if popularPicks.isEmpty && libraryTracks.isEmpty && !isSearching {
+            ContentUnavailableView {
+                Label("Find Something to Play", systemImage: "music.note")
+            } description: {
+                Text("Connect Apple Music to see your library, or search the catalog above.")
+            }
+        } else {
+            if !popularPicks.isEmpty {
+                Section("Popular on Apple Music") {
+                    ForEach(popularPicks) { seedButton($0) }
+                }
+            }
+            if !libraryTracks.isEmpty {
+                Section("Your Library") {
+                    ForEach(libraryTracks) { seedButton($0) }
+                }
+            }
+        }
+    }
+
+    /// Search results: real catalog matches + library matches.
+    @ViewBuilder
+    private var searchResultsSections: some View {
+        if !catalogResults.isEmpty {
+            Section("Apple Music") {
+                ForEach(catalogResults) { seedButton($0) }
+            }
+        }
+        if !filteredLibraryMatches.isEmpty {
+            Section("Your Library") {
+                ForEach(filteredLibraryMatches) { seedButton($0) }
+            }
+        }
+        if catalogResults.isEmpty && filteredLibraryMatches.isEmpty && !isSearching {
+            ContentUnavailableView {
+                Label("No Results", systemImage: "magnifyingglass")
+            } description: {
+                Text("No results for \"\(searchText)\". Try a different song or artist.")
+            }
         }
     }
 
@@ -48,41 +110,10 @@ struct SearchView: View {
                     }
                 }
 
-                if !searchText.isEmpty && !isSearching && filteredTracks.isEmpty && catalogResults.isEmpty {
-                    // No-results state
-                    ContentUnavailableView {
-                        Label("No Results", systemImage: "magnifyingglass")
-                    } description: {
-                        Text("No results for \"\(searchText)\". Try a different song or artist.")
-                    }
+                if searchText.isEmpty {
+                    starterSections
                 } else {
-                    // Popular Picks section
-                    Section(searchText.isEmpty ? "Popular Picks" : "Library") {
-                        ForEach(filteredTracks) { track in
-                            Button {
-                                selectedSeedTrack = track
-                                surpriseMode = defaultSurpriseMode
-                                useArcShaping = djVoiceEnabled && defaultArcShaping
-                            } label: {
-                                trackRow(track)
-                            }
-                        }
-                    }
-                }
-
-                // Apple Music section (shown when catalog results exist)
-                if !catalogResults.isEmpty {
-                    Section("Apple Music") {
-                        ForEach(catalogResults) { track in
-                            Button {
-                                selectedSeedTrack = track
-                                surpriseMode = defaultSurpriseMode
-                                useArcShaping = djVoiceEnabled && defaultArcShaping
-                            } label: {
-                                trackRow(track)
-                            }
-                        }
-                    }
+                    searchResultsSections
                 }
             }
             .listStyle(.insetGrouped)
@@ -139,6 +170,9 @@ struct SearchView: View {
             }
             .task(id: searchText) {
                 await performCatalogSearch(term: searchText)
+            }
+            .task {
+                await loadPopularPicks()
             }
             .onAppear {
                 Task {
@@ -199,6 +233,24 @@ struct SearchView: View {
     }
 
     // MARK: - Catalog Search
+
+    /// Loads real "popular" content from Apple Music's top charts for the starter screen.
+    private func loadPopularPicks() async {
+        #if targetEnvironment(simulator)
+        return
+        #else
+        guard MusicAuthorization.currentStatus == .authorized, popularPicks.isEmpty else { return }
+        do {
+            var request = MusicCatalogChartsRequest(genre: nil, kinds: [.mostPlayed], types: [Song.self])
+            request.limit = 25
+            let response = try await request.response()
+            let songs = response.songCharts.flatMap { $0.items }
+            popularPicks = songs.compactMap { CachedTrack(from: $0) }
+        } catch {
+            searchLogger.error("Popular picks (charts) load failed: \(error.localizedDescription, privacy: .public)")
+        }
+        #endif
+    }
 
     private func performCatalogSearch(term: String) async {
         #if targetEnvironment(simulator)
