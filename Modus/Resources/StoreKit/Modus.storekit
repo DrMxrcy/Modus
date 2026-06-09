@@ -1,5 +1,5 @@
 {
-  "identifier" : "EchoDJ",
+  "identifier" : "Modus",
   "nonRenewingSubscriptions" : [],
   "products" : [],
   "settings" : {
@@ -45,9 +45,9 @@
               "locale" : "en_US"
             }
           ],
-          "productID" : "com.jp.modus.pro.monthly",
+          "productID" : "com.moduslabs.app.pro.monthly",
           "recurringSubscriptionPeriod" : "P1M",
-          "referenceName" : "EchoDJ Pro Monthly",
+          "referenceName" : "Modus Pro Monthly",
           "subscriptionGroupID" : "premium_monthly_group",
           "type" : "RecurringSubscription"
         }

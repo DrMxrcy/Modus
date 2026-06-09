@@ -1,1 +1,4 @@
 .DS_Store
+
+# git worktrees created by EnterWorktree
+.claude/worktrees/

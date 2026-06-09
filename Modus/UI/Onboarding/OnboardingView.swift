@@ -6,6 +6,7 @@ import SwiftUI
 struct OnboardingView: View {
     @Binding var hasCompletedOnboarding: Bool
     @State private var currentPage = 0
+    @State private var isAuthorizing = false
 
     private let features: [FeatureInfo] = [
         FeatureInfo(
@@ -60,31 +61,65 @@ struct OnboardingView: View {
 
                 Spacer()
 
-                // Continue / Get Started button
-                Button {
-                    withAnimation {
-                        hasCompletedOnboarding = true
-                    }
-                } label: {
-                    Text(currentPage == features.count - 1 ? "Get Started" : "Continue")
-                        .font(.headline)
+                if currentPage == features.count - 1 {
+                    // Last page: explicit Apple Music auth step
+                    Button {
+                        isAuthorizing = true
+                        Task {
+                            await AppEnvironment.shared.requestAuth()
+                            isAuthorizing = false
+                            withAnimation { hasCompletedOnboarding = true }
+                        }
+                    } label: {
+                        HStack(spacing: 8) {
+                            if isAuthorizing {
+                                ProgressView()
+                                    .progressViewStyle(.circular)
+                                    .tint(.white)
+                                    .controlSize(.small)
+                            }
+                            Text("Connect Apple Music")
+                                .font(.headline)
+                        }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 14)
-                }
-                .buttonStyle(.borderedProminent)
-                .padding(.horizontal, 40)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding(.horizontal, 40)
+                    .disabled(isAuthorizing)
 
-                // Skip button (except last page)
-                if currentPage < features.count - 1 {
+                    Button("Maybe Later — limited radio") {
+                        withAnimation { hasCompletedOnboarding = true }
+                    }
+                    .foregroundStyle(.secondary)
+                    .disabled(isAuthorizing)
+                    .padding(.top, 4)
+
+                    Text("Modus uses Apple Music to build your stations. Your listening stays private — we don't sell or share your data.")
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 32)
+                        .padding(.top, 8)
+                        .padding(.bottom, 20)
+                } else {
+                    // Non-last pages: Continue / Skip
+                    Button {
+                        withAnimation { currentPage += 1 }
+                    } label: {
+                        Text("Continue")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 14)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .padding(.horizontal, 40)
+
                     Button("Skip") {
-                        withAnimation {
-                            hasCompletedOnboarding = true
-                        }
+                        withAnimation { hasCompletedOnboarding = true }
                     }
                     .foregroundStyle(.secondary)
                     .padding(.bottom, 20)
-                } else {
-                    Spacer().frame(height: 44)
                 }
             }
             .padding()

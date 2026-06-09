@@ -79,6 +79,11 @@ actor AppleMusicProvider: MusicProviderProtocol {
     }
 
     func loadTrack(id: String) async throws {
+        guard MusicAuthorization.currentStatus == .authorized else {
+            logger.error("loadTrack requires Apple Music authorization (status=\(String(describing: MusicAuthorization.currentStatus), privacy: .public))")
+            throw AppleMusicError.authRequired
+        }
+
         // Seed-library tracks use synthetic IDs ("1", "2"…). Real MusicKit catalog
         // IDs are longer alphanumeric strings. Skip the ID-as-search-term path for
         // synthetic IDs and go straight to title+artist lookup to avoid wrong results.
@@ -178,11 +183,14 @@ actor AppleMusicProvider: MusicProviderProtocol {
 
 enum AppleMusicError: Error, LocalizedError {
     case trackNotFound
+    case authRequired
 
     var errorDescription: String? {
         switch self {
         case .trackNotFound:
             return "Could not find this track in Apple Music. Try a different song or check your Apple Music subscription."
+        case .authRequired:
+            return "Apple Music access is required to play this track. Connect Apple Music in onboarding or Settings."
         }
     }
 }

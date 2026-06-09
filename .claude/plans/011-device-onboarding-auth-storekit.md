@@ -33,8 +33,9 @@ Plan 010 (`fix-errors-artwork-storekit-ui`) is superseded by this plan for every
 
 ## 2. Files to Create
 
-- `Modus/UI/Onboarding/OnboardingView.swift` — full-screen onboarding: welcome, MusicKit auth request button, privacy note, skip-to-settings fallback.
-- `Modus/Engine/Concrete/MusicLibraryImporter.swift` — actor that queries `MusicLibraryRequest` / `MPMediaQuery` to build real `CachedTrack` seeds with real MusicKit IDs.
+- `Modus/Engine/Concrete/MusicLibraryImporter.swift` — actor that queries `MusicLibraryRequest<Song>` (iOS 16+) to build real `CachedTrack` seeds with real MusicKit IDs. Add to `SWIFT_FILES` in `generate-xcodeproj.py`.
+
+> **Correction (analysis):** `Modus/UI/Onboarding/OnboardingView.swift` is NOT a new file — it already exists (committed in `ee13632`). It moves to "Files to Modify" below.
 
 ## 3. Files to Modify
 
@@ -64,30 +65,32 @@ All steps are tagged: 🟢 **sim** (simulator-only), 🟡 **sim-degraded** (sim 
 
 ---
 
-### 🔴 Step 1 — StoreKit Sandbox Alignment (device-verifiable)
-- [ ] **1a.** Read current `.storekit` product ID and `SubscriptionManager` product ID; confirm mismatch or stale branding.
-- [ ] **1b.** Update `.storekit`: product ID → `com.moduslabs.app.pro.monthly`; localization → "Modus Pro".
-- [ ] **1c.** Update `SubscriptionManager` to use the exact same ID; add `isSandbox: Bool` computed from `STOREKIT_CONFIGURATION_URL` presence so test builds can force Pro state.
-- [ ] **1d.** Update `generate-xcodeproj.py` to wire `STOREKIT_CONFIGURATION_URL` into the scheme Run action Options (not just build settings).
+### 🔴 Step 1 — Bundle-ID Migration + StoreKit Alignment (device-verifiable)
+> **Correction (analysis):** the current `.storekit` and `SubscriptionManager` IDs already MATCH (`com.jp.modus.pro.monthly`, group `premium_monthly_group`) — there is no mismatch to fix. The real work is the chosen **bundle-ID migration** to `com.moduslabs.app` so IDs match the `moduslabs.app` marketing/privacy URLs and App Store copy.
+- [ ] **1a.** Rename bundle ID in `generate-xcodeproj.py`: `PRODUCT_BUNDLE_IDENTIFIER` (Debug+Release) `com.jp.modus` → `com.moduslabs.app`.
+- [ ] **1b.** Update `.storekit`: `productID` → `com.moduslabs.app.pro.monthly`; clean branding (`identifier` "EchoDJ" → "Modus", `referenceName` "EchoDJ Pro Monthly" → "Modus Pro Monthly"). Keep `subscriptionGroupID` consistent with code.
+- [ ] **1c.** Update `SubscriptionManager.StoreKitProductID.proMonthly` → `com.moduslabs.app.pro.monthly`; add `isSandbox: Bool` (true when running against the local `.storekit`) so test builds can force Pro state.
+- [ ] **1d.** ✅ **Verify-only:** `STOREKIT_CONFIGURATION_URL` is already dual-wired in `generate-xcodeproj.py` (build settings Debug+Release **and** scheme `<StoreKitConfiguration>` LaunchAction). Just confirm it survives regeneration.
 - [ ] **1e.** 🔴 **Device test:** open paywall, confirm product metadata loads (price, trial) without real Apple ID prompt.
 
 ### 🔴 Step 2 — Onboarding View (device-verifiable UI)
-- [ ] **2a.** Create `OnboardingView.swift` with: welcome headline ("Welcome to Modus"), subheadline ("Your Apple Music, reimagined as behavioral radio"), primary button ("Connect Apple Music"), secondary button ("Maybe Later — limited radio"), privacy footnote.
+> **Correction (analysis):** `OnboardingView.swift` already EXISTS (3-card carousel) and is already gated by `@AppStorage("hasCompletedOnboarding")` via `.fullScreenCover` in `MainTabView`. So 2d is DONE and 2a/2b/2c are MODIFY-existing, not create.
+- [ ] **2a.** MODIFY existing `OnboardingView.swift` — add a final "Connect Apple Music" step: primary button ("Connect Apple Music"), secondary ("Maybe Later — limited radio"), privacy footnote. Keep the existing carousel.
 - [ ] **2b.** The primary button calls `MusicAuthorization.request()` and awaits the result; on `.authorized`, dismisses onboarding and triggers library import.
 - [ ] **2c.** The secondary button dismisses onboarding but keeps `musicAuthStatus` as `.notDetermined`; SearchView shows a "Connect Apple Music to start radio" placeholder instead of the seed list.
-- [ ] **2d.** Add `@AppStorage("hasCompletedOnboarding")` gating so onboarding only shows once per install.
+- [x] **2d.** ✅ DONE — onboarding already gated by `@AppStorage("hasCompletedOnboarding")` in `MainTabView`.
 - [ ] **2e.** 🔴 **Device test:** cold launch → onboarding appears → tap "Connect Apple Music" → system auth sheet → allow → onboarding dismisses → Search shows real library.
 
 ### 🔴 Step 3 — Music Library Importer (device-critical)
 - [ ] **3a.** Create `MusicLibraryImporter.swift` actor with `importLibrary() async -> [CachedTrack]`.
-- [ ] **3b.** Use `MusicLibraryRequest<Song>` (iOS 26+) to fetch user's library songs; map each to `CachedTrack` with real `song.id.rawValue`, real artwork URL, and placeholder audio features (energy/valence/bpm from random or heuristic until we have real analysis).
-- [ ] **3c.** Fallback: if `MusicLibraryRequest` returns empty or errors, use `MPMediaQuery.songs()` for local-device songs and synthesize MusicKit-compatible IDs.
+- [ ] **3b.** Use `MusicLibraryRequest<Song>` (**iOS 16.0+** — verified via Apple docs; the "iOS 26+/entitlement" claim was WRONG) to fetch the user's library songs; map each to `CachedTrack` with real `song.id.rawValue`, real artwork URL, and placeholder audio features (energy/valence/bpm heuristic until real analysis). This is the **primary path**; no special entitlement beyond standard MusicKit/Apple Music capability + user auth.
+- [ ] **3c.** Fallback (**optional, local-only**): if `MusicLibraryRequest` returns empty, fall back to `MusicCatalogSearchRequest` or a graceful empty-state. Do NOT use `MPMediaQuery` to "synthesize MusicKit-compatible IDs" — `MPMediaItem.persistentID` is not a catalog ID and won't resolve in `MusicCatalogSearchRequest`.
 - [ ] **3d.** Persist imported tracks to SwiftData; on subsequent launches, skip import if `CachedTrack` count > 0.
 - [ ] **3e.** 🔴 **Device test:** after onboarding auth, SearchView populates with real library songs within 2–3 seconds; tapping a real song starts a station with a real MusicKit ID.
 
 ### 🔴 Step 4 — Harden Auth & Playback Error Surfaces (device-critical)
 - [ ] **4a.** In `AppleMusicProvider.loadTrack`, check `MusicAuthorization.currentStatus` at entry; if not `.authorized`, throw a new `AppleMusicError.authRequired` with localized description "Apple Music access is required to play this track."
-- [ ] **4b.** In `StationQueueManager.generateStation`, if discovery pool is empty after all searches, throw a new `StationError.noAuth` with message "We couldn't reach Apple Music. Please check your connection and Apple Music subscription."
+- [ ] **4b.** In `StationQueueManager.generateStation`, throw a new `StationError.noAuth` ("We couldn't reach Apple Music. Please check your connection and Apple Music subscription.") **when the empty pool is caused by missing auth — and crucially BEFORE the existing "fetch all `CachedTrack`" fallback** (lines ~128-136). Otherwise an auth failure silently yields a degraded station built from stale/synthetic cached tracks instead of a clear error. Pair this with Step 5 (strip synthetic seeds on device).
 - [ ] **4c.** In `SearchView`, catch `AppleMusicError.authRequired` and `StationError.noAuth` and show specific alerts instead of generic `error.localizedDescription`.
 - [ ] **4d.** In `RadioView`, add an `authBanner` view modifier: if auth is `.denied`, show a yellow banner "Apple Music access denied — open Settings to enable"; if `.notDetermined`, show "Connect Apple Music to start radio" with a button.
 - [ ] **4e.** 🔴 **Device test:** deny auth during onboarding → SearchView shows auth placeholder → RadioView shows banner → settings re-enable → app detects change on next launch/resume.
@@ -148,7 +151,8 @@ All steps are tagged: 🟢 **sim** (simulator-only), 🟡 **sim-degraded** (sim 
 
 | Risk | Likelihood | Impact | Mitigation |
 |---|---|---|---|
-| `MusicLibraryRequest` is iOS 26-only and requires entitlement | Medium | Can't import library on device | Fallback to `MPMediaQuery` which works without special entitlement. |
+| ~~`MusicLibraryRequest` is iOS 26-only and requires entitlement~~ **(RETIRED — false; it's iOS 16.0+, no special entitlement)** | — | — | No longer a risk. Use `MusicLibraryRequest` as the primary path. |
+| `MusicLibraryRequest` returns empty (no iCloud Music Library / nothing added) | Medium | Empty Search after auth | Graceful empty-state + `MusicCatalogSearchRequest` fallback; surface "add songs to your library" hint. |
 | Library import is slow (>5s) for large libraries | Medium | User thinks app is frozen | Add progress indicator in onboarding; cap import to first 200 songs. |
 | StoreKit scheme wiring still broken after py changes | Medium | Real sign-in sheet appears | Manually inspect scheme Options tab; add XcodeBuildMCP test. |
 | Device build fails from new source files | Low | Can't install | Add new files to `SWIFT_FILES` in `generate-xcodeproj.py`. |

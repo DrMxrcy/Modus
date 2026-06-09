@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftData
+import MusicKit
 import StoreKit
 import TipKit
 
@@ -32,6 +33,8 @@ struct RadioView: View {
                 .ignoresSafeArea()
 
             VStack(spacing: 20) {
+                authBanner
+
                 Spacer(minLength: 20)
 
                 // Artwork or empty-state placeholder
@@ -185,6 +188,47 @@ struct RadioView: View {
             QueueSheet(upcoming: upcoming)
                 .presentationDetents([.medium])
                 .presentationDragIndicator(.visible)
+        }
+    }
+
+    @ViewBuilder private var authBanner: some View {
+        if env.musicAuthStatus == .denied {
+            HStack(spacing: 12) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+                Text("Apple Music access denied. Open Settings to enable.")
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Button("Open Settings") {
+                    UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
+                }
+                .font(.caption.bold())
+                .foregroundStyle(.orange)
+            }
+            .padding(12)
+            .background(.yellow.opacity(0.15), in: RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(.orange.opacity(0.4), lineWidth: 1)
+            )
+            .padding(.horizontal)
+        } else if env.musicAuthStatus == .notDetermined {
+            HStack(spacing: 12) {
+                Image(systemName: "music.note")
+                    .foregroundStyle(.secondary)
+                Text("Connect Apple Music to start radio.")
+                    .font(.caption)
+                    .foregroundStyle(.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .padding(12)
+            .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(.secondary.opacity(0.3), lineWidth: 1)
+            )
+            .padding(.horizontal)
         }
     }
 

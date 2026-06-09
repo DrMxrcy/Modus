@@ -4,7 +4,10 @@
 import os
 import uuid
 
-SRC_DIR = '/Users/jp/Desktop/Dev/EchoDJ'
+# Resolve the project root from this script's location rather than a hardcoded path,
+# so the generator works in any checkout or git worktree (SOURCE_ROOT-relative refs
+# in the generated pbxproj then point at this same directory's sources).
+SRC_DIR = os.path.dirname(os.path.abspath(__file__))
 OUTPUT_PROJ = os.path.join(SRC_DIR, 'Modus.xcodeproj')
 
 def gen_uuid():
@@ -24,6 +27,7 @@ SWIFT_FILES = [
     ('Engine/Concrete/VectorAffinityEngine.swift', 'VectorAffinityEngine.swift'),
     ('Engine/Concrete/AppleMusicProvider.swift', 'AppleMusicProvider.swift'),
     ('Engine/Concrete/StationQueueManager.swift', 'StationQueueManager.swift'),
+    ('Engine/Concrete/MusicLibraryImporter.swift', 'MusicLibraryImporter.swift'),
     ('Engine/Concrete/TelemetryCollector.swift', 'TelemetryCollector.swift'),
     ('Engine/Concrete/TTSClient.swift', 'TTSClient.swift'),
     ('Engine/Concrete/AudioDucker.swift', 'AudioDucker.swift'),
@@ -426,7 +430,7 @@ lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
 lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
-lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.jp.modus;')
+lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.moduslabs.app;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
 lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "Modus/Resources/StoreKit/Modus.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')
@@ -454,7 +458,7 @@ lines.append('\t\t\t\t\t"$(inherited)",')
 lines.append('\t\t\t\t\t"@executable_path/Frameworks",')
 lines.append('\t\t\t\t);')
 lines.append('\t\t\t\tMARKETING_VERSION = 1.0;')
-lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.jp.modus;')
+lines.append('\t\t\t\tPRODUCT_BUNDLE_IDENTIFIER = com.moduslabs.app;')
 lines.append('\t\t\t\tPRODUCT_NAME = "$(TARGET_NAME)";')
 lines.append('\t\t\t\tSTOREKIT_CONFIGURATION_URL = "Modus/Resources/StoreKit/Modus.storekit";')
 lines.append('\t\t\t\tSWIFT_EMIT_LOC_STRINGS = YES;')

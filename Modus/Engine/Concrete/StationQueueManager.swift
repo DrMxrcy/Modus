@@ -13,8 +13,18 @@ struct TrackDisplay: Sendable {
     let valence: Double
 }
 
-enum StationError: Error {
+enum StationError: Error, LocalizedError {
     case seedNotFound
+    case noAuth
+
+    var errorDescription: String? {
+        switch self {
+        case .seedNotFound:
+            return "We couldn't build a station from that song. Try another track."
+        case .noAuth:
+            return "We couldn't reach Apple Music. Please check your connection and your Apple Music subscription."
+        }
+    }
 }
 
 struct SeedInfo: Sendable {
@@ -128,6 +138,10 @@ actor StationQueueManager {
         let context = ModelContext(modelContainer)
 
         if filtered.isEmpty {
+            if MusicAuthorization.currentStatus != .authorized {
+                logger.error("Station generation failed: Apple Music not authorized (seed=\(seed.trackID, privacy: .public))")
+                throw StationError.noAuth
+            }
             let fallbackDescriptor = FetchDescriptor<CachedTrack>()
             let all = (try? context.fetch(fallbackDescriptor)) ?? []
             filtered = all.filter { $0.trackID != seed.trackID }

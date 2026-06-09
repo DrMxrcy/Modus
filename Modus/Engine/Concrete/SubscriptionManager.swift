@@ -19,7 +19,7 @@ enum StoreKitProductID {
 
     /// Product ID for the Pro monthly auto-renewable. Matches the .storekit config and
     /// the real App Store Connect product. Replace with the real ASC product ID at D4.
-    static let proMonthly = "com.jp.modus.pro.monthly"
+    static let proMonthly = "com.moduslabs.app.pro.monthly"
 }
 
 @MainActor
@@ -29,6 +29,12 @@ final class SubscriptionManager: ObservableObject {
     @Published var purchaseError: String? = nil
     @Published var isPurchasing: Bool = false
     @Published var isRestoring: Bool = false
+
+    /// True when running against the local `Modus.storekit` configuration (StoreKit
+    /// test / Xcode environment) rather than the App Store or production sandbox.
+    /// Determined from `AppTransaction.environment == .xcode`. Lets test builds verify
+    /// Pro flows without a real Apple ID purchase.
+    @Published private(set) var isSandbox: Bool = false
 
     private var updatesTask: Task<Void, Error>? = nil
 
@@ -52,8 +58,26 @@ final class SubscriptionManager: ObservableObject {
         }
 
         Task {
+            await detectEnvironment()
             await updateSubscriptionStatus()
             await loadProducts()
+        }
+    }
+
+    // MARK: - Environment
+
+    /// Detects whether we're in the StoreKit test (`.xcode`) environment driven by the
+    /// local `.storekit` config wired into the scheme, so test builds can exercise Pro
+    /// flows without a real Apple ID. Falls back to `false` (treat as production).
+    private func detectEnvironment() async {
+        do {
+            let result = try await AppTransaction.shared
+            if case .verified(let appTransaction) = result {
+                self.isSandbox = appTransaction.environment == .xcode
+            }
+        } catch {
+            logger.debug("AppTransaction unavailable; assuming production environment")
+            self.isSandbox = false
         }
     }
 

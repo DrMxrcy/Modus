@@ -22,6 +22,7 @@ struct SearchView: View {
 
     @State private var showError: Bool = false
     @State private var errorMessage: String = ""
+    @State private var errorTitle: String = "Station Error"
 
     // TipKit tip for search onboarding
     @State private var searchStartTip = SearchStartTip()
@@ -108,7 +109,16 @@ struct SearchView: View {
                                 surpriseMode = false
                                 useArcShaping = false
                             } catch {
-                                errorMessage = error.localizedDescription
+                                if let e = error as? AppleMusicError, case .authRequired = e {
+                                    errorTitle = "Apple Music Needed"
+                                    errorMessage = e.errorDescription ?? e.localizedDescription
+                                } else if let s = error as? StationError, case .noAuth = s {
+                                    errorTitle = "Can't Reach Apple Music"
+                                    errorMessage = s.errorDescription ?? s.localizedDescription
+                                } else {
+                                    errorTitle = "Station Error"
+                                    errorMessage = error.localizedDescription
+                                }
                                 showError = true
                             }
                         }
@@ -122,7 +132,7 @@ struct SearchView: View {
                     }
                 )
             }
-            .alert("Station Error", isPresented: $showError) {
+            .alert(errorTitle, isPresented: $showError) {
                 Button("OK", role: .cancel) {}
             } message: {
                 Text(errorMessage)
@@ -228,6 +238,7 @@ struct SearchView: View {
 
     // MARK: - Seed Library
 
+    #if targetEnvironment(simulator)
     private static let seedLibrary: [CachedTrack] = [
         CachedTrack(trackID: "1", title: "After Hours", artistName: "The Weeknd", energy: 0.75, acousticness: 0.1, valence: 0.3, bpm: 109.0),
         CachedTrack(trackID: "2", title: "Midnight City", artistName: "M83", energy: 0.9, acousticness: 0.05, valence: 0.7, bpm: 125.0),
@@ -258,6 +269,11 @@ struct SearchView: View {
         CachedTrack(trackID: "50", title: "Physical", artistName: "Dua Lipa", energy: 0.85, acousticness: 0.1, valence: 0.7, bpm: 146.0),
         CachedTrack(trackID: "54", title: "Starboy", artistName: "The Weeknd ft. Daft Punk", energy: 0.8, acousticness: 0.1, valence: 0.5, bpm: 186.0),
     ]
+    #else
+    /// On device, seeds come from the real Apple Music library import (MusicLibraryImporter)
+    /// and catalog search — never synthetic IDs.
+    private static let seedLibrary: [CachedTrack] = []
+    #endif
 }
 
 // MARK: - Station Options Sheet

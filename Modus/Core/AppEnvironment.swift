@@ -14,6 +14,7 @@ final class AppEnvironment: ObservableObject {
     @Published var djBrain: any DJBrainProtocol
     @Published var selectedTab: Int = 0
     @Published var isReady: Bool = false
+    @Published var musicAuthStatus: MusicAuthorization.Status = MusicAuthorization.currentStatus
     @Published var musicAuthDenied: Bool = false
     let modelContainer: ModelContainer
     let queueManager: StationQueueManager
@@ -69,13 +70,25 @@ final class AppEnvironment: ObservableObject {
         }
     }
 
-    func resolveCapabilities() async {
-        // Request MusicKit authorization if the user has not yet decided.
-        if MusicAuthorization.currentStatus == .notDetermined {
-            _ = await MusicAuthorization.request()
+    func requestAuth() async {
+        let status = await MusicAuthorization.request()
+        self.musicAuthStatus = status
+        self.musicAuthDenied = (status == .denied)
+        await resolveCapabilities()
+        if status == .authorized {
+            await importLibraryIfNeeded()
         }
+    }
 
+    private func importLibraryIfNeeded() async {
+        let importer = MusicLibraryImporter(modelContainer: modelContainer)
+        let count = await importer.importLibraryIfNeeded()
+        logger.info("MusicLibraryImporter finished — \(count) track(s) seeded")
+    }
+
+    func resolveCapabilities() async {
         let authStatus = MusicAuthorization.currentStatus
+        self.musicAuthStatus = authStatus
         self.musicAuthDenied = (authStatus == .denied)
 
         let realProvider = AppleMusicProvider(modelContainer: self.modelContainer)
