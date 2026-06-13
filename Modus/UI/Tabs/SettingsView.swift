@@ -100,6 +100,19 @@ struct SettingsView: View {
                 } header: {
                     Text("About")
                 }
+
+                // MARK: - Debug (Phase 0 engine spike)
+                Section {
+                    NavigationLink {
+                        SpikeView()
+                    } label: {
+                        Label("Phase 0 Engine Spike", systemImage: "ladybug")
+                    }
+                } header: {
+                    Text("Debug")
+                } footer: {
+                    Text("Device-only. Validates Song.station steerability and on-device preview MIR before the engine pivot.")
+                }
             }
             .navigationTitle("Settings")
             .sheet(isPresented: $showPaywall) {

@@ -44,6 +44,7 @@ SWIFT_FILES = [
     ('UI/Components/PaywallSheet.swift', 'PaywallSheet.swift'),
     ('UI/Onboarding/OnboardingView.swift', 'OnboardingView.swift'),
     ('UI/Tips/ModusTips.swift', 'ModusTips.swift'),
+    ('UI/Debug/SpikeView.swift', 'SpikeView.swift'),
 ]
 
 # Define resource files (bundled but not compiled; .storekit configs, asset catalogs, etc.)
